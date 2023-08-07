@@ -1,0 +1,7 @@
+package com.discoverme.backend.registration;
+
+public class RegistrationException extends RuntimeException {
+    public RegistrationException(String message) {
+        super(message);
+    }
+}
