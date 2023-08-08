@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
-    private final PhoneNumberValidator emailValidator;
+    private final PhoneNumberValidator phoneNumberValidator;
     private final PasswordValidator passwordValidator;
     private final UserService userService;
     private final RegistrationMapper registrationMapper;
     private final PasswordEncoder passwordEncoder;
     public RegistrationResponse registerUser(RegistrationRequest registerRequest) {
-        if (!emailValidator.test(registerRequest.getPhoneNumber())) {
+        if (!phoneNumberValidator.test(registerRequest.getPhoneNumber())) {
             throw new RegistrationException(registerRequest.getPhoneNumber() + " is not valid");
         } else if(!passwordValidator.test(registerRequest.getPassword())){
             throw new RegistrationException("Password must be a minimum of eight characters contain at least one uppercase letter, one lowercase letter, one number and one special character");

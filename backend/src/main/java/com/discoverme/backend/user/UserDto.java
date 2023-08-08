@@ -1,13 +1,12 @@
 package com.discoverme.backend.user;
 
-import jakarta.validation.constraints.Email;
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
-
 @Data
+@Builder
 public class UserDto {
     private Long id;
-    private String email;
-    private Set<String> roles;
+    private String stageName;
+    private String role;
 }

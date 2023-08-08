@@ -8,6 +8,10 @@ import java.util.function.Function;
 public class UserMapper implements Function<Users, UserDto> {
     @Override
     public UserDto apply(Users users) {
-        return null;
+        return UserDto.builder()
+                .id(users.getId())
+                .stageName(users.getStageName())
+                .role(users.getRole())
+                .build();
     }
 }
