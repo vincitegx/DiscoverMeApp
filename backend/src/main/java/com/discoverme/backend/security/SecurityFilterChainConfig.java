@@ -24,7 +24,8 @@ public class SecurityFilterChainConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
                         .requestMatchers(
                                 "/api/v3/users/**",

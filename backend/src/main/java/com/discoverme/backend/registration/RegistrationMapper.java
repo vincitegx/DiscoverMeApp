@@ -31,6 +31,7 @@ public class RegistrationMapper {
         return RegistrationResponse.builder()
                 .userId(users.getId())
                 .stageName(users.getStageName())
+                .role(users.getRole())
                 .build();
     }
 }

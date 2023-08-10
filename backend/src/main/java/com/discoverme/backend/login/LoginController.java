@@ -20,7 +20,7 @@ public class LoginController {
     private final Logger log = LoggerFactory.getLogger(RegistrationController.class);
     private final LoginService loginService;
 
-    @PostMapping("login")
+    @PostMapping("users/login")
     public ResponseEntity<JwtResponse> userLogin(@Valid @RequestBody LoginRequest loginRequest) {
         JwtResponse response = loginService.login(loginRequest);
         return ResponseEntity.ok()

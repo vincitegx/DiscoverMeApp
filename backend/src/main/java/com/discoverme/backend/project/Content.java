@@ -15,15 +15,7 @@ import lombok.NoArgsConstructor;
 public class Content {
 
     @Id
-    @SequenceGenerator(
-            name = "content_id_seq",
-            sequenceName = "project_id_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "content_id_seq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)

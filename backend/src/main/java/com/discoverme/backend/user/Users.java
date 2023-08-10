@@ -18,15 +18,7 @@ import java.time.ZonedDateTime;
 })
 public class Users {
     @Id
-    @SequenceGenerator(
-            name = "user_id_seq",
-            sequenceName = "user_id_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_id_seq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)

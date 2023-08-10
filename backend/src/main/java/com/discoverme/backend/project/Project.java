@@ -1,12 +1,13 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.user.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,42 +17,29 @@ import java.time.ZonedDateTime;
 @Table
 public class Project {
     @Id
-    @SequenceGenerator(
-            name = "project_id_seq",
-            sequenceName = "project_id_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "project_id_seq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    private Users user;
+
+    @ManyToOne
+    private ProjectTag projectTag;
 
     @Column(nullable = false, unique = true)
     private String songTitle;
 
     @Column(nullable = false, unique = true)
-    private String artwork;
+    private String artworkUri;
 
     @Column(nullable = false, unique = true)
     private String songUri;
 
-    @ManyToOne
-    private PromotionPlatform promotionPlatform;
+    @OneToMany
+    private Set<PromotionPlatform> platform;
 
-    @Column(nullable = false, unique = true)
-    private String instagramUri;
-
-    @Column(nullable = false, unique = true)
-    private String tiktokUri;
-
-    @Column(nullable = false, unique = true)
-    private String youtubeUri;
-
-    @Column(nullable = false)
-    private String password;
-
-    private String role;
-    @Column(nullable = false)
-    ZonedDateTime createdAt;
+    @OneToMany
+    private Set<Content> contentUri;
+    @Enumerated(EnumType.STRING)
+    private ProjectApprovalStatus status;
 }

@@ -3,7 +3,10 @@ package com.discoverme.backend.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -12,17 +15,16 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public Users findUserByPhoneNumber(String phoneNumber){
-        return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(()-> new UserException("No user found with this phone number"));
+    public Optional<Users> findUserByPhoneNumber(String phoneNumber){
+        return userRepository.findByPhoneNumber(phoneNumber);
     }
 
     public Users saveUser(Users user){
         return userRepository.save(user);
     }
 
-    public Users findByStageName(String stageName) {
-        return userRepository.findByStageName(stageName)
-                .orElseThrow(()-> new UserException("No user found with this stage name"));
+    public Optional<Users> findByStageName(String stageName) {
+        return userRepository.findByStageName(stageName);
     }
 
     public Optional<Users> findById(Long id) {
@@ -31,5 +33,13 @@ public class UserService {
 
     public Page<Users> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Users getCurrentUser() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        return userRepository.findByPhoneNumber(principal.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 }

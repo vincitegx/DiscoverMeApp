@@ -19,7 +19,7 @@ public class RegistrationService {
             throw new RegistrationException(registerRequest.getPhoneNumber() + " is not valid");
         } else if(!passwordValidator.test(registerRequest.getPassword())){
             throw new RegistrationException("Password must be a minimum of eight characters contain at least one uppercase letter, one lowercase letter, one number and one special character");
-        } else if (userService.findUserByPhoneNumber(registerRequest.getPhoneNumber()) != null) {
+        } else if (userService.findUserByPhoneNumber(registerRequest.getPhoneNumber()).isPresent()) {
             throw new RegistrationException("Phone number is already registered");
         } else {
             registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
