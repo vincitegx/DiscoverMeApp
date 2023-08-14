@@ -1,5 +1,6 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final FileService fileService;
     private final ContentRepository contentRepository;
+    private final UserMapper userMapper;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile artwork, MultipartFile song, List<MultipartFile> contents){
         ProjectTag projectTag = projectTagRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
@@ -30,7 +32,7 @@ public class ProjectService {
         Set<Content> contentList = new HashSet<>();
         contentUri.forEach(c->{
             Content content = new Content();
-            content.setContentUri(c);
+            content.setUri(c);
             content = contentRepository.save(content);
             contentList.add(content);
         });
@@ -40,7 +42,7 @@ public class ProjectService {
                 .songTitle(projectRequest.getSongTitle())
                 .songUri(songUri)
                 .user(userService.getCurrentUser())
-                .contentUri(contentList)
+                .content(contentList)
                 .platform(projectRequest.getPlatform())
                 .status(ProjectApprovalStatus.PENDING)
                 .build();
@@ -48,6 +50,7 @@ public class ProjectService {
         ProjectResponse projectResponse = new ProjectResponse();
         projectResponse.setId(project1.getId());
         projectResponse.setSongTitle(project1.getSongTitle());
+        projectResponse.setUser(userMapper.apply(user));
         return projectResponse;
     }
 
@@ -93,7 +96,7 @@ public class ProjectService {
     public ProjectResponse disApproveProject(String id) {
         Long projectId = Long.parseLong(id);
         Project project =projectRepository.findById(projectId).orElseThrow(()-> new ProjectException("No such Project Found"));
-        project.setStatus(ProjectApprovalStatus.DISAPPROVED);
+        project.setStatus(ProjectApprovalStatus.REJECTED);
         project = projectRepository.save(project);
         ProjectResponse projectResponse = new ProjectResponse();
         projectResponse.setId(project.getId());

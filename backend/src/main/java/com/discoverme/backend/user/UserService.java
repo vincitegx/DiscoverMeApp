@@ -1,5 +1,6 @@
 package com.discoverme.backend.user;
 
+import com.discoverme.backend.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Users getCurrentUser() {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+        UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
         return userRepository.findByPhoneNumber(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));

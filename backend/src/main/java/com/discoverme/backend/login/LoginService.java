@@ -27,7 +27,7 @@ public class LoginService {
 
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
         UserDto userDto = userDtoMapper.apply(principal.getUser());
-        String token = jwtUtil.issueToken(userDto.getStageName(), userDto.getRole());
+        String token = jwtUtil.issueToken(userDto.getPhoneNumber(), userDto.getRole());
         return new JwtResponse(token, userDto);
     }
 }

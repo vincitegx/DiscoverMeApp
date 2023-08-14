@@ -39,7 +39,7 @@ public class Project {
     private Set<PromotionPlatform> platform;
 
     @OneToMany
-    private Set<Content> contentUri;
+    private Set<Content> content;
     @Enumerated(EnumType.STRING)
     private ProjectApprovalStatus status;
 }

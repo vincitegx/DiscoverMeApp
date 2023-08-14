@@ -8,5 +8,6 @@ import lombok.Data;
 public class UserDto {
     private Long id;
     private String stageName;
+    private String phoneNumber;
     private String role;
 }

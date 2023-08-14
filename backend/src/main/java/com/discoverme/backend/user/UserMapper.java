@@ -11,6 +11,7 @@ public class UserMapper implements Function<Users, UserDto> {
         return UserDto.builder()
                 .id(users.getId())
                 .stageName(users.getStageName())
+                .phoneNumber(users.getPhoneNumber())
                 .role(users.getRole())
                 .build();
     }

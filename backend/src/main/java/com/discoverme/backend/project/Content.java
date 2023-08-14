@@ -19,5 +19,5 @@ public class Content {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String contentUri;
+    private String uri;
 }
