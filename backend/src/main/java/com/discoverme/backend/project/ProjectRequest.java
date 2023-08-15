@@ -8,5 +8,5 @@ import java.util.Set;
 public class ProjectRequest {
 
     private String songTitle;
-    private Set<PromotionPlatform> platform;
+    private Set<Socials> platform;
 }

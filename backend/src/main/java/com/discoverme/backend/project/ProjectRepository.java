@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    Optional<Project> findByUserAndProjectTag(Users user, ProjectTag projectTag);
-    List<Project> findByStatusAndProjectTag(ProjectApprovalStatus status, ProjectTag projectTag);
+    Optional<Project> findByUserAndCalender(Users user, ProjectCalender calender);
+    List<Project> findByStatusAndCalender(ProjectApprovalStatus status, ProjectCalender calender);
 }

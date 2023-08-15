@@ -13,7 +13,7 @@ public class RegistrationRequest {
     @NonNull
     private String facebookUri;
     @NonNull
-    private String twitterUri;
+    private String xUri;
     @NonNull
     private String instagramUri;
     @NonNull

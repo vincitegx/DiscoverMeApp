@@ -28,20 +28,20 @@ public class ProjectController {
         return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 
-    @PostMapping("tag")
-    public ResponseEntity<ProjectTagResponse> addProjectTag(@Valid @RequestBody ProjectTagRequest projectTagRequest) {
+    @PostMapping("calender")
+    public ResponseEntity<ProjectTagResponse> addProjectCalender(@Valid @RequestBody ProjectTagRequest projectTagRequest) {
         ProjectTagResponse projectTagResponse = projectService.addProjectTag(projectTagRequest);
         return new ResponseEntity<>(projectTagResponse, HttpStatus.OK);
     }
 
-    @PutMapping("tag")
-    public ResponseEntity<ProjectTagResponse> editProjectTag(@Valid @RequestBody ProjectTagRequest projectTagRequest) {
+    @PutMapping("calender")
+    public ResponseEntity<ProjectTagResponse> editProjectCalender(@Valid @RequestBody ProjectTagRequest projectTagRequest) {
         ProjectTagResponse projectTagResponse = projectService.editProjectTag(projectTagRequest);
         return new ResponseEntity<>(projectTagResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("tag")
-    public ResponseEntity<Void> deleteProjectTag(@RequestParam String id) {
+    @DeleteMapping("calendar")
+    public ResponseEntity<Void> deleteProjectCalender(@RequestParam String id) {
         Long projectTagId = Long.parseLong(id);
         projectService.deleteProjectTag(projectTagId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,11 +60,12 @@ public class ProjectController {
     }
 
     @GetMapping("approved")
-    public ResponseEntity<ProjectResponse> getApprovedProjects(String projectTag){
-        return null;
+    public ResponseEntity<List<ProjectResponse>> getApprovedProjects(){
+        List<ProjectResponse> projectResponseList = projectService.getApprovedProjects();
+        return new ResponseEntity<>(projectResponseList, HttpStatus.OK);
     }
     @GetMapping("disapproved")
-    public ResponseEntity<ProjectResponse> getDisApprovedProjects(String projectTag){
+    public ResponseEntity<ProjectResponse> getDisApprovedProjects(){
         return null;
     }
 
@@ -82,5 +83,11 @@ public class ProjectController {
     public ResponseEntity<Void> deleteAllProject() {
         projectService.deleteAllProject();
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("status")
+    public ResponseEntity<ProjectCalender> updateProjectCalender(PeriodStatus status) {
+        ProjectCalender projectTag = projectService.updateProjectStatus(status);
+        return new ResponseEntity<>(projectTag, HttpStatus.OK);
     }
 }

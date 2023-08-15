@@ -24,7 +24,7 @@ public class Project {
     private Users user;
 
     @ManyToOne
-    private ProjectTag projectTag;
+    private ProjectCalender calender;
 
     @Column(nullable = false, unique = true)
     private String songTitle;
@@ -36,10 +36,16 @@ public class Project {
     private String songUri;
 
     @OneToMany
-    private Set<PromotionPlatform> platform;
+    private Set<Socials> socials;
 
     @OneToMany
     private Set<Content> content;
     @Enumerated(EnumType.STRING)
     private ProjectApprovalStatus status;
+
+    @Builder.Default
+    private Integer voteCount = 0;
+
+    @Builder.Default
+    private Integer supportCount = 0;
 }

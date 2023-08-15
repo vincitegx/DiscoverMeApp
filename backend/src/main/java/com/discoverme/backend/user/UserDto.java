@@ -10,4 +10,9 @@ public class UserDto {
     private String stageName;
     private String phoneNumber;
     private String role;
+    private String facebookUri;
+    private String xUri;
+    private String instagramUri;
+    private String tiktokUri;
+    private String youtubeUri;
 }

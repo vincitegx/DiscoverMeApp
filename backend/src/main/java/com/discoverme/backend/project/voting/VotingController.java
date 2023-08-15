@@ -1,9 +1,7 @@
 package com.discoverme.backend.project.voting;
 
-import com.discoverme.backend.project.ProjectRequest;
-import com.discoverme.backend.project.ProjectResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class VotingController {
     private final VotingService votingService;
     @PostMapping("vote")
-    public ResponseEntity<ProjectResponse> toggleVote(@Valid @RequestBody ProjectRequest projectRequest) {
-//        ProjectResponse projectResponse = votingService.toggleVote(projectRequest);
-//        return new ResponseEntity<>(projectResponse, HttpStatus.OK);
-        return null;
+    public ResponseEntity<Void> vote(@RequestBody VoteDto voteDto) {
+        votingService.vote(voteDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

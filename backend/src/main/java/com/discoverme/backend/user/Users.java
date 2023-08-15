@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,31 +21,17 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String stageName;
 
     @Column(nullable = false, unique = true)
     private String phoneNumber;
-
-    @Column(nullable = false, unique = true)
-    private String facebookUri;
-
-    @Column(nullable = false, unique = true)
-    private String twitterUri;
-
-    @Column(nullable = false, unique = true)
-    private String instagramUri;
-
-    @Column(nullable = false, unique = true)
-    private String tiktokUri;
-
-    @Column(nullable = false, unique = true)
-    private String youtubeUri;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<UserSocials> userSocials;
 
     @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     private String role;
     @Column(nullable = false)
     ZonedDateTime createdAt;
