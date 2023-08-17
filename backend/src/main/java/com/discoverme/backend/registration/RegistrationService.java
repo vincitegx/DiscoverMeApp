@@ -1,14 +1,18 @@
 package com.discoverme.backend.registration;
 
 import com.discoverme.backend.project.SocialPlatform;
-import com.discoverme.backend.project.SocialsRepository;
 import com.discoverme.backend.project.Socials;
+import com.discoverme.backend.project.SocialsRepository;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.UserSocials;
+import com.discoverme.backend.user.UserSocialsRepository;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ public class RegistrationService {
     private final RegistrationMapper registrationMapper;
     private final PasswordEncoder passwordEncoder;
     private final SocialsRepository socialRepository;
+    private final UserSocialsRepository userSocialsRepository;
     public RegistrationResponse registerUser(RegistrationRequest registerRequest) {
         if (!phoneNumberValidator.test(registerRequest.getPhoneNumber())) {
             throw new RegistrationException(registerRequest.getPhoneNumber() + " is not valid");
@@ -36,20 +41,22 @@ public class RegistrationService {
     }
 
     private Users addUserSocials(Users user, RegistrationRequest registrationRequest) {
+        Set<UserSocials> userSocials = new HashSet<>();
         for (SocialPlatform platform : SocialPlatform.values()) {
             String uri = getUriForPlatform(platform, registrationRequest);
             if (uri != null) {
-                Socials social = socialRepository.findByName(platform.name());
+                Socials social = socialRepository.findByNameIgnoreCase(platform.name());
                 if (social != null) {
                     UserSocials userSocial = UserSocials.builder()
                             .user(user)
-                            .social(social)
+                            .socials(social)
                             .uri(uri)
                             .build();
-                    user.getUserSocials().add(userSocial);
+                    userSocials.add(userSocial);
                 }
             }
         }
+        user.setUserSocials(userSocials);
         return user;
     }
 

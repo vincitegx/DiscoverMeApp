@@ -18,10 +18,12 @@ public class UserSocials {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "users_id")
     private Users user;
 
     @ManyToOne
-    private Socials social;
+    @JoinColumn(name = "socials_id")
+    private Socials socials;
 
     @Column(nullable = false, unique = true)
     private String uri;

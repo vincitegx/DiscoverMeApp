@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SocialsRepository extends JpaRepository<Socials, Long> {
 
-    Socials findByName(String name);
+    Socials findByNameIgnoreCase(String name);
 }
