@@ -22,7 +22,7 @@ public class RegistrationMapper {
         return user;
     }
 
-    public RegistrationResponse mapUserToRegistrationRequest(Users users) {
+    public RegistrationResponse mapUserToRegistrationResponse(Users users) {
         return RegistrationResponse.builder()
                 .userId(users.getId())
                 .stageName(users.getStageName())

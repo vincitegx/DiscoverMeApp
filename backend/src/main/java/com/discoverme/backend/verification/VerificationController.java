@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/auth/users")
 @RequiredArgsConstructor
 public class VerificationController {
 
     private final VerificationService verificationService;
-    @PutMapping("users/verify")
+    @PutMapping("verify")
     public ResponseEntity<String> verifyUserAccount(@RequestParam String id){
         Long userId = Long.parseLong(id);
         String response = verificationService.fetchAndEnableUser(userId);

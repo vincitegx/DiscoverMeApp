@@ -24,7 +24,8 @@ public class SecurityFilterChainConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register/user").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/users/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
                         .requestMatchers(
                                 "/api/v3/users/**",
@@ -39,7 +40,8 @@ public class SecurityFilterChainConfig {
                                 "/webjars/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/users/verify").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/auth/register/admin").hasRole("SUPER-ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/auth/users/verify").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

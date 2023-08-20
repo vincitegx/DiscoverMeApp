@@ -19,10 +19,10 @@ public class Support {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    private Users user;
-
+    
     @ManyToOne
     private Project project;
+    
+    @ManyToOne
+    private Users user;
 }

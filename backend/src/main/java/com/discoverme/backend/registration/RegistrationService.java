@@ -5,7 +5,6 @@ import com.discoverme.backend.project.Socials;
 import com.discoverme.backend.project.SocialsRepository;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.UserSocials;
-import com.discoverme.backend.user.UserSocialsRepository;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +22,6 @@ public class RegistrationService {
     private final RegistrationMapper registrationMapper;
     private final PasswordEncoder passwordEncoder;
     private final SocialsRepository socialRepository;
-    private final UserSocialsRepository userSocialsRepository;
     public RegistrationResponse registerUser(RegistrationRequest registerRequest) {
         if (!phoneNumberValidator.test(registerRequest.getPhoneNumber())) {
             throw new RegistrationException(registerRequest.getPhoneNumber() + " is not valid");
@@ -36,7 +34,7 @@ public class RegistrationService {
             Users user = registrationMapper.mapRegistrationRequestToUser(registerRequest);
             user = addUserSocials(user, registerRequest);
             user = userService.saveUser(user);
-            return registrationMapper.mapUserToRegistrationRequest(user);
+            return registrationMapper.mapUserToRegistrationResponse(user);
         }
     }
 
@@ -82,7 +80,7 @@ public class RegistrationService {
             registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             Users user = registrationMapper.mapRegistrationRequestToAdmin(registerRequest);
             user = userService.saveUser(user);
-            return registrationMapper.mapUserToRegistrationRequest(user);
+            return registrationMapper.mapUserToRegistrationResponse(user);
         }
     }
 }

@@ -2,15 +2,18 @@ package com.discoverme.backend.project.support;
 
 import com.discoverme.backend.project.Project;
 import com.discoverme.backend.project.ProjectException;
+import com.discoverme.backend.project.ProjectResponse;
 import com.discoverme.backend.project.ProjectService;
 import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
+import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +36,39 @@ public class SupportService {
 
     public void addSupporter(String projectId){
         Project project = projectService.findById(Long.parseLong(projectId)).orElseThrow(()-> new ProjectException("No such project found with that ID"));
-        Support support = Support.builder()
-                .project(project)
-                .user(userService.getCurrentUser())
-                .build();
+        Optional<Support> supportByPostAndUser = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
+        if(supportByPostAndUser.isPresent()){
+            throw new ProjectException("Already added to supported");
+        }
+        Support support= Support.builder()
+                    .project(project)
+                    .user(userService.getCurrentUser())
+                    .build();
         supportRepository.save(support);
+        project.setSupportCount(project.getSupportCount()+ 1);
+        projectService.saveProject(project);
+    }
+
+    void unSupportProject(String projectId) {
+        Project project = projectService.findById(Long.parseLong(projectId)).orElseThrow(()-> new ProjectException("No such project found with that ID"));
+        Optional<Support> supportByPostAndUser = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
+        if(supportByPostAndUser.isEmpty()){
+            throw new ProjectException("Project was not initially supported");
+        }else{
+            supportRepository.delete(supportByPostAndUser.get());
+            project.setSupportCount(project.getSupportCount()- 1);
+            projectService.saveProject(project);
+        }
+    }
+
+    List<ProjectResponse> getProjectsSupported(Long userId) {
+        Users user = userService.findById(userId).orElseThrow(()-> new ProjectException("No Such User"));
+        List<ProjectResponse> projectResponses = new ArrayList<>();
+        List<Support> supports =supportRepository.findByUser(user);
+        supports.forEach(support->{
+            ProjectResponse projectResponse = projectService.mapProjectToResponse(support.getProject());
+            projectResponses.add(projectResponse);
+        });
+        return projectResponses;
     }
 }

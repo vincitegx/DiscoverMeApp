@@ -21,8 +21,6 @@ public class Vote implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private VoteType voteType;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

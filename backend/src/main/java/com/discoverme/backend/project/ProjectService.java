@@ -1,7 +1,5 @@
 package com.discoverme.backend.project;
 
-import com.discoverme.backend.user.UserDto;
-import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +16,6 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final FileService fileService;
     private final ContentRepository contentRepository;
-    private final UserMapper userMapper;
-    private final ProjectMapper projectMapper;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile artwork, MultipartFile song, List<MultipartFile> contents){
         ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
@@ -40,7 +36,7 @@ public class ProjectService {
         });
         Project project1 = Project.builder()
                 .artworkUri(artworkUri)
-                .calender(getProjectTag())
+                .calender(getProjectCalender())
                 .songTitle(projectRequest.getSongTitle())
                 .songUri(songUri)
                 .user(userService.getCurrentUser())
@@ -49,7 +45,7 @@ public class ProjectService {
                 .status(ProjectApprovalStatus.PENDING)
                 .build();
         project1 = saveProject(project1);
-        ProjectResponse projectResponse = new ProjectResponse(project1.getId(), project1.getSongTitle(),userMapper.apply(user) );
+        ProjectResponse projectResponse = mapProjectToResponse(project1);
         return projectResponse;
     }
 
@@ -85,7 +81,7 @@ public class ProjectService {
         return new ProjectTagResponse(projectTag.getId(), projectTag.getName());
     }
 
-    public ProjectCalender getProjectTag() {
+    public ProjectCalender getProjectCalender() {
         return projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
     }
 
@@ -94,8 +90,7 @@ public class ProjectService {
         Project project =projectRepository.findById(projectId).orElseThrow(()-> new ProjectException("No such Project Found"));
         project.setStatus(ProjectApprovalStatus.APPROVED);
         project = projectRepository.save(project);
-        UserDto user = userMapper.apply(project.getUser());
-        ProjectResponse projectResponse = new ProjectResponse(project.getId(), project.getSongTitle(),user );
+        ProjectResponse projectResponse = mapProjectToResponse(project);
         return projectResponse;
     }
 
@@ -104,8 +99,7 @@ public class ProjectService {
         Project project =projectRepository.findById(projectId).orElseThrow(()-> new ProjectException("No such Project Found"));
         project.setStatus(ProjectApprovalStatus.REJECTED);
         project = projectRepository.save(project);
-        UserDto user = userMapper.apply(project.getUser());
-        ProjectResponse projectResponse = new ProjectResponse(project.getId(), project.getSongTitle(),user );
+        ProjectResponse projectResponse = mapProjectToResponse(project);
         return projectResponse;
     }
 
@@ -114,13 +108,38 @@ public class ProjectService {
     }
 
     public List<ProjectResponse> getApprovedProjects() {
-        ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
+        ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No Calender found"));
         List<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, projectCalender);
         List<ProjectResponse> projectResponseList = new ArrayList<>();
         projects.forEach(project -> {
-            ProjectResponse projectResponse = projectMapper.mapProjectToResponse(project);
+            ProjectResponse projectResponse = mapProjectToResponse(project);
             projectResponseList.add(projectResponse);
         });
         return projectResponseList;
+    }
+    
+    public List<ProjectResponse> getSupportedProjects(Long userId) {
+        ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No Calender found"));
+        List<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, projectCalender);
+        List<ProjectResponse> projectResponseList = new ArrayList<>();
+        projects.forEach(project -> {
+            ProjectResponse projectResponse = mapProjectToResponse(project);
+            projectResponseList.add(projectResponse);
+        });
+        return projectResponseList;
+    }
+    
+    public ProjectResponse mapProjectToResponse(Project project){
+        return ProjectResponse.builder()
+                .songTitle(project.getSongTitle())
+                .artworkUri(project.getArtworkUri())
+                .id(project.getId())
+                .isSupported(project.isSupported())
+                .isVoted(project.isVoted())
+                .noOfVoters(project.getVoteCount())
+                .songUri(project.getSongUri())
+                .socials(project.getSocials())
+                .stageName(project.getUser().getStageName())
+                .build();
     }
 }
