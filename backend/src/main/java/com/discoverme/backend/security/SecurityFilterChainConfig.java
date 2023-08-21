@@ -42,6 +42,8 @@ public class SecurityFilterChainConfig {
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/v1/auth/register/admin").hasRole("SUPER-ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/api/v1/auth/users/verify").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/projects/approve").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/projects/disapprove").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -20,8 +20,8 @@ public class VotingService {
     public void vote(String projectId) {
         Project project = projectService.findById(Long.parseLong(projectId))
                 .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + projectId));
-        Optional<Vote> voteByPostAndUser = voteRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
-        voteByPostAndUser.ifPresentOrElse(v -> {
+        Optional<Vote> voteByProjectAndUser = voteRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
+        voteByProjectAndUser.ifPresentOrElse(v -> {
             voteRepository.delete(v);
             if (project.getVoteCount() >= 0) {
                 project.setVoteCount(project.getVoteCount() - 1);

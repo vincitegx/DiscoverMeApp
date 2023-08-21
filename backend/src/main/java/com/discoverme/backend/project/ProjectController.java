@@ -29,15 +29,15 @@ public class ProjectController {
     }
 
     @PostMapping("calender")
-    public ResponseEntity<ProjectTagResponse> addProjectCalender(@Valid @RequestBody ProjectTagRequest projectTagRequest) {
-        ProjectTagResponse projectTagResponse = projectService.addProjectTag(projectTagRequest);
-        return new ResponseEntity<>(projectTagResponse, HttpStatus.OK);
+    public ResponseEntity<ProjectCalenderResponse> addProjectCalender(@Valid @RequestBody ProjectCalenderRequest projectCalenderRequest) {
+        ProjectCalenderResponse projectCalenderResponse = projectService.addProjectTag(projectCalenderRequest);
+        return new ResponseEntity<>(projectCalenderResponse, HttpStatus.OK);
     }
 
     @PutMapping("calender")
-    public ResponseEntity<ProjectTagResponse> editProjectCalender(@Valid @RequestBody ProjectTagRequest projectTagRequest) {
-        ProjectTagResponse projectTagResponse = projectService.editProjectTag(projectTagRequest);
-        return new ResponseEntity<>(projectTagResponse, HttpStatus.OK);
+    public ResponseEntity<ProjectCalenderResponse> editProjectCalender(@Valid @RequestBody ProjectCalenderRequest projectCalenderRequest) {
+        ProjectCalenderResponse projectCalenderResponse = projectService.editProjectTag(projectCalenderRequest);
+        return new ResponseEntity<>(projectCalenderResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("calendar")

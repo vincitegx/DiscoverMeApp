@@ -43,4 +43,8 @@ public class UserService {
         return userRepository.findByPhoneNumber(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
+
+    public Page<Users> findAllByRoleUser(Pageable pageable) {
+        return userRepository.findByRole(Roles.USER.name(),pageable);
+    }
 }

@@ -16,6 +16,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final FileService fileService;
     private final ContentRepository contentRepository;
+    private final LoggedInUserService loggedInUserService;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile artwork, MultipartFile song, List<MultipartFile> contents){
         ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
@@ -41,7 +42,7 @@ public class ProjectService {
                 .songUri(songUri)
                 .user(userService.getCurrentUser())
                 .content(contentList)
-                .socials(projectRequest.getPlatform())
+                .socials(projectRequest.getSocials())
                 .status(ProjectApprovalStatus.PENDING)
                 .build();
         project1 = saveProject(project1);
@@ -63,22 +64,22 @@ public class ProjectService {
     public void deleteProject(Long id) {
     }
 
-    public ProjectTagResponse addProjectTag(ProjectTagRequest projectTagRequest) {
+    public ProjectCalenderResponse addProjectTag(ProjectCalenderRequest projectCalenderRequest) {
         ProjectCalender projectTag = new ProjectCalender();
         projectTag.setName(projectTag.getName());
         projectTag = projectCalenderRepository.save(projectTag);
-        return new ProjectTagResponse(projectTag.getId(), projectTag.getName());
+        return new ProjectCalenderResponse(projectTag.getId(), projectTag.getName());
     }
 
     public void deleteProjectTag(Long projectTagId) {
         projectCalenderRepository.findById(projectTagId).ifPresent(tag->{ projectCalenderRepository.delete(tag);});
     }
 
-    public ProjectTagResponse editProjectTag(ProjectTagRequest projectTagRequest) {
-        ProjectCalender projectTag = projectCalenderRepository.findByName(projectTagRequest.getName()).orElseThrow(()-> new ProjectException("No such tag found"));
+    public ProjectCalenderResponse editProjectTag(ProjectCalenderRequest projectCalenderRequest) {
+        ProjectCalender projectTag = projectCalenderRepository.findByName(projectCalenderRequest.getName()).orElseThrow(()-> new ProjectException("No such tag found"));
         projectTag.setName(projectTag.getName());
         projectTag = projectCalenderRepository.save(projectTag);
-        return new ProjectTagResponse(projectTag.getId(), projectTag.getName());
+        return new ProjectCalenderResponse(projectTag.getId(), projectTag.getName());
     }
 
     public ProjectCalender getProjectCalender() {
@@ -134,8 +135,8 @@ public class ProjectService {
                 .songTitle(project.getSongTitle())
                 .artworkUri(project.getArtworkUri())
                 .id(project.getId())
-                .isSupported(project.isSupported())
-                .isVoted(project.isVoted())
+                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId().toString()))
+                .isVoted(loggedInUserService.checkVoteStateForLoggedInUser(project.getId().toString()))
                 .noOfVoters(project.getVoteCount())
                 .songUri(project.getSongUri())
                 .socials(project.getSocials())

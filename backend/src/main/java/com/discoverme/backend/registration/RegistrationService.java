@@ -16,16 +16,13 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
-    private final PhoneNumberValidator phoneNumberValidator;
     private final PasswordValidator passwordValidator;
     private final UserService userService;
     private final RegistrationMapper registrationMapper;
     private final PasswordEncoder passwordEncoder;
     private final SocialsRepository socialRepository;
     public RegistrationResponse registerUser(RegistrationRequest registerRequest) {
-        if (!phoneNumberValidator.test(registerRequest.getPhoneNumber())) {
-            throw new RegistrationException(registerRequest.getPhoneNumber() + " is not valid");
-        } else if(!passwordValidator.test(registerRequest.getPassword())){
+        if(!passwordValidator.test(registerRequest.getPassword())){
             throw new RegistrationException("Password must be a minimum of eight characters contain at least one uppercase letter, one lowercase letter, one number and one special character");
         } else if (userService.findUserByPhoneNumber(registerRequest.getPhoneNumber()).isPresent()) {
             throw new RegistrationException("Phone number is already registered");
@@ -70,9 +67,7 @@ public class RegistrationService {
     }
 
     public RegistrationResponse registerAdmin(AdminRegistrationRequest registerRequest) {
-        if (!phoneNumberValidator.test(registerRequest.getPhoneNumber())) {
-            throw new RegistrationException(registerRequest.getPhoneNumber() + " is not valid");
-        } else if(!passwordValidator.test(registerRequest.getPassword())){
+        if(!passwordValidator.test(registerRequest.getPassword())){
             throw new RegistrationException("Password must be a minimum of eight characters contain at least one uppercase letter, one lowercase letter, one number and one special character");
         } else if (userService.findUserByPhoneNumber(registerRequest.getPhoneNumber()).isPresent()) {
             throw new RegistrationException("Phone number is already registered");

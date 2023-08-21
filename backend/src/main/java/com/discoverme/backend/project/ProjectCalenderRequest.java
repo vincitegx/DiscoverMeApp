@@ -3,6 +3,6 @@ package com.discoverme.backend.project;
 import lombok.Data;
 
 @Data
-public class ProjectTagRequest {
+public class ProjectCalenderRequest {
     private String name;
 }
