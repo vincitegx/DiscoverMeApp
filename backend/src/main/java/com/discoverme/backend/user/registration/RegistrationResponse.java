@@ -1,4 +1,4 @@
-package com.discoverme.backend.registration;
+package com.discoverme.backend.user.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

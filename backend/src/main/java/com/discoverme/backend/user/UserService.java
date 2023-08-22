@@ -47,4 +47,24 @@ public class UserService {
     public Page<Users> findAllByRoleUser(Pageable pageable) {
         return userRepository.findByRole(Roles.USER.name(),pageable);
     }
+
+    public String fetchAndEnableUser(Long userId){
+        Users user = findById(userId).orElseThrow(()-> new UsernameNotFoundException("No user found with this id"));
+        user.setEnabled(true);
+        user.setNonLocked(true);
+        user = saveUser(user);
+        if(user.getEnabled() && user.getNonLocked()){
+            return "User account has been activated !!!";
+        }else{
+            return "Sorry user account could not be activated, Please try again later :(";
+        }
+    }
+
+    public String fetchAndDisableUser(Long userId){
+        Users user = findById(userId).orElseThrow(()-> new UsernameNotFoundException("No user found with this id"));
+        user.setEnabled(false);
+        user.setNonLocked(false);
+        saveUser(user);
+        return "User account has been disabled !!!";
+    }
 }

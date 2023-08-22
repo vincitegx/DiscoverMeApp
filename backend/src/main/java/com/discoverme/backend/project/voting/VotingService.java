@@ -1,5 +1,6 @@
 package com.discoverme.backend.project.voting;
 
+import com.discoverme.backend.project.PeriodStatus;
 import com.discoverme.backend.project.Project;
 import com.discoverme.backend.project.ProjectException;
 import com.discoverme.backend.project.ProjectService;
@@ -20,6 +21,9 @@ public class VotingService {
     public void vote(String projectId) {
         Project project = projectService.findById(Long.parseLong(projectId))
                 .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + projectId));
+        if(!project.getCalender().getStatus().equals(PeriodStatus.VOTING)){
+            throw new ProjectException("You cannot vote a project currently");
+        }
         Optional<Vote> voteByProjectAndUser = voteRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
         voteByProjectAndUser.ifPresentOrElse(v -> {
             voteRepository.delete(v);

@@ -1,4 +1,4 @@
-package com.discoverme.backend.registration;
+package com.discoverme.backend.user.registration;
 
 public class RegistrationException extends RuntimeException {
     public RegistrationException(String message) {

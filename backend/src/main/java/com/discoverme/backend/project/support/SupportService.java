@@ -1,9 +1,6 @@
 package com.discoverme.backend.project.support;
 
-import com.discoverme.backend.project.Project;
-import com.discoverme.backend.project.ProjectException;
-import com.discoverme.backend.project.ProjectResponse;
-import com.discoverme.backend.project.ProjectService;
+import com.discoverme.backend.project.*;
 import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
@@ -36,6 +33,9 @@ public class SupportService {
 
     public void addSupporter(String projectId){
         Project project = projectService.findById(Long.parseLong(projectId)).orElseThrow(()-> new ProjectException("No such project found with that ID"));
+        if(!project.getCalender().getStatus().equals(PeriodStatus.SUPPORT)){
+            throw new ProjectException("You cannot support a project currently");
+        }
         Optional<Support> supportByPostAndUser = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
         if(supportByPostAndUser.isPresent()){
             throw new ProjectException("Already added to supported");

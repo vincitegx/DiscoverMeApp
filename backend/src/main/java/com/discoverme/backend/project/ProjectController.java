@@ -1,6 +1,5 @@
 package com.discoverme.backend.project;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,25 +27,6 @@ public class ProjectController {
         return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 
-    @PostMapping("calender")
-    public ResponseEntity<ProjectCalenderResponse> addProjectCalender(@Valid @RequestBody ProjectCalenderRequest projectCalenderRequest) {
-        ProjectCalenderResponse projectCalenderResponse = projectService.addProjectTag(projectCalenderRequest);
-        return new ResponseEntity<>(projectCalenderResponse, HttpStatus.OK);
-    }
-
-    @PutMapping("calender")
-    public ResponseEntity<ProjectCalenderResponse> editProjectCalender(@Valid @RequestBody ProjectCalenderRequest projectCalenderRequest) {
-        ProjectCalenderResponse projectCalenderResponse = projectService.editProjectTag(projectCalenderRequest);
-        return new ResponseEntity<>(projectCalenderResponse, HttpStatus.OK);
-    }
-
-    @DeleteMapping("calendar")
-    public ResponseEntity<Void> deleteProjectCalender(@RequestParam String id) {
-        Long projectTagId = Long.parseLong(id);
-        projectService.deleteProjectTag(projectTagId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @PutMapping("approve")
     public ResponseEntity<ProjectResponse> approveProject(@RequestParam String id) {
         ProjectResponse projectResponse = projectService.approveProject(id);
@@ -70,7 +50,7 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<ProjectResponse> getAllProjects(String projectTag){
+    public ResponseEntity<ProjectResponse> getAllProjects(String projects){
         return null;
     }
     @DeleteMapping("{id}")
@@ -85,9 +65,9 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("status")
-    public ResponseEntity<ProjectCalender> updateProjectCalender(PeriodStatus status) {
-        ProjectCalender projectTag = projectService.updateProjectStatus(status);
-        return new ResponseEntity<>(projectTag, HttpStatus.OK);
+    @GetMapping("voters")
+    public ResponseEntity<List<ProjectResponse>> getTop5ProjectsWithTheHighestVoters(@RequestParam String id) {
+        List<ProjectResponse> projectResponse = projectService.getTop5ProjectsWithTheHighestVoters(id);
+        return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 }

@@ -1,7 +1,7 @@
 package com.discoverme.backend.handler;
 
 import com.discoverme.backend.commons.ErrorResponse;
-import com.discoverme.backend.registration.RegistrationException;
+import com.discoverme.backend.user.registration.RegistrationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

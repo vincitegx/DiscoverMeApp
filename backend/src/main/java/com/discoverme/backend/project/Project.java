@@ -1,5 +1,6 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.project.calender.Calender;
 import com.discoverme.backend.user.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class Project {
     private Users user;
 
     @ManyToOne
-    private ProjectCalender calender;
+    private Calender calender;
 
     @Column(nullable = false, unique = true)
     private String songTitle;

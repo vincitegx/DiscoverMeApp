@@ -1,5 +1,7 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.project.calender.Calender;
+import com.discoverme.backend.project.calender.CalenderRepository;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
-    private final ProjectCalenderRepository projectCalenderRepository;
+    private final CalenderRepository calenderRepository;
     private final UserService userService;
     private final ProjectRepository projectRepository;
     private final FileService fileService;
@@ -19,9 +21,12 @@ public class ProjectService {
     private final LoggedInUserService loggedInUserService;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile artwork, MultipartFile song, List<MultipartFile> contents){
-        ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
+        Calender calender = calenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
         Users user = userService.getCurrentUser();
-        Optional<Project> project = projectRepository.findByUserAndCalender(user, projectCalender);
+        if(!calender.getStatus().equals(PeriodStatus.SUBMISSION)){
+            throw new ProjectException("You cannot submit a project currently");
+        }
+        Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
         if(project.isPresent()){
             throw new ProjectException("You can only register one project");
         }
@@ -64,26 +69,8 @@ public class ProjectService {
     public void deleteProject(Long id) {
     }
 
-    public ProjectCalenderResponse addProjectTag(ProjectCalenderRequest projectCalenderRequest) {
-        ProjectCalender projectTag = new ProjectCalender();
-        projectTag.setName(projectTag.getName());
-        projectTag = projectCalenderRepository.save(projectTag);
-        return new ProjectCalenderResponse(projectTag.getId(), projectTag.getName());
-    }
-
-    public void deleteProjectTag(Long projectTagId) {
-        projectCalenderRepository.findById(projectTagId).ifPresent(tag->{ projectCalenderRepository.delete(tag);});
-    }
-
-    public ProjectCalenderResponse editProjectTag(ProjectCalenderRequest projectCalenderRequest) {
-        ProjectCalender projectTag = projectCalenderRepository.findByName(projectCalenderRequest.getName()).orElseThrow(()-> new ProjectException("No such tag found"));
-        projectTag.setName(projectTag.getName());
-        projectTag = projectCalenderRepository.save(projectTag);
-        return new ProjectCalenderResponse(projectTag.getId(), projectTag.getName());
-    }
-
-    public ProjectCalender getProjectCalender() {
-        return projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
+    public Calender getProjectCalender() {
+        return calenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No tags found"));
     }
 
     public ProjectResponse approveProject(String id) {
@@ -104,13 +91,9 @@ public class ProjectService {
         return projectResponse;
     }
 
-    public ProjectCalender updateProjectStatus(PeriodStatus status) {
-        return null;
-    }
-
     public List<ProjectResponse> getApprovedProjects() {
-        ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No Calender found"));
-        List<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, projectCalender);
+        Calender calender = calenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No Calender found"));
+        List<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, calender);
         List<ProjectResponse> projectResponseList = new ArrayList<>();
         projects.forEach(project -> {
             ProjectResponse projectResponse = mapProjectToResponse(project);
@@ -120,8 +103,8 @@ public class ProjectService {
     }
     
     public List<ProjectResponse> getSupportedProjects(Long userId) {
-        ProjectCalender projectCalender = projectCalenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No Calender found"));
-        List<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, projectCalender);
+        Calender calender = calenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No Calender found"));
+        List<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, calender);
         List<ProjectResponse> projectResponseList = new ArrayList<>();
         projects.forEach(project -> {
             ProjectResponse projectResponse = mapProjectToResponse(project);
@@ -142,5 +125,16 @@ public class ProjectService {
                 .socials(project.getSocials())
                 .stageName(project.getUser().getStageName())
                 .build();
+    }
+
+    public List<ProjectResponse> getTop5ProjectsWithTheHighestVoters(String id) {
+        Calender calender = calenderRepository.findById(Long.parseLong(id)).orElseThrow(()-> new ProjectException("No such Calender associated with this ID"));
+        List<Project> projects = projectRepository.findTop5ByCalenderOrderByVoteCountDesc(calender);
+        List<ProjectResponse> projectResponseList = new ArrayList<>();
+        projects.forEach(project -> {
+            ProjectResponse projectResponse = mapProjectToResponse(project);
+            projectResponseList.add(projectResponse);
+        });
+        return projectResponseList;
     }
 }

@@ -1,5 +1,6 @@
-package com.discoverme.backend.project;
+package com.discoverme.backend.project.calender;
 
+import com.discoverme.backend.project.PeriodStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
-public class ProjectCalender {
+public class Calender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

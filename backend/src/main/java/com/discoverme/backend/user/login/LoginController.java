@@ -1,6 +1,6 @@
-package com.discoverme.backend.login;
+package com.discoverme.backend.user.login;
 
-import com.discoverme.backend.registration.RegistrationController;
+import com.discoverme.backend.user.registration.RegistrationController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class LoginController {
     private final Logger log = LoggerFactory.getLogger(RegistrationController.class);
     private final LoginService loginService;
 
-    @PostMapping("users/login")
+    @PostMapping("login")
     public ResponseEntity<JwtResponse> userLogin(@Valid @RequestBody LoginRequest loginRequest) {
         JwtResponse response = loginService.login(loginRequest);
         return ResponseEntity.ok()

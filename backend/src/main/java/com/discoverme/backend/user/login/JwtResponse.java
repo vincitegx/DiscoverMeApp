@@ -1,4 +1,4 @@
-package com.discoverme.backend.login;
+package com.discoverme.backend.user.login;
 
 import com.discoverme.backend.user.UserDto;
 import lombok.AllArgsConstructor;

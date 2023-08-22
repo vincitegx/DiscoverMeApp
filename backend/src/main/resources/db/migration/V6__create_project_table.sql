@@ -5,7 +5,7 @@
 CREATE TABLE project (
     id SERIAL PRIMARY KEY,
     user_id BIGINT REFERENCES users(id),
-    calender_id BIGINT REFERENCES project_calender(id),
+    calender_id BIGINT REFERENCES calender(id),
     song_title VARCHAR(255) NOT NULL UNIQUE,
     artwork_uri VARCHAR(255) NOT NULL UNIQUE,
     song_uri VARCHAR(255) NOT NULL UNIQUE,
