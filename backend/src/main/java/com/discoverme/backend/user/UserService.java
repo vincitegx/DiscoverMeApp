@@ -62,9 +62,20 @@ public class UserService {
 
     public String fetchAndDisableUser(Long userId){
         Users user = findById(userId).orElseThrow(()-> new UsernameNotFoundException("No user found with this id"));
+        if(user.getRole().equals("SUPER_ADMIN")){
+            throw new UserException("You cannot block or disable this account");
+        }
         user.setEnabled(false);
         user.setNonLocked(false);
         saveUser(user);
         return "User account has been disabled !!!";
+    }
+
+    public void removeAdmin(Long userId) {
+        Users user = findById(userId).orElseThrow(()-> new UsernameNotFoundException("No user found with this id"));
+        if(!user.getRole().equals("ADMIN")){
+            throw new UserException("Error !!! This account doesn't have an admin role");
+        }
+        userRepository.delete(user);
     }
 }

@@ -1,4 +1,4 @@
-package com.discoverme.backend.project;
+package com.discoverme.backend.project.file;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("api/v1/projects")
+@RequestMapping("api/v1/projects/contents")
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;

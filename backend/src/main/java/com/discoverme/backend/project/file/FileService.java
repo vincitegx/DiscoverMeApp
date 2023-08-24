@@ -1,4 +1,4 @@
-package com.discoverme.backend.project;
+package com.discoverme.backend.project.file;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,5 +74,20 @@ public class FileService {
         } else {
             throw new FileServiceException("This file does not exist or is not readable");
         }
+    }
+
+    public boolean deleteFile(String name) {
+        String directory = this.fileStorageLocation;
+        try {
+            Path newPath = Paths.get(directory).toAbsolutePath().normalize().resolve(name);
+            return Files.deleteIfExists(newPath);
+        } catch (IOException ex) {
+            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public void deleteFiles(List<String> files) {
+        files.forEach(file -> deleteFile(file));
     }
 }

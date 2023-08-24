@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class RegistrationController {
     }
 
     @PostMapping("admin")
+    @Secured({"ROLE_SUPER-ADMIN"})
     public ResponseEntity<RegistrationResponse> registerAdmin(@Valid @RequestBody AdminRegistrationRequest registerRequest) {
         RegistrationResponse response = registrationService.registerAdmin(registerRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

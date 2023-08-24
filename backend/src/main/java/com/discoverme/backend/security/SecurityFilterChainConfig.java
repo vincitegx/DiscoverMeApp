@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityFilterChainConfig {
 
@@ -25,8 +27,7 @@ public class SecurityFilterChainConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register/user").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login/user").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(
                                 "/api/v3/users/**",
                                 "/v2/api-docs",
@@ -40,10 +41,6 @@ public class SecurityFilterChainConfig {
                                 "/webjars/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/v1/auth/register/admin").hasRole("SUPER-ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/auth/users/verify").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/projects/approve").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/projects/disapprove").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -31,6 +31,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(ex.getMessage()));
     }
 
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ErrorResponse> applicationException(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
     private <E extends RuntimeException> ResponseEntity<ErrorResponse> buildResponse(E exception, HttpStatus status) {
         return ResponseEntity
                 .status(status)
