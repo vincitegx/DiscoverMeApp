@@ -144,9 +144,7 @@ public class ProjectService {
             deleteProject(project.getId());
             fileService.deleteFile(project.getArtworkUri());
             fileService.deleteFile(project.getSongUri());
-            List<String> contentList = project.getContent().stream().map(content -> {
-                return content.getUri();
-            }).toList();
+            List<String> contentList = project.getContent().stream().map(content -> content.getUri()).toList();
             fileService.deleteFiles(contentList);
         });
     }

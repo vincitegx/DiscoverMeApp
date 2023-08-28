@@ -1,0 +1,14 @@
+# flyctl launch added from .gitignore
+**\HELP.md
+!**\.mvn\wrapper\maven-wrapper.jar
+!**\**\src\test\**\target
+
+### STS ###
+**\.apt_generated
+**\.classpath
+**\.factorypath
+**\.project
+**\.settings
+**\.springBeans
+**\.sts4-cache
+fly.toml

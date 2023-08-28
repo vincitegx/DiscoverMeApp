@@ -1,0 +1,20 @@
+#FROM eclipse-temurin:17.0.4.1_1-jre-alpine@sha256:e1506ba20f0cb2af6f23e24c7f8855b417f0b085708acd9b85344a884ba77767
+#MAINTAINER davidtega
+#WORKDIR /app
+#COPY target/backend-0.0.1-SNAPSHOT.jar app.jar
+#CMD ["java", "-jar", "app.jar"]
+
+FROM eclipse-temurin:17.0.5_8-jre-alpine@sha256:02c04793fa49ad5cd193c961403223755f9209a67894622e05438598b32f210e AS builder
+WORKDIR extracted
+ADD target/backend-0.0.1-SNAPSHOT.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+FROM eclipse-temurin:17.0.5_8-jre-alpine@sha256:02c04793fa49ad5cd193c961403223755f9209a67894622e05438598b32f210e
+WORKDIR application
+COPY --from=builder extracted/dependencies/ ./
+COPY --from=builder extracted/spring-boot-loader/ ./
+COPY --from=builder extracted/snapshot-dependencies/ ./
+COPY --from=builder extracted/application/ ./
+USER tega
+EXPOSE 8083
+ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
