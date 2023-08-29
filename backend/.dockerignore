@@ -1,6 +1,8 @@
 # flyctl launch added from .gitignore
 **\HELP.md
+**\target
 !**\.mvn\wrapper\maven-wrapper.jar
+!**\**\src\main\**\target
 !**\**\src\test\**\target
 
 ### STS ###
@@ -11,4 +13,5 @@
 **\.settings
 **\.springBeans
 **\.sts4-cache
+**\nbactions.xml
 fly.toml
