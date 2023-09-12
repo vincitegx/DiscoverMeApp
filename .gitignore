@@ -6,9 +6,11 @@
 uploads/
 # AWS User-specific
 .idea/**/aws.xml
-jenkin/
-local-data-user/
-target/
+/jenkin/
+/local-data-user/
+/target/
+backend/backend/backend.iml
+/grafana/
 # Generated files
 .idea/**/contentModel.xml
 
