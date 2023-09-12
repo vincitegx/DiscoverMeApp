@@ -1,0 +1,1 @@
+SELECT 'CREATE DATABASE discoverme' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'discoverme')\gexec
