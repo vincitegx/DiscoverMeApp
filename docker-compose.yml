@@ -16,18 +16,18 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
-#  discoverme:
-#    container_name: discoverme
-#    image: davidtega/discoverme:v1.0
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/discoverme
-#      - SPRING_DATASOURCE_USERNAME=postgres
-#      - SPRING_DATASOURCE_PASSWORD=dondot3056
-#    depends_on:
-#      - discoverme-db
-#    restart: unless-stopped
+  discoverme:
+    container_name: discoverme
+    image: davidtega/discoverme:v1.0
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://discoverme-db:5432/discoverme
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=dondot3056
+    depends_on:
+      - discoverme-db
+    restart: unless-stopped
 
   sonarqube:
     container_name: sonarqube
@@ -42,18 +42,18 @@ services:
     ports:
       - "9000:9000"
 
-  pgadmin:
-    container_name: discoverme-pgadmin
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    ports:
-      - "5050:80"
-    depends_on:
-      - discoverme-db
-    restart: unless-stopped
+#  pgadmin:
+#    container_name: discoverme-pgadmin
+#    image: dpage/pgadmin4:latest
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+#      PGADMIN_CONFIG_SERVER_MODE: 'False'
+#    ports:
+#      - "5050:80"
+#    depends_on:
+#      - discoverme-db
+#    restart: unless-stopped
 
   jenkin:
     image: jenkins/jenkins:latest
