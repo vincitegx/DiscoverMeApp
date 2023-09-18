@@ -7,6 +7,6 @@ scrape_configs:
     scrape_interval: 5s
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['localhost:8080']
+      - targets: ['discoverme:8080']
         labels:
           application: 'Main Application'

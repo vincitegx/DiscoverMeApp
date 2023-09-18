@@ -16,6 +16,19 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
+#  discoverme:
+#    container_name: discoverme
+#    image: davidtega/discoverme:v1.0
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/discoverme
+#      - SPRING_DATASOURCE_USERNAME=postgres
+#      - SPRING_DATASOURCE_PASSWORD=dondot3056
+#    depends_on:
+#      - discoverme-db
+#    restart: unless-stopped
+
   sonarqube:
     container_name: sonarqube
     image: sonarqube:latest
