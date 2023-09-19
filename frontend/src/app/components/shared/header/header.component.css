@@ -1,0 +1,22 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-custom{
+    padding-top:1rem;
+    padding-bottom:1rem;
+    background-color: transparent;
+}
+.navbar-custom .navbar-brand{
+    text-transform:uppercase;
+    color: white;
+    font-family: italics;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.0625em;
+}
+.navbar-custom a, .navbar-custom a:hover{
+    border: 0;
+}
