@@ -7,16 +7,53 @@
 .navbar-custom{
     padding-top:1rem;
     padding-bottom:1rem;
-    background-color: transparent;
+    background-color: 0px 10px 10px 0px rgba(0,0,0,0.4);
 }
 .navbar-custom .navbar-brand{
     text-transform:uppercase;
     color: white;
-    font-family: italics;
-    font-weight: 700;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 100;
     font-size: 24px;
-    letter-spacing: 0.0625em;
+}
+.me{
+  color:  lightgray;
+}
+.discover{
+  color:  #009fc1;
 }
 .navbar-custom a, .navbar-custom a:hover{
     border: 0;
+}
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content a {
+  display: block;
+  color: #000000;
+  padding: 5px;
+  text-decoration: none;
+}
+.dropdown-content a:hover {
+  color: #FFFFFF;
+  background-color: rgba(90, 134, 195, 0.486);
+  cursor:pointer;
+}
+.dropbtn{
+  background-color: rgba(23, 44, 241, 0.486);
+  border-color: rgba(90, 134, 195, 0.486);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 7px;
 }

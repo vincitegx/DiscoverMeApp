@@ -1,22 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNav">
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top" [style.background-color]="(auth.isAuthenticated$ | async) ? '#002768' : 'transparent'">
   <div class="container">
-    <a class="navbar-brand js-scroll-trigger" href="/">Discover Me</a>
-
+    <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item" *ngIf="auth.user$ | async as user" style="color:white">
-          {{ user.name }}
-        </li>
-        <li class="nav-item">
-          <a class="text-white" (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
-            Log out
-          </a>
-        </li>
-      </ul>
+      <div class="dropdown">
+        <button *ngIf="auth.user$ | async as user" class="dropbtn">{{ user.name }}</button>
+        <div id="myDropdown" class="dropdown-content text-white">
+          <a class="text-white" href="home">Profile</a>
+          <a class="text-white"
+            (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Logout</a>
+        </div>
+      </div>
     </ng-container>
-
     <ng-template #loggedOut>
-      <button class="btn btn-rounded text-white" (click)="auth.loginWithRedirect()">Log in</button>
+      <button class="btn btn-rounded text-white dropbtn" (click)="auth.loginWithRedirect()">Sign In</button>
     </ng-template>
   </div>
 </nav>
