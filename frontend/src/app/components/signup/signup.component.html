@@ -1,0 +1,19 @@
+<section class="section">
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="login()">
+        <h3>Get Started</h3>
+        <label for="stageName">Stage Name</label>
+        <input type="text" placeholder="Enter Stage Name" id="stageName" formControlName="stageName" required="true">
+        <label for="phoneNumber">Phone no</label>
+        <input type="text" placeholder="Enter Phone no" id="phoneNumber" formControlName="phoneNumber" required="true">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" formControlName="password" required="true">
+        <div class="links">
+            <a href="#">Don't have an account ?</a>
+            <a href="signup">Sign In</a></div>
+        <button [disabled]="!form.valid">Log In</button>
+    </form>
+</section>

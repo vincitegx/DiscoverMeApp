@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoverComponent } from './components/cover/cover.component';
 import { HomeComponent } from './components/home/home.component';
 import { DefaultComponent } from './layouts/default/default.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -14,9 +16,17 @@ const routes: Routes = [
          component:CoverComponent,
        },
        {
-         path:'home',
-         component:HomeComponent,
-       }
+        path:'signin',
+        component:SigninComponent,
+      },
+      {
+        path:'signup',
+        component:SignupComponent,
+      },
+      {
+        path:'home',
+        component:HomeComponent,
+      }
     ]
   }
 ];

@@ -25,6 +25,10 @@ body {
   animation: loader 0.8s linear infinite;
   -webkit-animation: loader 0.8s linear infinite;
 }
+
+.section{
+    margin: 7rem;
+}
 @keyframes loader {
 	0% {
 		-webkit-transform: rotate(0deg);

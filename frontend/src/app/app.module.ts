@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { DefaultModule } from './layouts/default/default.module';
-
 @NgModule({
   declarations: [
     AppComponent
