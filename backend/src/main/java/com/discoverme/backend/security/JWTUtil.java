@@ -1,26 +1,65 @@
 package com.discoverme.backend.security;
 
+import com.discoverme.backend.user.UserException;
+import com.discoverme.backend.user.Users;
+import com.discoverme.backend.user.login.refresh.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Date.from;
 
 @Service
 public class JWTUtil {
     private static final String SECRET_KEY =
             "foobar_123456789_foobar_123456789_foobar_123456789_foobar_123456789";
 
+    private Collection<? extends GrantedAuthority> getAuthorities(Users user) {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        return authorities;
+    }
 
     public String issueToken(String subject) {
         return issueToken(subject, Map.of());
+    }
+
+    public String issueTokenWithRefreshToken(RefreshToken refreshToken) {
+        try {
+            User principal = (User) User.builder()
+                    .username(refreshToken.getUser().getPhoneNumber())
+                    .authorities(getAuthorities(refreshToken.getUser()))
+                    .password(refreshToken.getUser().getPassword())
+                    .disabled(refreshToken.getUser().getEnabled())
+                    .accountExpired(false)
+                    .accountLocked(refreshToken.getUser().getNonLocked())
+                    .credentialsExpired(false)
+                    .build();
+            Map<String, List<String>> claims = new HashMap<>();
+            claims.put("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+            return Jwts.builder()
+                    .setSubject(refreshToken.getUser().getPhoneNumber())
+                    .setExpiration(Date.from(
+                            Instant.now().plus(3, ChronoUnit.MINUTES)
+                    ))
+                    .setIssuer("https://discoverme.com")
+                    .setIssuedAt(from(Instant.now()))
+                    .setClaims(claims)
+                    .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                    .compact();
+        } catch (IllegalArgumentException ex) {
+            throw new UserException(ex.getMessage());
+        }
     }
 
     public String issueToken(String subject, String ...scopes) {
@@ -43,7 +82,7 @@ public class JWTUtil {
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(
                         Date.from(
-                                Instant.now().plus(15, ChronoUnit.DAYS)
+                                Instant.now().plus(3, ChronoUnit.MINUTES)
                         )
                 )
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)

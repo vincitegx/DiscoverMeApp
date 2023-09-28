@@ -34,22 +34,6 @@ public class SecurityConfig {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.applyPermitDefaultValues();
-//        corsConfiguration.addAllowedMethod(HttpMethod.GET);
-//        corsConfiguration.addAllowedMethod(HttpMethod.POST);
-//        corsConfiguration.addAllowedMethod(HttpMethod.PUT);
-//        corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
-//        corsConfiguration.addAllowedMethod(HttpMethod.PATCH);
-//        corsConfiguration.addAllowedOrigin("http://localhost:4200");
-//
-//        source.registerCorsConfiguration("/**", corsConfiguration);
-//        return source;
-//    }
+    
 
 }

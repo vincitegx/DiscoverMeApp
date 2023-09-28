@@ -8,31 +8,31 @@ import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   {
-    path:'',
-    component:DefaultComponent,
+    path: '',
+    component: DefaultComponent,
     children: [
-       {
-         path:'',
-         component:CoverComponent,
-       },
-       {
-        path:'signin',
-        component:SigninComponent,
+      {
+        path: '',
+        component: CoverComponent,
       },
       {
-        path:'signup',
-        component:SignupComponent,
+        path: 'signin',
+        component: SigninComponent,
       },
       {
-        path:'home',
-        component:HomeComponent,
-      }
-    ]
-  }
+        path: 'signup',
+        component: SignupComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
