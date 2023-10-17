@@ -1,13 +1,10 @@
 package com.discoverme.backend.user.login;
 
 import com.discoverme.backend.security.CookieAuthenticationFilter;
-import com.discoverme.backend.user.registration.RegistrationController;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +19,6 @@ import java.time.temporal.ChronoUnit;
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 public class LoginController {
-
-    private final Logger log = LoggerFactory.getLogger(RegistrationController.class);
     private final LoginService loginService;
 
     @PostMapping("login")

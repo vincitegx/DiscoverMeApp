@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 @Service
 @Primary
-@Slf4j
 public class FileService {
 
     private Path fileStoragePath;

@@ -40,35 +40,16 @@ pipeline {
                 }
             }
         }
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("your-docker-image-name:latest")
-                }
-            }
-        }
-
-        stage('Push to DockerHub') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                        dockerImage.push()
+                dir('backend'){
+                    script {
+                        withDockerRegistry(credentialsId: 'dockercredentials') {
+                            sh 'docker build -t davidtega/discoverme:v1.1'
+                            // docker.build("davidtega/discoverme:v1.1")
+                        }
                     }
                 }
-            }
-        }
-
-        stage('Deploy to AWS') {
-            steps {
-                // Add your AWS deployment steps here
             }
         }
         stage('Email Notification') {
