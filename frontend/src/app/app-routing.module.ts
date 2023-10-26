@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DefaultComponent } from './layouts/default/default.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        canActivate: [AuthGuard]
       },
     ],
   },

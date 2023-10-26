@@ -6,25 +6,33 @@ import { JwtResponse } from '../dtos/jwtresponse';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private apiServerUrl = environment['api-base-url'];
+  private jwtToken: String = '';
   @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
   @Output() authToken: EventEmitter<String> = new EventEmitter();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  public login(loginRequest: LoginRequest): Observable<JwtResponse>{
-      return this.httpClient.post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, loginRequest)
+  public login(loginRequest: LoginRequest): Observable<JwtResponse> {
+    return this.httpClient
+      .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, loginRequest)
       .pipe(
-        map(
-          response => {this.loggedIn.emit(true);
+        map((response) => {
+          this.loggedIn.emit(true);
+          this.jwtToken = response['authToken'];
           this.authToken.emit(response['authToken']);
           return response;
-      }));
+        })
+      );
   }
   isLoggedIn(): boolean {
     return true;
+  }
+
+  getJwtToken(){
+    return this.jwtToken;
   }
 }

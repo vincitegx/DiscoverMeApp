@@ -5,15 +5,27 @@ import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit{
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService){}
+export class HeaderComponent implements OnInit {
+  constructor(
+    @Inject(DOCUMENT) public document: Document,
+    public auth: AuthService
+  ) {}
 
-  ngOnInit(): void{}
+  ngOnInit(): void {}
 
-  loginWithRedirect():void{
-      this.auth.loginWithRedirect()
-    }
+  loginWithRedirect(): void {
+    this.auth.loginWithRedirect();
+  }
 
+  logout() {
+    this.auth.logout({
+      logoutParams: { returnTo: this.document.location.origin },
+    });
+  }
+
+  containsLoginPath(): boolean {
+    return this.document.URL.includes('signin', 7);
+  }
 }
