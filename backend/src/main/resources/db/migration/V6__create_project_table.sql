@@ -13,6 +13,5 @@ CREATE TABLE project (
     vote_count BIGINT DEFAULT 0,
     support_count BIGINT DEFAULT 0,
     voted BOOLEAN DEFAULT FALSE,
-    supported BOOLEAN DEFAULT FALSE,
-    CONSTRAINT valid_status CHECK (status IN ('APPROVED', 'PENDING', 'REJECTED'))
+    supported BOOLEAN DEFAULT FALSE
 );
