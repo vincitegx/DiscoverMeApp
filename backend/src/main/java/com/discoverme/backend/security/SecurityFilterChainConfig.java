@@ -12,6 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,26 +27,30 @@ public class SecurityFilterChainConfig {
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register/user").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-                        .requestMatchers(
-                                "/api/v3/users/**",
-                                "/v2/api-docs",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui/**",
-                                "/webjars/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/auth/register/user")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/auth/login")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/v3/users/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/v3/api-docs")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/v3/users/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/v2/api-docs")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/v3/api-docs/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/swagger-resources")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/swagger-resources/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/configuration/ui")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/configuration/security")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/swagger-ui/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/webjars/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/swagger-ui.html")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

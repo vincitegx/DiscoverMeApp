@@ -50,10 +50,3 @@
   background-color: rgba(90, 134, 195, 0.486);
   cursor:pointer;
 }
-.dropbtn{
-  background-color: rgba(23, 44, 241, 0.486);
-  border-color: rgba(90, 134, 195, 0.486);
-  color: white;
-  padding: 6px 16px;
-  border-radius: 7px;
-}
