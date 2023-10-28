@@ -1,18 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-custom fixed-top" [style.background]="(auth.isAuthenticated$ | async) ? '#002768' : '#002768'">
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top"
+  [style.background]="(auth.isAuthenticated$ | async) ? '#002768' : 'transparent'">
   <div class="container">
     <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
-    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+    <ng-container *ngIf="auth.isAuthenticated$ | async">
       <div class="dropdown">
         <button *ngIf="auth.user$ | async as user" class="dropbtn">{{ user.name }}</button>
         <div id="myDropdown" class="dropdown-content text-white">
           <a class="text-white" href="home">Profile</a>
-          <a class="text-white"
-            (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Logout</a>
+          <a class="text-white" (click)="logout()">Logout</a>
         </div>
       </div>
     </ng-container>
-    <ng-template #loggedOut>
-      <a class="btn btn-rounded text-white" href="signin">Sign In</a>
-    </ng-template>
+    <ng-container *ngIf="(auth.isAuthenticated$ | async) || containsLoginPath() === false">
+      <a class="btn btn-rounded text-white dropbtn" href="signin">Sign In</a>
+    </ng-container>
   </div>
 </nav>

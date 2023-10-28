@@ -6,20 +6,4 @@ export class LoginRequest {
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
-
-    // public setPhoneNumber(phoneNumber:String): void{
-    //     this.phoneNumber  = phoneNumber;
-    // }
-
-    // public getPhoneNumber():String{
-    //     return this.phoneNumber;
-    // }
-
-    // public setPassword(password:String): void{
-    //     this.password  = password;
-    // }
-
-    // public getPassword():String{
-    //     return this.password;
-    // }
 }

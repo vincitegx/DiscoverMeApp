@@ -104,6 +104,42 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>3.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okio</groupId>
+			<artifactId>okio</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.facebook.business.sdk</groupId>
+			<artifactId>facebook-java-business-sdk</artifactId>
+			<version>18.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.restfb</groupId>
+			<artifactId>restfb</artifactId>
+			<version>1.18.0</version>
+<!--			<version>2023.12.0</version>-->
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.14.1</version>
+		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-test</artifactId>-->
@@ -168,5 +204,9 @@
 			</plugin>
 		</plugins>
 	</build>
+<!--	APP_ID: 1688237841617847-->
+<!--	App_SECRET:a7d6d9d44204cd0cca390619cad6607b-->
+<!--	CLIENT_TOKEN:7104354d312b04a21fa237d3ff3813a2-->
 
+<!--	EAAXZCcYDYk7cBO3avgC6VRmqAiQRVqZCNdtwZBj4sEZAYmEPUB0NDGeJXHwVnXm1uFZAeFbrU4QrPv5XRVlXVowvbWFZAN7OfBHmfgmVOSZC4lNxw9iRQU0PLti9HalxZBcXsZAqDtTKPVjVUK4DUF0FcZB1aheOGo0gFz3puw26NosGBIAuWnlI4FHwgucGGYg00pGCBk9fAhknsZCXgOxtZBqZA4GNgKnIA45pDApOA4bk2UQMyYgBKwhmEpEa6LOXm2AZDZD-->
 </project>

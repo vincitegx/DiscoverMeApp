@@ -1,4 +1,5 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "terminal.integrated.fontSize": 15
+    "terminal.integrated.fontSize": 15,
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
