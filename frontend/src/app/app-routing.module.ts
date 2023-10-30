@@ -6,6 +6,8 @@ import { DefaultComponent } from './layouts/default/default.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SubmitProjectComponent } from './components/submit-project/submit-project.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,16 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'project',
+        component: SubmitProjectComponent,
         canActivate: [AuthGuard]
       },
     ],

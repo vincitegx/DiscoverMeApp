@@ -13,7 +13,9 @@ export class HeaderComponent implements OnInit {
     public auth: AuthService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.document.URL.includes('i', 7));
+  }
 
   loginWithRedirect(): void {
     this.auth.loginWithRedirect();
@@ -27,5 +29,13 @@ export class HeaderComponent implements OnInit {
 
   containsLoginPath(): boolean {
     return this.document.URL.includes('signin', 7);
+  }
+
+  isHomePath(): boolean {
+    return this.document.location.href === 'http://localhost:4200/';
+  }
+
+  shouldSetBackgroundColor(): boolean {
+    return this.auth.isAuthenticated$ && !this.isHomePath();
   }
 }

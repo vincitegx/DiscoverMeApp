@@ -7,7 +7,7 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { DefaultModule } from './layouts/default/default.module';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component ,  OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +8,23 @@ import { Component ,  OnInit, Input} from '@angular/core';
 export class HomeComponent {
 
   @Input() currentPage: number = 1;
-    @Input() totalPages: number = 10;
+  @Input() totalPages: number = 10;
 
-    constructor() {}
+  constructor() { }
 
-    ngOnInit(): void {}
+  ngOnInit(): void { }
 
-    onPageChange(page: number): void {
-      console.log(`Page changed to ${page}`);
+
+  playVideo(videoElement: HTMLVideoElement): void {
+    if (videoElement) {
+      videoElement.play();
     }
+  }
+
+  pauseVideo(videoElement: HTMLVideoElement): void {
+    if (videoElement) {
+      videoElement.pause();
+      videoElement.currentTime = 0;
+    }
+  }
 }
