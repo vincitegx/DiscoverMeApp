@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Entity
 @Data
 @Builder
@@ -31,16 +29,13 @@ public class Project {
     private String songTitle;
 
     @Column(nullable = false, unique = true)
-    private String artworkUri;
-
-    @Column(nullable = false, unique = true)
     private String songUri;
 
-    @OneToMany
-    private Set<Socials> socials;
-
-    @OneToMany
-    private Set<Content> content;
+    @OneToOne
+    private Socials social;
+    private String contentUri;
+//    @OneToOne
+//    private Content content;
     @Enumerated(EnumType.STRING)
     private ProjectApprovalStatus status;
 

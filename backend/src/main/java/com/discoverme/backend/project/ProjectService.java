@@ -23,10 +23,9 @@ public class ProjectService {
     private final UserService userService;
     private final ProjectRepository projectRepository;
     private final FileService fileService;
-    private final ContentRepository contentRepository;
     private final LoggedInUserService loggedInUserService;
 
-    public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile artwork, MultipartFile song, List<MultipartFile> contents){
+    public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
         Users user = userService.getCurrentUser();
         if(!calender.getStatus().equals(PeriodStatus.SUBMISSION)){
@@ -36,24 +35,14 @@ public class ProjectService {
         if(project.isPresent()){
             throw new ProjectException("You can only register one project");
         }
-        String artworkUri = fileService.uploadFile(artwork);
-        String songUri = fileService.uploadFile(song);
-        List<String> contentUri = fileService.uploadFiles(contents);
-        Set<Content> contentList = new HashSet<>();
-        contentUri.forEach(c->{
-            Content content = new Content();
-            content.setUri(c);
-            content = contentRepository.save(content);
-            contentList.add(content);
-        });
+        String contentUri = fileService.uploadFile(content);
         Project project1 = Project.builder()
-                .artworkUri(artworkUri)
                 .calender(calender)
                 .songTitle(projectRequest.getSongTitle())
-                .songUri(songUri)
+                .songUri(projectRequest.getSongUri())
                 .user(userService.getCurrentUser())
-                .content(contentList)
-                .socials(projectRequest.getSocials())
+                .contentUri(contentUri)
+                .social(projectRequest.getSocial())
                 .status(ProjectApprovalStatus.PENDING)
                 .build();
         project1 = saveProject(project1);
@@ -103,14 +92,13 @@ public class ProjectService {
     public ProjectResponse mapProjectToResponse(Project project){
         return ProjectResponse.builder()
                 .songTitle(project.getSongTitle())
-                .artworkUri(project.getArtworkUri())
                 .id(project.getId())
                 .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId().toString()))
                 .isVoted(loggedInUserService.checkVoteStateForLoggedInUser(project.getId().toString()))
                 .noOfVoters(project.getVoteCount())
                 .noOfSupportedProjects(loggedInUserService.getProjectsSupported(project.getUser().getId()).size())
                 .songUri(project.getSongUri())
-                .socials(project.getSocials())
+                .social(project.getSocial())
                 .stageName(project.getUser().getStageName())
                 .build();
     }
@@ -142,10 +130,8 @@ public class ProjectService {
         List<Project> projectList = projects.toList();
         projectList.forEach(project -> {
             deleteProject(project.getId());
-            fileService.deleteFile(project.getArtworkUri());
-            fileService.deleteFile(project.getSongUri());
-            List<String> contentList = project.getContent().stream().map(content -> content.getUri()).toList();
-            fileService.deleteFiles(contentList);
+            String contentUri = project.getContentUri();
+            fileService.deleteFile(contentUri);
         });
     }
 

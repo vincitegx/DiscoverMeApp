@@ -23,11 +23,9 @@ public class ProjectController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ProjectResponse> submitProject(@RequestParam("request") String projectRequest,
-                                                         @RequestParam("artwork") MultipartFile artwork,
-                                                         @RequestParam("song") MultipartFile song,
-                                                         @RequestParam("contents") List<MultipartFile> contents) {
+                                                         @RequestParam("contents") MultipartFile content) {
         ProjectRequest projectRequest1 = projectMapper.getProjectRequestJson(projectRequest);
-        ProjectResponse projectResponse = projectService.submitProject(projectRequest1, artwork, song, contents);
+        ProjectResponse projectResponse = projectService.submitProject(projectRequest1, content);
         return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 
