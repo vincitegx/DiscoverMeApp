@@ -16,8 +16,8 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public Optional<Users> findUserByPhoneNumber(String phoneNumber){
-        return userRepository.findByPhoneNumber(phoneNumber);
+    public Optional<Users> findUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public Users saveUser(Users user){
@@ -40,7 +40,7 @@ public class UserService {
     public Users getCurrentUser() {
         UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        return userRepository.findByPhoneNumber(principal.getUsername())
+        return userRepository.findByEmail(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 

@@ -1,6 +1,6 @@
 export class UserDto {
     private id: Number;
-    private  stageName: String;
+    private stageName: String;
     private phoneNumber: String;
     private role: String;
     private userSocials: any

@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JwtResponse } from 'src/app/dtos/jwtresponse';
+import { JwtResponse } from 'src/app/components/signin/jwtresponse';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginRequest } from 'src/app/dtos/loginrequest';
+import { SigninRequest } from 'src/app/components/signin/signinrequest';
 
 @Component({
   selector: 'app-signin',
@@ -22,31 +22,28 @@ export class SigninComponent implements OnInit {
     phoneNumber: new FormControl(''),
     password: new FormControl(''),
   });
-  private loginRequest: LoginRequest;
+  private signinRequest: SigninRequest;
 
   constructor(
     private auth: AuthService,
     private router: Router,
     private formBuilder: FormBuilder
   ) {
-    this.loginRequest = {
-      phoneNumber: '',
-      password: '',
-    };
+    this.signinRequest = new SigninRequest('', '');
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      phoneNumber: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
   login() {
     if (this.form.valid) {
-      this.loginRequest.phoneNumber = this.form.get('phoneNumber')?.value;
-      this.loginRequest.password = this.form.get('password')?.value;
-      this.auth.login(this.loginRequest).subscribe({
+      this.signinRequest.setEmail(this.form.get('email')?.value);
+      this.signinRequest.setPassword(this.form.get('password')?.value);
+      this.auth.login(this.signinRequest).subscribe({
         next: (response: JwtResponse) => {
           console.log(response);
           this.router.navigateByUrl('home');

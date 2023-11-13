@@ -10,23 +10,8 @@ public class RegistrationRequest {
     private String stageName;
     @NonNull
     @NotEmpty
-    private String phoneNumber;
+    private String email;
     @NonNull
     @NotEmpty
     private String password;
-    @NonNull
-    @NotEmpty
-    private String facebookUri;
-    @NonNull
-    @NotEmpty
-    private String xUri;
-    @NonNull
-    @NotEmpty
-    private String instagramUri;
-    @NonNull
-    @NotEmpty
-    private String tiktokUri;
-    @NonNull
-    @NotEmpty
-    private String youtubeUri;
 }

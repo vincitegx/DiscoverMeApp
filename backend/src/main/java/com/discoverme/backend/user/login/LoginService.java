@@ -22,14 +22,14 @@ public class LoginService {
     public JwtResponse login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getPhoneNumber(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );
 
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
         UserDto userDto = userDtoMapper.apply(principal.getUser());
-        String token = jwtUtil.issueToken(userDto.getPhoneNumber(), userDto.getRole());
+        String token = jwtUtil.issueToken(userDto.getEmail(), userDto.getRole());
         String refreshToken = refreshTokenService.generateRefreshToken(principal.getUser());
         return new JwtResponse(token,refreshToken, userDto);
     }

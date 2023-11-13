@@ -11,7 +11,7 @@ public class RegistrationMapper {
     public Users mapRegistrationRequestToUser(RegistrationRequest registrationRequest) {
         ZonedDateTime createdAt = ZonedDateTime.now();
         Users user =  Users.builder()
-                .phoneNumber(registrationRequest.getPhoneNumber())
+                .email(registrationRequest.getEmail())
                 .stageName(registrationRequest.getStageName())
                 .password(registrationRequest.getPassword())
                 .enabled(false)
@@ -26,14 +26,14 @@ public class RegistrationMapper {
         return RegistrationResponse.builder()
                 .userId(users.getId())
                 .stageName(users.getStageName())
-                .role(users.getRole())
+                .email(users.getEmail())
                 .build();
     }
 
     public Users mapRegistrationRequestToAdmin(AdminRegistrationRequest registrationRequest) {
         ZonedDateTime createdAt = ZonedDateTime.now();
         Users user =  Users.builder()
-                .phoneNumber(registrationRequest.getPhoneNumber())
+                .email(registrationRequest.getEmail())
                 .stageName("Administrator")
                 .password(registrationRequest.getPassword())
                 .enabled(true)

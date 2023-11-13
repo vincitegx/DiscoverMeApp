@@ -5,9 +5,12 @@ import { HomeComponent } from './components/home/home.component';
 import { DefaultComponent } from './layouts/default/default.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { AuthGuard } from '@auth0/auth0-angular';
+// import { AuthGuard } from '@auth0/auth0-angular';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SubmitProjectComponent } from './components/submit-project/submit-project.component';
+import { AccountCreatedComponent } from './components/account-created/account-created.component';
+import { VerifyComponent } from './components/verify-account/verify-account';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
@@ -27,6 +30,14 @@ const routes: Routes = [
         component: SignupComponent,
       },
       {
+        path: 'regsucces',
+        component: AccountCreatedComponent,
+      },
+      {
+        path: 'verify',
+        component: VerifyComponent,
+      },
+      {
         path: 'home',
         component: HomeComponent,
         canActivate: [AuthGuard]
@@ -34,13 +45,17 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
       },
       {
         path: 'project',
         component: SubmitProjectComponent,
         canActivate: [AuthGuard]
       },
+      {
+        path: '**',
+        redirectTo: '',
+      }
     ],
   },
 ];

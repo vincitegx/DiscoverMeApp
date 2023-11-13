@@ -12,8 +12,10 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
+@EnableAsync
 public class BackendApplication {
 	private static String accessToken = "EAAXZCcYDYk7cBOwuv75k6JA6LSeQwJ8qL3Il1gpKxrvoPNUUYItXpQ7LWa7nFoZBxipWsAkWJQWv9EFZC2VCvgF9djtsFXk0hf6khrZCLOrsVJR3WWO5utcLgZARxjmwafnHvwhJ3bXakw72QO94hNpYiRWOTAHwx7kJKOI9wmShY1MsjegpY6E3fhOoSwYk70y4x1pHZA0IXmGttskerLIj8mPb2a5hzEvj0LKmHZACIOb70v3X5JtQA03ZA18ZD";
 //	public static final APIContext context = new APIContext(
@@ -23,10 +25,10 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 
-		FacebookClient client = new DefaultFacebookClient("EAAXZCcYDYk7cBOwuv75k6JA6LSeQwJ8qL3Il1gpKxrvoPNUUYItXpQ7LWa7nFoZBxipWsAkWJQWv9EFZC2VCvgF9djtsFXk0hf6khrZCLOrsVJR3WWO5utcLgZARxjmwafnHvwhJ3bXakw72QO94hNpYiRWOTAHwx7kJKOI9wmShY1MsjegpY6E3fhOoSwYk70y4x1pHZA0IXmGttskerLIj8mPb2a5hzEvj0LKmHZACIOb70v3X5JtQA03ZA18ZD");
+//		FacebookClient client = new DefaultFacebookClient("EAAXZCcYDYk7cBOwuv75k6JA6LSeQwJ8qL3Il1gpKxrvoPNUUYItXpQ7LWa7nFoZBxipWsAkWJQWv9EFZC2VCvgF9djtsFXk0hf6khrZCLOrsVJR3WWO5utcLgZARxjmwafnHvwhJ3bXakw72QO94hNpYiRWOTAHwx7kJKOI9wmShY1MsjegpY6E3fhOoSwYk70y4x1pHZA0IXmGttskerLIj8mPb2a5hzEvj0LKmHZACIOb70v3X5JtQA03ZA18ZD");
 //		client.createClientWithAccessToken("EAAXZCcYDYk7cBO33PRsMxxPwcVG40VNOPUu8vV8O1ZB9rW53M4S9FFURPcUUYwOA9Vtta8N10fywvbtlQUUJT3RrsQ6aJw7QzMLfGZB2G4UYBXffy2ZCn6MDbvRM4lJ7LVgBM1yfdc8z5tbRk2ZAxO0Pw0ADZA3ohPqxDk2ZCU1ccaiZBZCuqQz5EZB4XP6VZAiePYVOuTMwhrmixlowvFugsgGS5O8MZAWZBNZAj3oYTi9G8HJRQxaFqXzPWJFkmU0uH7mCcZD");
-		User user = client.fetchObject("me", User.class);
-		System.out.println(user.getName());
+//		User user = client.fetchObject("me", User.class);
+//		System.out.println(user.getName());
 		SpringApplication.run(BackendApplication.class, args);
 	}
 

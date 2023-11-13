@@ -19,14 +19,7 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
-    @PutMapping("verify")
-    @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<String> verifyUserAccount(@RequestParam @NonNull String id){
-        Long userId = Long.parseLong(id);
-        String response = userService.fetchAndEnableUser(userId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
+    
     @PutMapping("block")
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<String> blockUserAccount(@RequestParam @NonNull String id){

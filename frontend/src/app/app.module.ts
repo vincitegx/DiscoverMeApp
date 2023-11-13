@@ -5,14 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { DefaultModule } from './layouts/default/default.module';
+import { OAuthModule } from 'angular-oauth2-oidc';
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     DefaultModule,
+    OAuthModule.forRoot(),
     AuthModule.forRoot({
           domain: 'dev-us7x34wyw3ef5c4o.us.auth0.com',
           clientId: 'dQLxtpUczr0VdNoDZJiTzYsvw3ANWEyU',

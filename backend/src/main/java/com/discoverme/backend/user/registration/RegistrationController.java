@@ -1,5 +1,8 @@
 package com.discoverme.backend.user.registration;
 
+import com.discoverme.backend.mail.EventDto;
+import com.discoverme.backend.mail.MailService;
+import com.discoverme.backend.user.verification.VerificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,10 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RegistrationController {
     private final RegistrationService registrationService;
+    private final VerificationService verificationService;
+    private final MailService mailService;
 
     @PostMapping("user")
     public ResponseEntity<RegistrationResponse> registerUser(@Valid @RequestBody RegistrationRequest registerRequest) {
         RegistrationResponse response = registrationService.registerUser(registerRequest);
+        EventDto eventDto = verificationService.registerVerificationTokenToDb(response);
+        mailService.sendHtmlEmail(eventDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

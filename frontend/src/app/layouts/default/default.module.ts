@@ -12,6 +12,8 @@ import { SignupComponent } from 'src/app/components/signup/signup.component';
 import { VideoHoverDirective } from 'src/app/video-hover.directive';
 import { ProfileComponent } from 'src/app/components/profile/profile.component';
 import { SubmitProjectComponent } from 'src/app/components/submit-project/submit-project.component';
+import { AccountCreatedComponent } from 'src/app/components/account-created/account-created.component';
+import { VerifyComponent } from 'src/app/components/verify-account/verify-account';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { SubmitProjectComponent } from 'src/app/components/submit-project/submit
     SignupComponent,
     ProfileComponent,
     SubmitProjectComponent,
+    AccountCreatedComponent,
+    VerifyComponent,
     VideoHoverDirective
   ],
   imports: [

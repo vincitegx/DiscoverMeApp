@@ -1,5 +1,7 @@
 package com.discoverme.backend.user;
 
+import com.discoverme.backend.project.ProjectApprovalStatus;
+import com.discoverme.backend.project.SocialPlatform;
 import com.discoverme.backend.project.Socials;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,14 +19,17 @@ public class UserSocials {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private Users user;
+//    @ManyToOne
+//    @JoinColumn(name = "users_id")
+//    private Users user;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "socials_id")
+//    private Socials socials;
 
-    @ManyToOne
-    @JoinColumn(name = "socials_id")
-    private Socials socials;
-
+    @Enumerated(EnumType.STRING)
+    private SocialPlatform platform;
+    
     @Column(nullable = false, unique = true)
     private String uri;
 }

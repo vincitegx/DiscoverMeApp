@@ -1,6 +1,7 @@
 package com.discoverme.backend.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users",uniqueConstraints = {
-    @UniqueConstraint(  name = "user_phone_unique", columnNames = "phoneNumber")
+    @UniqueConstraint(  name = "user_email_unique", columnNames = "email")
 })
 public class Users {
     @Id
@@ -26,7 +27,8 @@ public class Users {
     private String stageName;
 
     @Column(nullable = false, unique = true)
-    private String phoneNumber;
+    @Email
+    private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<UserSocials> userSocials;

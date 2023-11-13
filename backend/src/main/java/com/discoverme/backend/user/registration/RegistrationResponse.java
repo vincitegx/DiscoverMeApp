@@ -10,5 +10,5 @@ import lombok.Data;
 public class RegistrationResponse {
     private Long userId;
     private String stageName;
-    private String role;
+    private String email;
 }

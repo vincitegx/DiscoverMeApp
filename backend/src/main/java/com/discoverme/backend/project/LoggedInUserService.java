@@ -55,13 +55,13 @@ public class LoggedInUserService {
     public ProjectResponse mapProjectToResponse(Project project){
         return ProjectResponse.builder()
                 .songTitle(project.getSongTitle())
-                .artworkUri(project.getArtworkUri())
+//                .artworkUri(project.getArtworkUri())
                 .id(project.getId())
                 .isSupported(checkSupportStateForLoggedInUser(project.getId().toString()))
                 .isVoted(checkVoteStateForLoggedInUser(project.getId().toString()))
                 .noOfVoters(project.getVoteCount())
                 .songUri(project.getSongUri())
-                .socials(project.getSocials())
+//                .socials(project.getSocials())
                 .stageName(project.getUser().getStageName())
                 .build();
     }

@@ -37,7 +37,7 @@ public class JWTUtil {
     public String issueTokenWithRefreshToken(RefreshToken refreshToken) {
         try {
             User principal = (User) User.builder()
-                    .username(refreshToken.getUser().getPhoneNumber())
+                    .username(refreshToken.getUser().getEmail())
                     .authorities(getAuthorities(refreshToken.getUser()))
                     .password(refreshToken.getUser().getPassword())
                     .disabled(refreshToken.getUser().getEnabled())
@@ -48,7 +48,7 @@ public class JWTUtil {
             Map<String, List<String>> claims = new HashMap<>();
             claims.put("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
             return Jwts.builder()
-                    .setSubject(refreshToken.getUser().getPhoneNumber())
+                    .setSubject(refreshToken.getUser().getEmail())
                     .setExpiration(Date.from(
                             Instant.now().plus(3, ChronoUnit.MINUTES)
                     ))

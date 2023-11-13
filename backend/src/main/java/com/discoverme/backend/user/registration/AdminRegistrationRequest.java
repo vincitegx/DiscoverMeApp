@@ -6,7 +6,7 @@ import lombok.NonNull;
 @Data
 public class AdminRegistrationRequest {
     @NonNull
-    private String phoneNumber;
+    private String email;
     @NonNull
     private String password;
 }
