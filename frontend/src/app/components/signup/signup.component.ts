@@ -4,6 +4,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { SignupRequest } from './signup-request';
+import { BehaviorSubject } from 'rxjs';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-signup',
@@ -11,29 +13,34 @@ import { SignupRequest } from './signup-request';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-
-  public form: FormGroup = new FormGroup({
-    stageName: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl('')
-  });
+  private readonly notifier: NotifierService;
+  private isLoading = new BehaviorSubject<boolean>(false);
+  isLoading$ = this.isLoading.asObservable();
+  public form: FormGroup;
   private signupRequest: SignupRequest;
 
-
-  constructor(private auth: AuthService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private auth: AuthService, private router: Router, private formBuilder: FormBuilder,
+    notifierService: NotifierService) {
     this.signupRequest = new SignupRequest('', '', '');
+    this.form= new FormGroup({
+      stageName: new FormControl(''),
+      email: new FormControl(''),
+      password: new FormControl('')
+    });
+    this.notifier = notifierService;
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       stageName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$')]]
     });
   }
 
   signup() {
     if (this.form.valid) {
+      this.isLoading.next(true); 
       this.signupRequest.setStageName(this.form.get('stageName')?.value);
       this.signupRequest.setEmail(this.form.get('email')?.value);
       this.signupRequest.setPassword(this.form.get('password')?.value);
@@ -42,13 +49,13 @@ export class SignupComponent {
         next: (response: any) => {
           console.log(response);
           this.router.navigateByUrl('regsucces');
-          this.form.reset();
         },
         error: (error: HttpErrorResponse) => {
-          alert(error.message);
-          this.form.reset();
+          this.notifier.notify('error', 'Registration Failed!');
         }
       });
+      this.form.reset();
+      this.isLoading.next(false); 
     }
   }
 

@@ -14,25 +14,25 @@
                 <label for="login__password"><svg class="icon">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use>
                     </svg><span class="hidden">Password</span></label>
-                <input id="login__password" type="password" formControlName="password" name="password" class="form__input" placeholder="Password"
-                    required>
+                <input id="login__password" type="password" formControlName="password" name="password"
+                    class="form__input" placeholder="Password" required>
             </div>
-
             <div class="form__field">
-                <input [disabled]="!form.valid" type="submit" value="Sign In">
+                <!-- <input [disabled]="!form.valid" type="submit" value="Sign In"> -->
+                <button [disabled]="!form.valid" type="submit">
+                    <ng-container *ngIf="isLoading$ | async">
+                        <i class="fa fa-spinner fa-spin"></i> &nbsp;&nbsp;
+                        <span *ngIf="isLoading$ | async">Processing...</span>
+                    </ng-container>
+                    <ng-container *ngIf="!(isLoading$ | async)">
+                        <span>Sign In</span>
+                    </ng-container>
+                </button>
             </div>
-
-            <!-- <label for="phoneNumber">Phone no</label>
-            <input type="text" placeholder="Email or Phone" id="phoneNumber" formControlName="phoneNumber" required="true">
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password" formControlName="password" required="true">
-            <div class="links">
-                <a href="#">Forgot Password ?</a>
-                <a href="signup">Signup</a></div>
-            <button [disabled]="!form.valid">Log In</button> -->
         </form>
         <p class="text--center">Not a member? <a href="signup">Sign up now</a> <svg class="icon">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/right-arrow-svgrepo-com"></use>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/right-arrow-svgrepo-com">
+                </use>
             </svg></p>
     </div>
 

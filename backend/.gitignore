@@ -13,3 +13,5 @@ target/
 .springBeans
 .sts4-cache
 nbactions.xml
+!**/tokens/
+!**/src/main/resources/**.json

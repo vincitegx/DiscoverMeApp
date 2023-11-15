@@ -22,7 +22,7 @@ export class VerifyComponent implements OnInit {
       () => {
         // Account activation successful
         // Redirect to the login page
-        this.router.navigate(['/signin']);
+        this.router.navigate(['/signin'], { queryParams: { verified: 'true' }});
       },
       (error) => {
         console.error('Error verifying account:', error);

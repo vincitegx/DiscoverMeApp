@@ -26,7 +26,16 @@
             </div>
 
             <div class="form__field">
-                <input [disabled]="!form.valid" type="submit" value="Sign Up">
+                <!-- <input [disabled]="!form.valid" type="submit" value="Sign Up"> -->
+                <button [disabled]="!form.valid" type="submit">
+                    <ng-container *ngIf="isLoading$ | async">
+                        <i class="fa fa-spinner fa-spin"></i> &nbsp;&nbsp;
+                        <span *ngIf="isLoading$ | async">Processing...</span>
+                    </ng-container>
+                    <ng-container *ngIf="!(isLoading$ | async)">
+                        <span>Sign Up</span>
+                    </ng-container>
+                </button>
             </div>
         </form>
         <p class="text--center">Already have an account? <a href="signin">Sign In</a> <svg class="icon">

@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.document.URL.includes('i', 7));
   }
 
   loginWithRedirect(): void {

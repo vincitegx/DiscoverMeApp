@@ -10,7 +10,7 @@ import { SignupRequest } from '../components/signup/signup-request';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiServerUrl = environment['api-base-url'];
+  private readonly apiServerUrl = environment['api-base-url'];
   private jwtToken: String = '';
   @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
   @Output() authToken: EventEmitter<String> = new EventEmitter();
