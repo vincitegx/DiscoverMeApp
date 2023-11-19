@@ -11,12 +11,38 @@ import { SignupRequest } from '../components/signup/signup-request';
 })
 export class AuthService {
   private readonly apiServerUrl = environment['api-base-url'];
-  private jwtToken: String = '';
+  private jwtToken: string = '';
   @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
   @Output() authToken: EventEmitter<String> = new EventEmitter();
   private _isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  refreshTokenSubject$ = new BehaviorSubject<any>(null);
+  public isTokenRefreshingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private httpClient: HttpClient) {}
+
+  public isTokenRefreshing$(): Observable<boolean> {
+    return this.isTokenRefreshingSubject.asObservable();
+  }
+
+  public setTokenRefreshing(isRefreshing: boolean): void {
+    this.isTokenRefreshingSubject.next(isRefreshing);
+  }
+
+  refreshToken() {
+    this.setTokenRefreshing(true);
+    return this.httpClient.post<JwtResponse>('http://localhost:8080/api/auth/refresh/token',
+      null)
+      this.setTokenRefreshing(false);
+      // .pipe(tap(response => {
+      //   this.localStorage.clear('authenticationToken');
+      //   this.localStorage.clear('expiresAt');
+
+      //   this.localStorage.store('authenticationToken',
+      //     response.authenticationToken);
+      //   this.localStorage.store('expiresAt', response.expiresAt);
+      // })
+      // );
+  }
 
   public login(signinRequest: SigninRequest): Observable<JwtResponse> {
     return this.httpClient
@@ -56,7 +82,15 @@ export class AuthService {
       );
   }
 
-  getJwtToken(){
+  getJwtToken():string{
     return this.jwtToken;
+  }
+
+  logout(): void {
+    // this.refreshTokenRequest.refreshToken = this.getRefreshToken();
+    // this.refreshTokenRequest.user = this.getUser();
+    let logoutResponse = this.httpClient.post<any>(`${this.apiServerUrl}/api/auth/logout`, null);
+    this.loggedIn.next(false);
+    // this.user.next(null);
   }
 }

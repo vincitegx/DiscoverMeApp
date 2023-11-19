@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SigninRequest } from 'src/app/components/signin/signinrequest';
 import { NotifierService } from 'angular-notifier';
 import { BehaviorSubject } from 'rxjs';
+import { VerifiedMessageService } from 'src/app/shared/services/verified-message.service';
+import { UserstateService } from 'src/app/shared/services/userstate.service';
 
 @Component({
   selector: 'app-signin',
@@ -31,8 +33,9 @@ export class SigninComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    notifierService: NotifierService
+    notifierService: NotifierService,
+    private verifiedMessageService: VerifiedMessageService,
+    private userStateService: UserstateService
   ) {
     this.signinRequest = new SigninRequest('', '');
     this.verifiedMessage = "";
@@ -48,31 +51,42 @@ export class SigninComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-    this.activatedRoute.queryParams
-      .subscribe(params => {
-        if (params['verified'] !== undefined && params['verified'] === 'true') {
-          this.verifiedMessage = 'Account has been verified, You can login!';
-          this.notifier.notify('info', this.verifiedMessage);
-        }
-      });
+    this.verifiedMessageService.verifiedMessage$.subscribe((message) => {
+      this.verifiedMessage = message;
+      if (message) {
+        this.notifier.notify('success', message);
+      }
+    });
   }
 
   login() {
+    this.form.markAllAsTouched();
     if (this.form.valid) {
       this.isLoading.next(true); 
       this.signinRequest.setEmail(this.form.get('email')?.value);
       this.signinRequest.setPassword(this.form.get('password')?.value);
       this.auth.login(this.signinRequest).subscribe({
         next: (response: JwtResponse) => {
-          console.log(response);
+          this.isLoading.next(false);
           this.router.navigateByUrl('home');
+          this.userStateService.setLoggedIn(true);
+          console.log(this.userStateService.isLoggedIn);
           this.notifier.notify('success', 'Login Successful');
+          this.form.reset();
         },
         error: (error: HttpErrorResponse) => {
-          this.notifier.notify('error', 'Login Failed');
+          this.isLoading.next(false);
+          if (error.status === 401) {
+            this.notifier.notify('error', 'Invalid username or password');
+          } else {
+            this.notifier.notify('error', 'An unexpected error occurred');
+          }
+          this.form.reset();
         },
       });
-      this.isLoading.next(false);
+      
+    }else{
+      this.notifier.notify('error', 'Invalid Login');
     }
   }
 }

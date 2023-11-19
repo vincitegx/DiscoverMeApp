@@ -38,6 +38,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(ex.getMessage()));
     }
 
+    @ExceptionHandler(GlobalException.class)
+    public final ResponseEntity<ErrorResponse> globalException(GlobalException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
     private <E extends RuntimeException> ResponseEntity<ErrorResponse> buildResponse(E exception, HttpStatus status) {
         return ResponseEntity
                 .status(status)

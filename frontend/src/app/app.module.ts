@@ -7,6 +7,8 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { DefaultModule } from './layouts/default/default.module';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { NotifierModule } from 'angular-notifier';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequestInterceptor } from './helpers/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent
@@ -25,7 +27,13 @@ import { NotifierModule } from 'angular-notifier';
           }
         }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

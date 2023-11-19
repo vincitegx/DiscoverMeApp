@@ -35,21 +35,21 @@ public class RefreshTokenService {
     }
 
     @CachePut(cacheNames = "userdto")
-    public JwtResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        RefreshToken refreshToken = validateRefreshToken(refreshTokenRequest);
-        String token = jwtUtil.issueTokenWithRefreshToken(refreshToken);
-        return new JwtResponse(token, refreshToken.getToken(), refreshTokenRequest.getUser());
+    public JwtResponse refreshToken(UserDto user, String token) {
+        RefreshToken refreshToken = validateRefreshToken(user, token);
+        String authToken = jwtUtil.issueTokenWithRefreshToken(refreshToken);
+        return new JwtResponse(authToken, user);
     }
 
-    public RefreshToken validateRefreshToken(RefreshTokenRequest refreshTokenRequest) {
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenRequest.getRefreshToken())
+    public RefreshToken validateRefreshToken(UserDto userDto, String token) {
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new UserException("Invalid refresh Token"));
         if (refreshToken.getExpiresAt().isBefore(LocalDateTime.now(clock))) {
             deleteRefreshToken(refreshToken.getToken());
             throw new UserException("Refresh token was expired. Please make a new signin request");
         }
         UserDto user = userMapper.apply(refreshToken.getUser());
-        if (!user.equals(refreshTokenRequest.getUser())) {
+        if (!user.equals(userDto)) {
             throw new UserException("You will need to login again");
         }
         return refreshToken;

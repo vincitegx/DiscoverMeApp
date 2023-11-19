@@ -13,8 +13,8 @@
                 <label for="signup__email"><svg class="icon">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
                     </svg><span class="hidden">Email</span></label>
-                <input id="signup__email" type="email" formControlName="email" class="form__input"
-                    placeholder="Email" required>
+                <input id="signup__email" type="email" formControlName="email" class="form__input" placeholder="Email"
+                    required>
             </div>
 
             <div class="form__field">
@@ -24,10 +24,9 @@
                 <input id="signup__password" type="password" formControlName="password" name="password"
                     class="form__input" placeholder="Password" required>
             </div>
-
+            <input type="hidden">
             <div class="form__field">
-                <!-- <input [disabled]="!form.valid" type="submit" value="Sign Up"> -->
-                <button [disabled]="!form.valid" type="submit">
+                <button type="submit">
                     <ng-container *ngIf="isLoading$ | async">
                         <i class="fa fa-spinner fa-spin"></i> &nbsp;&nbsp;
                         <span *ngIf="isLoading$ | async">Processing...</span>
@@ -39,7 +38,8 @@
             </div>
         </form>
         <p class="text--center">Already have an account? <a href="signin">Sign In</a> <svg class="icon">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/right-arrow-svgrepo-com"></use>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/right-arrow-svgrepo-com">
+                </use>
             </svg></p>
     </div>
 

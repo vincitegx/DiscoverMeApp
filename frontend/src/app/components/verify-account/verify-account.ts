@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { VerifiedMessageService } from 'src/app/shared/services/verified-message.service';
 
 @Component({
   selector: 'app-verify',
@@ -10,23 +11,19 @@ export class VerifyComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private verifiedMessageService: VerifiedMessageService
   ) {}
 
   ngOnInit(): void {
-    // Get the token from the URL
     const token = this.route.snapshot.queryParams['token'];
-    console.log(token);
-    // Call the backend API to verify the account
     this.authService.verifyAccount(token).subscribe(
       () => {
-        // Account activation successful
-        // Redirect to the login page
-        this.router.navigate(['/signin'], { queryParams: { verified: 'true' }});
+        this.verifiedMessageService.setVerifiedMessage('Account has been verified, You can login!');
+        this.router.navigate(['/signin']);
       },
       (error) => {
         console.error('Error verifying account:', error);
-        // Redirect to an error page or handle the error as needed
         this.router.navigate(['/error']);
       }
     );

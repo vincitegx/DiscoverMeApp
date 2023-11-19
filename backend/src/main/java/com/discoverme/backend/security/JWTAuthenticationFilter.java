@@ -22,6 +22,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     @Autowired
     private final UserDetailsService userDetailsService;
+    public static final String COOKIE_NAME = "refresh-token";
 
     public JWTAuthenticationFilter(JWTUtil jwtUtil,
                                    UserDetailsServiceImpl userDetailsService) {
@@ -60,6 +61,5 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-
     }
 }
