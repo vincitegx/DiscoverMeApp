@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { SigninRequest } from '../components/signin/signinrequest';
 import { JwtResponse } from '../components/signin/jwtresponse';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map,of } from 'rxjs';
 import { SignupRequest } from '../components/signup/signup-request';
 
 @Injectable({
@@ -33,20 +33,11 @@ export class AuthService {
     return this.httpClient.post<JwtResponse>('http://localhost:8080/api/auth/refresh/token',
       null)
       this.setTokenRefreshing(false);
-      // .pipe(tap(response => {
-      //   this.localStorage.clear('authenticationToken');
-      //   this.localStorage.clear('expiresAt');
-
-      //   this.localStorage.store('authenticationToken',
-      //     response.authenticationToken);
-      //   this.localStorage.store('expiresAt', response.expiresAt);
-      // })
-      // );
   }
 
   public login(signinRequest: SigninRequest): Observable<JwtResponse> {
     return this.httpClient
-      .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, signinRequest)
+      .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, signinRequest, { withCredentials: true })
       .pipe(
         map((response) => {
           this._isLoggedIn.next(true);
@@ -68,8 +59,8 @@ export class AuthService {
       );
   }
 
-  isLoggedIn():  Observable<boolean> {
-    return this._isLoggedIn.asObservable();
+  isLoggedIn(): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.apiServerUrl}api/auth/is-logged-in`);
   }
 
   verifyAccount(token:any):Observable<any>{
@@ -80,6 +71,17 @@ export class AuthService {
           return response;
         })
       );
+  }
+  private getRefreshTokenFromStorage(): string | null {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=').map((c) => c.trim());
+      if (name === 'refresh-token') {
+        console.log(value);
+        return value;
+      }
+    }
+    return null;
   }
 
   getJwtToken():string{

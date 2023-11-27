@@ -62,6 +62,7 @@ public class SecurityFilterChainConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/auth/register/user")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/auth/login")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/v1/auth/is-logged-in")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/v1/users/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.PUT, "/api/v1/users/verify")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/v3/api-docs")).permitAll()

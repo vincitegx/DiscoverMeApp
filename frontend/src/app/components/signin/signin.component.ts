@@ -12,9 +12,8 @@ import { JwtResponse } from 'src/app/components/signin/jwtresponse';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SigninRequest } from 'src/app/components/signin/signinrequest';
 import { NotifierService } from 'angular-notifier';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { VerifiedMessageService } from 'src/app/shared/services/verified-message.service';
-import { UserstateService } from 'src/app/shared/services/userstate.service';
 
 @Component({
   selector: 'app-signin',
@@ -34,8 +33,7 @@ export class SigninComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     notifierService: NotifierService,
-    private verifiedMessageService: VerifiedMessageService,
-    private userStateService: UserstateService
+    private verifiedMessageService: VerifiedMessageService
   ) {
     this.signinRequest = new SigninRequest('', '');
     this.verifiedMessage = "";
@@ -57,6 +55,9 @@ export class SigninComponent implements OnInit {
         this.notifier.notify('success', message);
       }
     });
+    this.auth.isLoggedIn().subscribe((loggedIn: boolean) => {
+      console.log(loggedIn);
+    });
   }
 
   login() {
@@ -69,8 +70,6 @@ export class SigninComponent implements OnInit {
         next: (response: JwtResponse) => {
           this.isLoading.next(false);
           this.router.navigateByUrl('home');
-          this.userStateService.setLoggedIn(true);
-          console.log(this.userStateService.isLoggedIn);
           this.notifier.notify('success', 'Login Successful');
           this.form.reset();
         },

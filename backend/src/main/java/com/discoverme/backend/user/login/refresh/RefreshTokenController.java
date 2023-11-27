@@ -5,13 +5,9 @@ import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.login.JwtResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.RefreshFailedException;
@@ -30,10 +26,14 @@ public class RefreshTokenController {
                 .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
                 .findFirst();
         if(cookies.isPresent()){
-            return refreshTokenService.refreshToken(user, cookies.get().getValue());
+            RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
+            if(refreshToken != null){
+                return refreshTokenService.refreshToken(user, cookies.get().getValue());
+            }else{
+                throw new RefreshFailedException("Invalid Refresh Token");
+            }
         }else{
             throw new RefreshFailedException("No refresh token found");
         }
     }
-
 }
