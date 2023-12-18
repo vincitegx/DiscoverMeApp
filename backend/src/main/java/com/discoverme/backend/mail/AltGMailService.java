@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
@@ -29,7 +30,7 @@ import org.thymeleaf.context.Context;
  */
 @Service
 @RequiredArgsConstructor
-@Profile("test")
+@Primary
 public class AltGMailService implements MailService{
     public static final String NEW_USER_ACCOUNT_VERIFICATION = "New User Account Verification";
     public static final String UTF_8_ENCODING = "UTF-8";
@@ -37,7 +38,7 @@ public class AltGMailService implements MailService{
     public static final String TEXT_HTML_ENCONDING = "text/html";
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
-    @Value("${spring.mail.verify.host}")
+    @Value("${FRONTEND_DOMAIN}")
     private String host;
     @Value("${organization.properties.mail}")
     private String fromEmail;

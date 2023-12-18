@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.RefreshFailedException;
@@ -19,20 +20,17 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class RefreshTokenController {
     private final RefreshTokenService refreshTokenService;
+    private final HttpServletRequest request;
     @PostMapping("refresh/token")
     @ResponseStatus(HttpStatus.OK)
-    public JwtResponse refreshToken(@Valid @RequestBody UserDto user, HttpServletRequest request) throws RefreshFailedException {
+    public JwtResponse refreshToken(@Valid @RequestBody UserDto user) throws RefreshFailedException {
         Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
                 .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
                 .findFirst();
         if(cookies.isPresent()){
-            RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
-            if(refreshToken != null){
-                return refreshTokenService.refreshToken(user, cookies.get().getValue());
-            }else{
-                throw new RefreshFailedException("Invalid Refresh Token");
-            }
+            return refreshTokenService.refreshToken(user, cookies.get().getValue());
         }else{
+            SecurityContextHolder.clearContext();
             throw new RefreshFailedException("No refresh token found");
         }
     }

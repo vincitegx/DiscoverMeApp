@@ -38,7 +38,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Users getCurrentUser() {
-        UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));

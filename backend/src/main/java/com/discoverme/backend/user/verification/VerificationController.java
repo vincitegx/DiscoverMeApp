@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author TEGA
  */
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 public class VerificationController {
     

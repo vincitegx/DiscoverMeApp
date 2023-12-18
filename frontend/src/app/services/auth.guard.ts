@@ -9,23 +9,21 @@ import {
 } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from './auth.service';
+import { NotifierService } from 'angular-notifier';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard {
-  constructor(public authService: AuthService, public router: Router) {}
+  constructor(public authService: AuthService, public router: Router,notifierService: NotifierService) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.authService.isLoggedIn().pipe(
-      map((loggedIn: boolean) => {
-        if (!loggedIn) {
-          window.alert('Access Denied, Login is Required to Access This Page!');
-          return this.router.createUrlTree(['/signin']);
-        }
-        return true;
-      })
-    );
+    const isAuthenticated = this.authService.isLoggedIn$();
+    if (isAuthenticated) {
+      return true;
+    } else {
+      return this.router.createUrlTree(['/signin']);
+    }
   }
 }

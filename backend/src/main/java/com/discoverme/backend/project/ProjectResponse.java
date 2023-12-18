@@ -11,6 +11,7 @@ public class ProjectResponse {
     private String songTitle;
     private String stageName;
     private Socials social;
+    private String contentUri;
     private Integer noOfSupportedProjects;
     private Integer noOfVoters;
     private boolean isVoted;

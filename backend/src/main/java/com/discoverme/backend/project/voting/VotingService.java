@@ -18,9 +18,11 @@ public class VotingService {
     private final UserService userService;
     private final VoteRepository voteRepository;
 
-    public void vote(String projectId) {
-        Project project = projectService.findById(Long.parseLong(projectId))
+    public void vote(Long projectId) {
+        System.out.println("Entered Vote Service with id "+ projectId);
+        Project project = projectService.findById(projectId)
                 .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + projectId));
+        System.out.println("Found project with ID: "+ project);
         if(!project.getCalender().getStatus().equals(PeriodStatus.VOTING)){
             throw new ProjectException("You cannot vote a project currently");
         }

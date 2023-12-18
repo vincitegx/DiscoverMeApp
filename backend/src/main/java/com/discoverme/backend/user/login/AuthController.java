@@ -2,7 +2,6 @@ package com.discoverme.backend.user.login;
 
 import com.discoverme.backend.security.JWTAuthenticationFilter;
 import com.discoverme.backend.user.UserDto;
-import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import com.discoverme.backend.user.login.refresh.RefreshToken;
@@ -13,21 +12,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
-public class LoginController {
+public class AuthController {
     private final LoginService loginService;
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
+    private final HttpServletRequest request;
 
     @PostMapping("login")
     public ResponseEntity<JwtResponse> userLogin(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse servletResponse) {
@@ -47,29 +48,23 @@ public class LoginController {
                 .body(response);
     }
 
-    @GetMapping("is-logged-in")
-    public ResponseEntity<Boolean> isLoggedIn(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        boolean isLoggedIn = false;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName())) {
-                    System.out.println("Refresh Token exists: "+ cookie.getValue());
-                    if (isValidToken(cookie.getValue())) {
-                        isLoggedIn = true;
-                        break;
-                    }
-                }
+
+    @PostMapping("logout")
+    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user) {
+        boolean isLoggedOut = false;
+        Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+                .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
+                .findFirst();
+        if(cookies.isPresent()){
+            RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
+            if(refreshToken != null){
+                SecurityContextHolder.clearContext();
+                refreshTokenService.deleteRefreshToken(refreshToken.getToken());
+                isLoggedOut =true;
+            }else{
+                SecurityContextHolder.clearContext();
             }
         }
-        return ResponseEntity.ok(isLoggedIn);
-    }
-
-    private boolean isValidToken(String token) {
-        Users user = userService.getCurrentUser();
-        UserMapper userMapper = new UserMapper();
-        UserDto userDto = userMapper.apply(user);
-        RefreshToken refreshToken = refreshTokenService.validateRefreshToken(userDto, token);
-        return refreshToken != null;
+        return new ResponseEntity<>(isLoggedOut, HttpStatus.OK);
     }
 }

@@ -17,6 +17,7 @@ export class VerifyComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.route.snapshot.queryParams['token'];
+    console.log(token);
     this.authService.verifyAccount(token).subscribe(
       () => {
         this.verifiedMessageService.setVerifiedMessage('Account has been verified, You can login!');

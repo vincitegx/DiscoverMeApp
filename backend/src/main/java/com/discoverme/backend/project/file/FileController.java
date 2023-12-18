@@ -4,13 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @RestController
@@ -18,8 +17,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;
+    private final HttpServletRequest request;
     @GetMapping("{fileName:.+}")
-    public ResponseEntity<Resource> displayFile(@PathVariable String fileName, HttpServletRequest request){
+    public ResponseEntity<Resource> displayFile(@PathVariable String fileName) throws IOException{
         Resource resource = fileService.downloadFile(fileName);
         String mimeType;
         try {
@@ -31,8 +31,25 @@ public class FileController {
             mimeType = "application/octet-stream";
         }
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(mimeType))
+                .contentType(getMediaType(fileName))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+resource.getFilename()+"\"")
                 .body(resource);
+    }
+
+    private MediaType getMediaType(String fileName) {
+        if (fileName.toLowerCase().endsWith(".mp4")) {
+            return MediaType.valueOf("video/mp4");
+        }
+        // Add more media types as needed for other file types
+
+        // Default to application/octet-stream if the file type is unknown
+        return MediaType.APPLICATION_OCTET_STREAM;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public static class MyFileNotFoundException extends FileNotFoundException {
+        public MyFileNotFoundException(String message) {
+            super(message);
+        }
     }
 }

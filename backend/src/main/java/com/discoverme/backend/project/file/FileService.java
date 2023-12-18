@@ -41,7 +41,7 @@ public class FileService {
 
     public String uploadFile(MultipartFile file) {
         String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        var key = UUID.randomUUID().toString() + "." + extension;
+        var key = UUID.randomUUID() + "." + extension;
         String directory = this.fileStorageLocation;
         Path newPath = Paths.get(directory).toAbsolutePath().normalize();
         try {

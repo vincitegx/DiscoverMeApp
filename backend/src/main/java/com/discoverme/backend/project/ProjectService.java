@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final FileService fileService;
     private final LoggedInUserService loggedInUserService;
+    private final SocialsRepository socialsRepository;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
@@ -80,24 +82,22 @@ public class ProjectService {
     }
 
     @Cacheable(cacheNames = "approved-projects")
-    public Page<ProjectResponse> getApprovedProjects(Pageable pageable) {
+    public Page<ProjectResponse> getApprovedProjects(PageRequest request) {
         Calender calender = calenderService.getProjectCalender();
-        Page<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, calender, pageable);
-        List<Project> projectList = projects.toList();
-        Page<ProjectResponse> projectResponsePage = new PageImpl(projectList);
-        projectList.forEach(project -> projectResponsePage.and(mapProjectToResponse(project)));
-        return projectResponsePage;
+        Page<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, calender, request);
+        return projects.map(this::mapProjectToResponse);
     }
     
     public ProjectResponse mapProjectToResponse(Project project){
         return ProjectResponse.builder()
-                .songTitle(project.getSongTitle())
                 .id(project.getId())
+                .songUri(project.getSongUri())
+                .songTitle(project.getSongTitle())
+                .contentUri(project.getContentUri())
                 .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId().toString()))
                 .isVoted(loggedInUserService.checkVoteStateForLoggedInUser(project.getId().toString()))
                 .noOfVoters(project.getVoteCount())
                 .noOfSupportedProjects(loggedInUserService.getProjectsSupported(project.getUser().getId()).size())
-                .songUri(project.getSongUri())
                 .social(project.getSocial())
                 .stageName(project.getUser().getStageName())
                 .build();
@@ -142,5 +142,9 @@ public class ProjectService {
         Page<ProjectResponse> projectResponsePage = new PageImpl(projectList);
         projectList.forEach(project -> projectResponsePage.and(mapProjectToResponse(project)));
         return projectResponsePage;
+    }
+
+    public List<Socials> getAllSocials() {
+        return socialsRepository.findAll();
     }
 }

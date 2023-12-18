@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/auth/register")
+@RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 public class RegistrationController {
     private final RegistrationService registrationService;
     private final VerificationService verificationService;
     private final MailService mailService;
 
-    @PostMapping("user")
+    @PostMapping("register/user")
     public ResponseEntity<RegistrationResponse> registerUser(@Valid @RequestBody RegistrationRequest registerRequest) {
         RegistrationResponse response = registrationService.registerUser(registerRequest);
         EventDto eventDto = verificationService.registerVerificationTokenToDb(response);
@@ -29,7 +29,7 @@ public class RegistrationController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping("admin")
+    @PostMapping("register/admin")
     @Secured({"ROLE_SUPER-ADMIN"})
     public ResponseEntity<RegistrationResponse> registerAdmin(@Valid @RequestBody AdminRegistrationRequest registerRequest) {
         RegistrationResponse response = registrationService.registerAdmin(registerRequest);

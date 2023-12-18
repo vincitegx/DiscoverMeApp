@@ -3,47 +3,47 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { SigninRequest } from '../components/signin/signinrequest';
 import { JwtResponse } from '../components/signin/jwtresponse';
-import { BehaviorSubject, Observable, map,of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
 import { SignupRequest } from '../components/signup/signup-request';
+import { LocalStorageService } from 'ngx-webstorage';
+import { UserDto } from '../dtos/userdto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiServerUrl = environment['api-base-url'];
-  private jwtToken: string = '';
-  @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
-  @Output() authToken: EventEmitter<String> = new EventEmitter();
-  private _isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  refreshTokenSubject$ = new BehaviorSubject<any>(null);
-  public isTokenRefreshingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private readonly apiServerUrl: string;
+  @Output() loggedIn: EventEmitter<boolean>;
+  @Output() user: EventEmitter<UserDto>;
+  private refreshTokenSubject: BehaviorSubject<JwtResponse>;
+  private isTokenRefreshingSubject: BehaviorSubject<boolean>;
 
-  constructor(private httpClient: HttpClient) {}
-
-  public isTokenRefreshing$(): Observable<boolean> {
-    return this.isTokenRefreshingSubject.asObservable();
+  constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService) {
+    this.apiServerUrl = environment['api-base-url'];
+    this.loggedIn = new EventEmitter();
+    this.user = new EventEmitter();
+    this.refreshTokenSubject = new BehaviorSubject<JwtResponse>({ "authToken": '', "user": {} });
+    this.isTokenRefreshingSubject = new BehaviorSubject<boolean>(false);
   }
 
-  public setTokenRefreshing(isRefreshing: boolean): void {
-    this.isTokenRefreshingSubject.next(isRefreshing);
-  }
-
-  refreshToken() {
-    this.setTokenRefreshing(true);
-    return this.httpClient.post<JwtResponse>('http://localhost:8080/api/auth/refresh/token',
-      null)
-      this.setTokenRefreshing(false);
+  refreshToken(): Observable<JwtResponse> {
+    let user = this.getUser();
+    return this.httpClient
+      .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/refresh/token`, user)
+      .pipe(tap(response => {
+        this.localStorageService.store('tkn', response.authToken);
+      }))
   }
 
   public login(signinRequest: SigninRequest): Observable<JwtResponse> {
     return this.httpClient
-      .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, signinRequest, { withCredentials: true })
+      .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, signinRequest)
       .pipe(
-        map((response) => {
-          this._isLoggedIn.next(true);
+        map((response: JwtResponse) => {
+          this.localStorageService.store("tkn", response.authToken);
+          this.localStorageService.store("user", response.user);
           this.loggedIn.emit(true);
-          this.jwtToken = response['authToken'];
-          this.authToken.emit(response['authToken']);
+          this.user.emit(response.user);
           return response;
         })
       );
@@ -59,40 +59,38 @@ export class AuthService {
       );
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.httpClient.get<boolean>(`${this.apiServerUrl}api/auth/is-logged-in`);
-  }
-
-  verifyAccount(token:any):Observable<any>{
+  verifyAccount(token: any): Observable<any> {
     return this.httpClient
-      .get<any>(`${this.apiServerUrl}api/v1/users/verify?token=${token}`)
+      .get<any>(`${this.apiServerUrl}api/v1/auth/verify?token=${token}`)
       .pipe(
         map((response) => {
           return response;
         })
       );
   }
-  private getRefreshTokenFromStorage(): string | null {
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.split('=').map((c) => c.trim());
-      if (name === 'refresh-token') {
-        console.log(value);
-        return value;
+
+  getJwtToken():string {
+    return this.localStorageService.retrieve("tkn");
+  }
+
+  getUser(): UserDto {
+    return this.localStorageService.retrieve('user');
+  }
+
+  isLoggedIn$(): Observable<boolean> {
+    return of(this.getJwtToken() != null);
+  }
+
+  logout$(): Observable<any> {
+    let user = this.getUser();
+    return this.httpClient.post<any>(`${this.apiServerUrl}api/v1/auth/logout`, user).pipe(map(res => {
+      if (res) {
+        this.localStorageService.clear("tkn");
+        this.localStorageService.clear("user");
+        this.loggedIn.next(false);
+        this.user.next({});
       }
-    }
-    return null;
-  }
-
-  getJwtToken():string{
-    return this.jwtToken;
-  }
-
-  logout(): void {
-    // this.refreshTokenRequest.refreshToken = this.getRefreshToken();
-    // this.refreshTokenRequest.user = this.getUser();
-    let logoutResponse = this.httpClient.post<any>(`${this.apiServerUrl}/api/auth/logout`, null);
-    this.loggedIn.next(false);
-    // this.user.next(null);
+    })
+    );
   }
 }

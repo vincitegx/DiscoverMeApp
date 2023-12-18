@@ -9,6 +9,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { NotifierModule } from 'angular-notifier';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestInterceptor } from './helpers/auth.interceptor';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 @NgModule({
   declarations: [
     AppComponent
@@ -17,6 +18,7 @@ import { HttpRequestInterceptor } from './helpers/auth.interceptor';
     BrowserModule,
     AppRoutingModule,
     DefaultModule,
+    NgxWebstorageModule.forRoot(),
     NotifierModule,
     OAuthModule.forRoot(),
     AuthModule.forRoot({

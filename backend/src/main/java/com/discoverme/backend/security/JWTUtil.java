@@ -1,22 +1,24 @@
 package com.discoverme.backend.security;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.discoverme.backend.user.UserException;
 import com.discoverme.backend.user.Users;
 import com.discoverme.backend.user.login.refresh.RefreshToken;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC256;
 import static java.util.Date.from;
 
 @Service
@@ -30,11 +32,18 @@ public class JWTUtil {
         return authorities;
     }
 
-    public String issueToken(String subject) {
-        return issueToken(subject, Map.of());
+    public String generateJwtToken(Authentication authentication) {
+        User principal = (User) authentication.getPrincipal();
+        return JWT.create()
+                .withSubject(principal.getUsername())
+                .withExpiresAt(Date.from(Instant.now().plusSeconds(180)))
+                .withIssuer("https://discoverme.com")
+                .withIssuedAt(Date.from(Instant.now()))
+                .withClaim("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                .sign(HMAC256(SECRET_KEY.getBytes()));
     }
 
-    public String issueTokenWithRefreshToken(RefreshToken refreshToken) {
+    public String generateJwtToken(RefreshToken refreshToken) {
         try {
             User principal = (User) User.builder()
                     .username(refreshToken.getUser().getEmail())
@@ -45,76 +54,32 @@ public class JWTUtil {
                     .accountLocked(refreshToken.getUser().getNonLocked())
                     .credentialsExpired(false)
                     .build();
-            Map<String, List<String>> claims = new HashMap<>();
-            claims.put("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
-            return Jwts.builder()
-                    .setSubject(refreshToken.getUser().getEmail())
-                    .setExpiration(Date.from(
-                            Instant.now().plus(3, ChronoUnit.MINUTES)
-                    ))
-                    .setIssuer("https://discoverme.com")
-                    .setIssuedAt(from(Instant.now()))
-                    .setClaims(claims)
-                    .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                    .compact();
-        } catch (IllegalArgumentException ex) {
+            return JWT.create()
+                    .withSubject(refreshToken.getUser().getEmail())
+                    .withExpiresAt(Date.from(Instant.now().plusSeconds(180)))
+                    .withIssuer("https://discoverme.com")
+                    .withIssuedAt(from(Instant.now()))
+                    .withClaim("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                    .sign(HMAC256(SECRET_KEY.getBytes()));
+        } catch (JWTCreationException | IllegalArgumentException ex) {
             throw new UserException(ex.getMessage());
         }
     }
 
-    public String issueToken(String subject, String ...scopes) {
-        return issueToken(subject, Map.of("scopes", scopes));
-    }
-
-    public String issueToken(String subject, List<String> scopes) {
-        return issueToken(subject, Map.of("scopes", scopes));
-    }
-
-
-    public String issueToken(
-            String subject,
-            Map<String, Object> claims) {
-        String token = Jwts
-                .builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuer("https://discoverme.com")
-                .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(
-                        Date.from(
-                                Instant.now().plus(3, ChronoUnit.MINUTES)
-                        )
-                )
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
-        return token;
-    }
-
-    public String getSubject(String token) {
-        return getClaims(token).getSubject();
-    }
-
-    private Claims getClaims(String token) {
-        Claims claims = Jwts
-                .parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims;
-    }
-
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-    }
-
-    public boolean isTokenValid(String jwt, String username) {
-        String subject = getSubject(jwt);
-        return subject.equals(username) && !isTokenExpired(jwt);
-    }
-
-    public boolean isTokenExpired(String jwt) {
-        Date today = Date.from(Instant.now());
-        return getClaims(jwt).getExpiration().before(today);
+    public String validateToken(String token) {
+        Date now = Date.from(Instant.now());
+        Algorithm algorithm = HMAC256(SECRET_KEY.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).withIssuer("https://discoverme.com").build();
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            String email = decodedJWT.getSubject();
+            if(email != null && decodedJWT.getExpiresAt().after(now)){
+                return email;
+            }else {
+                return null;
+            }
+        } catch (JWTVerificationException e) {
+            return null;
+        }
     }
 }

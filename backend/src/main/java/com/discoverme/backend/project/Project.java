@@ -31,8 +31,9 @@ public class Project {
     @Column(nullable = false, unique = true)
     private String songUri;
 
-    @OneToOne
+    @ManyToOne
     private Socials social;
+    @Column(nullable = false)
     private String contentUri;
 //    @OneToOne
 //    private Content content;
@@ -44,10 +45,4 @@ public class Project {
 
     @Builder.Default
     private Integer supportCount = 0;
-    
-    @Builder.Default
-    private boolean voted = false;
-    
-    @Builder.Default
-    private boolean supported = false;
 }

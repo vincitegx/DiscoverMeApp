@@ -34,10 +34,10 @@ public class RefreshTokenService {
         return refreshToken.getToken();
     }
 
-    @CachePut(cacheNames = "userdto")
+//    @CachePut(cacheNames = "userdto")
     public JwtResponse refreshToken(UserDto user, String token) {
         RefreshToken refreshToken = validateRefreshToken(user, token);
-        String authToken = jwtUtil.issueTokenWithRefreshToken(refreshToken);
+        String authToken = jwtUtil.generateJwtToken(refreshToken);
         return new JwtResponse(authToken, user);
     }
 
@@ -49,7 +49,7 @@ public class RefreshTokenService {
             throw new UserException("Refresh token was expired. Please make a new signin request");
         }
         UserDto user = userMapper.apply(refreshToken.getUser());
-        if (!user.equals(userDto)) {
+        if (!user.getId().equals(userDto.getId())) {
             throw new UserException("You will need to login again");
         }
         return refreshToken;

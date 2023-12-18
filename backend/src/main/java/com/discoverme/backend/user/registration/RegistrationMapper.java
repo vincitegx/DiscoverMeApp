@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 public class RegistrationMapper {
     public Users mapRegistrationRequestToUser(RegistrationRequest registrationRequest) {
         ZonedDateTime createdAt = ZonedDateTime.now();
-        Users user =  Users.builder()
+        return Users.builder()
                 .email(registrationRequest.getEmail())
                 .stageName(registrationRequest.getStageName())
                 .password(registrationRequest.getPassword())
@@ -19,7 +19,6 @@ public class RegistrationMapper {
                 .role(Roles.USER.name())
                 .createdAt(createdAt)
                 .build();
-        return user;
     }
 
     public RegistrationResponse mapUserToRegistrationResponse(Users users) {
@@ -32,7 +31,7 @@ public class RegistrationMapper {
 
     public Users mapRegistrationRequestToAdmin(AdminRegistrationRequest registrationRequest) {
         ZonedDateTime createdAt = ZonedDateTime.now();
-        Users user =  Users.builder()
+        return Users.builder()
                 .email(registrationRequest.getEmail())
                 .stageName("Administrator")
                 .password(registrationRequest.getPassword())
@@ -41,6 +40,5 @@ public class RegistrationMapper {
                 .role(Roles.ADMIN.name())
                 .createdAt(createdAt)
                 .build();
-        return user;
     }
 }

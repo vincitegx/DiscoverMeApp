@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 declare const FB: any;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
+
+  username:String;
 
 
-  constructor() {
+  constructor(private authService:AuthService) {
+    this.username="";
     // Load the Facebook SDK asynchronously
     (window as any).fbAsyncInit = function () {
       FB.init({
@@ -27,6 +31,9 @@ export class ProfileComponent {
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode?.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+  }
+  ngOnInit(): void {
+    this.username = this.authService?.getUser()?.stageName ?? "";
   }
 
   loginWithFacebook(): void {

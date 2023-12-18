@@ -2,9 +2,9 @@
 [style.background]="shouldSetBackgroundColor() ? '#002768' : 'transparent'">
   <div class="container">
     <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
-    <ng-container *ngIf="auth.isAuthenticated$ | async">
-      <div class="dropdown">
-        <a *ngIf="auth.user$ | async as user" class="dropbtn btn text-white">{{ user.name }}</a>
+    <ng-container *ngIf="isloggedIn$ | async; let loggedIn">
+      <div class="dropdown" *ngIf="loggedIn">
+        <a *ngIf="user$ | async as user" class="dropbtn btn text-white">{{ user.stageName }}</a>
         <div id="myDropdown" class="dropdown-content text-white">
           <a class="text-white" href="home">Home</a>
           <a class="text-white" href="profile">Profile</a>
@@ -12,7 +12,7 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngIf="(auth.isAuthenticated$ | async) === false && containsLoginPath() === false">
+    <ng-container *ngIf="!(isloggedIn$ | async) && containsNonAuthPath()">
       <a class="btn btn-rounded text-white dropbtn" href="signin">Sign In</a>
     </ng-container>
   </div>

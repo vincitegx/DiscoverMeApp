@@ -37,7 +37,7 @@ public class VerificationService {
     public EventDto registerVerificationTokenToDb(RegistrationResponse registrationResponse) {
         String generatedToken = UUID.randomUUID().toString();
         Users user = userService.findById(registrationResponse.getUserId()).orElseThrow(()-> new UsernameNotFoundException("No such user found"));
-        emailVerificationTokenRepository.findByUser(user).ifPresent(token -> emailVerificationTokenRepository.delete(token));
+        emailVerificationTokenRepository.findByUser(user).ifPresent(emailVerificationTokenRepository::delete);
         EmailVerificationToken verificationToken = new EmailVerificationToken(generatedToken, user, LocalDateTime.now().plusHours(activationTokenExpirationTimeInHours));
         emailVerificationTokenRepository.save(verificationToken);
         Map<String, String> data = new HashMap<>();
@@ -45,8 +45,7 @@ public class VerificationService {
         data.put("name", user.getStageName());
         data.put("token", generatedToken);
         data.put("expiresAt", activationTokenExpirationTimeInHours.toString());
-        EventDto eventDto = EventDto.builder().from(organizationEmail).to(registrationResponse.getEmail()).data(data).build();
-        return eventDto;
+        return EventDto.builder().from(organizationEmail).to(registrationResponse.getEmail()).data(data).build();
     }
 
     public void requestNewVerificationToken(String email) {
