@@ -10,6 +10,7 @@ import { NotifierModule } from 'angular-notifier';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestInterceptor } from './helpers/auth.interceptor';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent
@@ -18,6 +19,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
     BrowserModule,
     AppRoutingModule,
     DefaultModule,
+    SocialLoginModule,
     NgxWebstorageModule.forRoot(),
     NotifierModule,
     OAuthModule.forRoot(),
@@ -34,6 +36,21 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpRequestInterceptor,
       multi: true
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1688237841617847')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
     }
   ],
   bootstrap: [AppComponent]
