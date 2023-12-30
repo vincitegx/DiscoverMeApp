@@ -15,6 +15,7 @@ import { SubmitProjectComponent } from 'src/app/components/submit-project/submit
 import { AccountCreatedComponent } from 'src/app/components/account-created/account-created.component';
 import { VerifyComponent } from 'src/app/components/verify-account/verify-account';
 import { HttpRequestInterceptor } from 'src/app/helpers/auth.interceptor';
+import { GoogleBtnComponent } from 'src/app/components/google-btn/google-btn.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { HttpRequestInterceptor } from 'src/app/helpers/auth.interceptor';
     SubmitProjectComponent,
     AccountCreatedComponent,
     VerifyComponent,
+    GoogleBtnComponent,
     VideoHoverDirective
   ],
   imports: [

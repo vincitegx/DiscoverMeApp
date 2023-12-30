@@ -1,0 +1,48 @@
+.btn-google {
+    font-family: Raleway-Bold;
+    font-size: 16px;
+    line-height: 1.2;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin: 18px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s
+  }
+  
+  .btn-face {
+    color: #3b5998
+  }
+  
+  .btn-face i {
+    font-size: 20px;
+    margin-right: 10px;
+    padding-bottom: 1px
+  }
+  
+  .btn-google {
+    color: #555
+  }
+  
+  .btn-google img {
+    width: 19px;
+    margin-right: 10px;
+    padding-bottom: 1px
+  }
+
+.text--center {
+    text-align: center;
+}

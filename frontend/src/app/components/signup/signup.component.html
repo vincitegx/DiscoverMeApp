@@ -1,11 +1,11 @@
 <section class="section align">
     <div class="container grid">
         <form [formGroup]="form" (ngSubmit)="signup()" class="form login">
-            <h3 class="text--center pt-2" style="color: darkgray;">Get Started</h3>
+            <h3 class="text--center text-secondary pt-2">Get Started</h3>
             <div class="form__field">
                 <label for="signup__username"><svg class="icon">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
-                    </svg><span class="hidden">username</span></label>
+                    </svg><span class="hidden">stagename</span></label>
                 <input id="signup__username" type="text" formControlName="stageName" class="form__input"
                     placeholder="Stage Name" required>
             </div>
@@ -16,7 +16,6 @@
                 <input id="signup__email" type="email" formControlName="email" class="form__input" placeholder="Email"
                     required>
             </div>
-
             <div class="form__field">
                 <label for="signup__password"><svg class="icon">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use>
@@ -37,12 +36,13 @@
                 </button>
             </div>
         </form>
-        <p class="text--center">Already have an account? <a href="signin">Sign In</a> <svg class="icon">
+        <p class="text--center">Have an account? <a href="signin" style="text-decoration: none;">Sign In</a>
+            <svg class="icon">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/right-arrow-svgrepo-com">
                 </use>
             </svg></p>
+        <app-google-btn></app-google-btn>
     </div>
-
     <svg xmlns="http://www.w3.org/2000/svg" class="icons">
         <symbol id="arrow-right" viewBox="0 0 1792 1792">
             <path

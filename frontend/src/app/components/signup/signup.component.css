@@ -20,8 +20,6 @@
     max-width: 320px;
     max-width: 20rem;
     width: 100%;
-    /* background-color: #002768; */
-    /* border-radius: 7px; */
 }
 
 .icons {
@@ -55,11 +53,6 @@ button[type='submit'] {
     cursor: pointer;
 }
 
-/* .form {
-    margin: -14px;
-    margin: -0.875rem;
-} */
-
 .form input[type='password'],
 .form input[type='text'],
 .form input[type='email'],
@@ -80,8 +73,6 @@ button[type='submit'] {
     -ms-flex: 1;
     flex: 1;
 }
-
-/* modules/login.css */
 
 .login {
     color: #eee;
@@ -147,16 +138,6 @@ button[type='submit'] {
     background-color: rgba(23, 44, 241, 0.486);
     border-color: rgba(90, 134, 195, 0.486);
 }
-
-/* modules/text.css */
-
-p {
-    margin-bottom: 24px;
-    margin-bottom: 1.5rem;
-    margin-top: 24px;
-    margin-top: 1.5rem;
-}
-
 .text--center {
     text-align: center;
 }

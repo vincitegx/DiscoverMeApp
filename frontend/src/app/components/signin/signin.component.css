@@ -17,11 +17,9 @@
 .grid {
     margin-left: auto;
     margin-right: auto;
-    max-width: 390px;
+    max-width: 320px;
     max-width: 20rem;
     width: 100%;
-    /* background-color: #002768; */
-    /* border-radius: 7px; */
 }
 
 .icons {
@@ -90,8 +88,6 @@ button[type='submit'] {
     flex: 1;
 }
 
-/* modules/login.css */
-
 .login {
     color: #eee;
 }
@@ -142,52 +138,6 @@ button[type='submit'] {
     background-color: rgba(23, 44, 241, 0.486);
     border-color: rgba(90, 134, 195, 0.486);
 }
-
-.btn-google {
-    font-family: Raleway-Bold;
-    font-size: 16px;
-    line-height: 1.2;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    margin: 18px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    height: 40px;
-    border-radius: 3px;
-    border: 1px solid #e6e6e6;
-    background-color: #fff;
-    -webkit-transition: all .4s;
-    -o-transition: all .4s;
-    -moz-transition: all .4s;
-    transition: all .4s
-  }
-  
-  .btn-face {
-    color: #3b5998
-  }
-  
-  .btn-face i {
-    font-size: 20px;
-    margin-right: 10px;
-    padding-bottom: 1px
-  }
-  
-  .btn-google {
-    color: #555
-  }
-  
-  .btn-google img {
-    width: 19px;
-    margin-right: 10px;
-    padding-bottom: 1px
-  }
-
 .text--center {
     text-align: center;
 }
@@ -201,15 +151,6 @@ button[type='submit'] {
     padding: 0;
     position: absolute;
     width: 1px;
-}
-
-.background {
-    width: 400px;
-    height: 480px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
 }
 
 .form__field {

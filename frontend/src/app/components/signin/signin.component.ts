@@ -48,15 +48,6 @@ export class SigninComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user = this.getUser();
-    if (user) {
-      this.isloggedIn$.next(true);
-    } else {
-      this.isloggedIn$.next(false);
-    }
-    if((this.router.url.includes('signin') || this.router.url.includes('signup')) && this.isloggedIn$.value){
-      this.router.navigateByUrl("/home");
-    }
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -67,7 +58,6 @@ export class SigninComponent implements OnInit {
         this.notifier.notify('success', message);
       }
     });
-    this.auth.get("auth/url").subscribe((data: any) => {this.url = data.authURL});
   }
 
   login() {
@@ -101,9 +91,5 @@ export class SigninComponent implements OnInit {
     }else{
       this.notifier.notify('error', 'Invalid Login');
     }
-  }
-
-  getUser():UserDto | null{
-    return this.auth.getUser();
   }
 }
