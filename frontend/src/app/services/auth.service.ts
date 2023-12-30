@@ -1,12 +1,13 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { SigninRequest } from '../components/signin/signinrequest';
 import { JwtResponse } from '../components/signin/jwtresponse';
-import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { SignupRequest } from '../components/signup/signup-request';
 import { LocalStorageService } from 'ngx-webstorage';
 import { UserDto } from '../dtos/userdto';
+import { FBUserResponse } from '../components/profile/fb-user-response';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,8 @@ export class AuthService {
   @Output() user: EventEmitter<UserDto>;
   private refreshTokenSubject: BehaviorSubject<JwtResponse>;
   private isTokenRefreshingSubject: BehaviorSubject<boolean>;
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  token: string = "";
 
   constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService) {
     this.apiServerUrl = environment['api-base-url'];
@@ -49,6 +52,34 @@ export class AuthService {
       );
   }
 
+  get(url: string): any {
+    return this.httpClient.get(`${this.apiServerUrl}${url}`);
+  }
+
+  getToken(code: string): Observable<JwtResponse> {
+    return this.httpClient.post<JwtResponse>(`${this.apiServerUrl}auth/callback?code=${code}`, {observe: "response"})
+      .pipe(map((response: JwtResponse) => {
+        this.localStorageService.store("tkn", response.authToken);
+          this.localStorageService.store("user", response.user);
+          this.loggedIn.emit(true);
+          this.user.emit(response.user);
+          return response;
+      }));
+  }
+
+  getFBToken(code: string): Observable<FBUserResponse> {
+    return this.httpClient.post<FBUserResponse>(`${this.apiServerUrl}auth/fb/callback?code=${code}`, {observe: "response"})
+      .pipe(map((response: FBUserResponse) => {
+        this.localStorageService.store("fb-user", response.name);
+          return response;
+      }));
+  }
+
+  disconnectFacebook(): Observable<boolean> {
+    this.localStorageService.clear("fb-user");
+    return of(true);
+  }
+
   public signup(signupRequest: SignupRequest): Observable<any> {
     return this.httpClient
       .post<any>(`${this.apiServerUrl}api/v1/auth/register/user`, signupRequest)
@@ -77,11 +108,16 @@ export class AuthService {
     return this.localStorageService.retrieve('user');
   }
 
-  isLoggedIn$(): Observable<boolean> {
-    return of(this.getJwtToken() != null);
+  getFBUser(): string {
+    return this.localStorageService.retrieve('fb-user');
   }
 
-  logout$(): Observable<any> {
+  isLoggedIn$(): Observable<boolean> {
+    this.isAuthenticatedSubject.next(this.getJwtToken() != null);
+    return this.isAuthenticatedSubject.asObservable();
+  }
+
+  logout$(): Observable<HttpEvent<any>> {
     let user = this.getUser();
     return this.httpClient.post<any>(`${this.apiServerUrl}api/v1/auth/logout`, user).pipe(map(res => {
       if (res) {
@@ -90,6 +126,9 @@ export class AuthService {
         this.loggedIn.next(false);
         this.user.next({});
       }
+      return res;
+    }),catchError((error:HttpErrorResponse)=>{
+      return new Observable<HttpEvent<any>>();
     })
     );
   }

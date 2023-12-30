@@ -4,8 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { UserDto } from 'src/app/dtos/userdto';
-import { Router } from '@angular/router';
-import { map } from 'jquery';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +19,8 @@ export class HeaderComponent implements OnInit , OnDestroy {
   constructor(
     @Inject(DOCUMENT) public document: Document,
     public auth: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnDestroy(): void {
@@ -29,6 +29,19 @@ export class HeaderComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit(): void {
+    this.route.queryParams
+      .subscribe(params => {
+        if (params["code"] !== undefined && params["authuser"] !== undefined) {
+          console.log("for google");
+          this.auth.getToken(params["code"]).subscribe(result => {
+            if (result != null) {
+              this.user$.next(result.user);
+              // this.router.navigateByUrl('home');
+            } 
+          });
+        }
+      }
+    );
     this.isLoggedInSub$ = this.auth.isLoggedIn$().subscribe((loggedIn: boolean) => {
       this.isloggedIn$.next(loggedIn);
 
@@ -75,7 +88,7 @@ export class HeaderComponent implements OnInit , OnDestroy {
   }
 
   isHomePath(): boolean {
-    return this.document.location.href === 'http://localhost:4200/';
+    return this.document.location.href === 'https://localhost:4200/';
   }
 
   // shouldSetBackgroundColor(): boolean {

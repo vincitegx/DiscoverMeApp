@@ -11,42 +11,12 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
     type="text/css" />
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
-    <script>
-      function handleCredentialResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential);
-      }
-      window.onload = function () {
-        google.accounts.id.initialize({
-          client_id:
-            "1042749728847-3l89hs3p2o32qm973hico0vj2lg0rafg.apps.googleusercontent.com",
-          callback: handleCredentialResponse,
-        });
-        google.accounts.id.prompt(); // also display the One Tap dialog
-      };
-    </script>
-    <script>
-      function decodeJWTToken(token) {
-        return JSON.parse(atob(token.split(".")[1]));
-      }
-      function handleCredentialResponse(response) {
-        // to decode the credential response.
-        const responsePayload = decodeJWTToken(response.credential);
-        sessionStorage.setItem("loggedInUser", JSON.stringify(responsePayload));
-        window.location.href = "/home";
-      }
-      function handleSignout() {
-        google.accounts.id.disableAutoSelect();
-      }    
-    </script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
 </head>
-
 <body>
   <div id="preloder">
     <div class="loader"></div>
   </div>
   <app-root></app-root>
 </body>
-
 </html>

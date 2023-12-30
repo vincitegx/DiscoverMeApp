@@ -46,9 +46,9 @@ public class CalenderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping("active")
-    public ResponseEntity<Calender> getCurrentProjectCalender() {
+    public ResponseEntity<CalenderResponse> getCurrentProjectCalender() {
         Calender calender = calenderService.getProjectCalender();
-        return new ResponseEntity<>(calender, HttpStatus.OK);
+        return new ResponseEntity<>(new CalenderResponse(calender.getId(), calender.getName(), calender.getStatus()), HttpStatus.OK);
     }
 
     @GetMapping

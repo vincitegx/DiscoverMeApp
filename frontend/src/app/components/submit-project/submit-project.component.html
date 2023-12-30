@@ -15,7 +15,7 @@
                 <option [value]="s.id" *ngFor="let s of socials;" id="exampleFormControlSelect1">{{s.name}}</option>
               </select>
         </div>
-        <a href="home" class="btn btn-secondary">Back</a> &nbsp;
+        <a [routerLink]="['/home']" class="btn btn-secondary">Back</a> &nbsp;
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </section>

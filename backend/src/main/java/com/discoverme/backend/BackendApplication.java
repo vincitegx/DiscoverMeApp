@@ -1,7 +1,11 @@
 package com.discoverme.backend;
 
+import com.facebook.ads.sdk.APIContext;
+import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.scope.ScopeBuilder;
+import com.restfb.types.Account;
 import com.restfb.types.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,6 +30,14 @@ public class BackendApplication {
 	public static void main(String[] args) {
 
 //		FacebookClient client = new DefaultFacebookClient("EAAXZCcYDYk7cBOwuv75k6JA6LSeQwJ8qL3Il1gpKxrvoPNUUYItXpQ7LWa7nFoZBxipWsAkWJQWv9EFZC2VCvgF9djtsFXk0hf6khrZCLOrsVJR3WWO5utcLgZARxjmwafnHvwhJ3bXakw72QO94hNpYiRWOTAHwx7kJKOI9wmShY1MsjegpY6E3fhOoSwYk70y4x1pHZA0IXmGttskerLIj8mPb2a5hzEvj0LKmHZACIOb70v3X5JtQA03ZA18ZD");
+//		client.getLoginDialogUrl("","", new ScopeBuilder(false));
+//		Connection<Account> result2 = client.fetchConnection("me/accounts", Account.class);
+//		for(List<Account> page : result2){
+//			for(Account a : page){
+//				System.out.println(a.getAccessToken());
+//				System.out.println(a.getName());
+//			}
+//		}
 //		client.createClientWithAccessToken("EAAXZCcYDYk7cBO33PRsMxxPwcVG40VNOPUu8vV8O1ZB9rW53M4S9FFURPcUUYwOA9Vtta8N10fywvbtlQUUJT3RrsQ6aJw7QzMLfGZB2G4UYBXffy2ZCn6MDbvRM4lJ7LVgBM1yfdc8z5tbRk2ZAxO0Pw0ADZA3ohPqxDk2ZCU1ccaiZBZCuqQz5EZB4XP6VZAiePYVOuTMwhrmixlowvFugsgGS5O8MZAWZBNZAj3oYTi9G8HJRQxaFqXzPWJFkmU0uH7mCcZD");
 //		User user = client.fetchObject("me", User.class);
 //		System.out.println(user.getName());

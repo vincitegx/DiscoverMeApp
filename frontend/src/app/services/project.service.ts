@@ -1,10 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
-import { ProjectRequest } from '../components/submit-project/project-request';
 import { Observable } from 'rxjs';
 import { Socials } from '../dtos/socials';
-import { Project } from '../dtos/project';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +11,8 @@ export class ProjectService {
   private readonly apiServerUrl = environment['api-base-url'];
   constructor(private http: HttpClient) { }
 
-  public getProjects(): Observable<any> {
-    return this.http.get<any>(`${this.apiServerUrl}api/v1/projects/approved`);
+  public getProjects(search : string, page: number): Observable<any> {
+    return this.http.get<any>(`${this.apiServerUrl}api/v1/projects/approved?search=${search}&page=${page}`);
   }
 
   updateVoteStatus(projectId: number): Observable<void> {

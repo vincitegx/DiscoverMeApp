@@ -12,7 +12,6 @@ public class VotingController {
     private final VotingService votingService;
     @PutMapping("{projectId}/vote")
     public ResponseEntity<Void> vote(@PathVariable Long projectId) {
-        System.out.println("Entered Vote Controller with id "+ projectId);
         votingService.vote(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

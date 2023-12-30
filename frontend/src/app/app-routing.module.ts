@@ -11,6 +11,8 @@ import { SubmitProjectComponent } from './components/submit-project/submit-proje
 import { AccountCreatedComponent } from './components/account-created/account-created.component';
 import { VerifyComponent } from './components/verify-account/verify-account';
 import { AuthGuard } from './services/auth.guard';
+import { ProjectSubmissionGuard } from './services/project-submission.guard';
+import { AuthRedirectGuard } from './services/auth-redirect.guard';
 
 const routes: Routes = [
   {
@@ -20,22 +22,27 @@ const routes: Routes = [
       {
         path: '',
         component: CoverComponent,
+        canActivate: [AuthRedirectGuard]
       },
       {
         path: 'signin',
         component: SigninComponent,
+        canActivate: [AuthRedirectGuard]
       },
       {
         path: 'signup',
         component: SignupComponent,
+        canActivate: [AuthRedirectGuard]
       },
       {
         path: 'regsucces',
         component: AccountCreatedComponent,
+        canActivate: [AuthRedirectGuard]
       },
       {
         path: 'verify',
         component: VerifyComponent,
+        canActivate: [AuthRedirectGuard]
       },
       {
         path: 'home',
@@ -50,7 +57,7 @@ const routes: Routes = [
       {
         path: 'project',
         component: SubmitProjectComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, ProjectSubmissionGuard]
       },
       {
         path: '**',

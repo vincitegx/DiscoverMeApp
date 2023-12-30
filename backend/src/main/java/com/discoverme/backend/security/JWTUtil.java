@@ -3,18 +3,24 @@ package com.discoverme.backend.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.discoverme.backend.user.UserException;
 import com.discoverme.backend.user.Users;
 import com.discoverme.backend.user.login.refresh.RefreshToken;
+import com.google.api.client.googleapis.auth.oauth2.*;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.Instant;
 import java.util.*;
 
@@ -25,6 +31,9 @@ import static java.util.Date.from;
 public class JWTUtil {
     private static final String SECRET_KEY =
             "foobar_123456789_foobar_123456789_foobar_123456789_foobar_123456789";
+
+    @Value("${spring.security.oauth2.resourceserver.opaque-token.client-id}")
+    private String clientId;
 
     private Collection<? extends GrantedAuthority> getAuthorities(Users user) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -67,7 +76,7 @@ public class JWTUtil {
     }
 
     public String validateToken(String token) {
-        Date now = Date.from(Instant.now());
+        Date now = from(Instant.now());
         Algorithm algorithm = HMAC256(SECRET_KEY.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).withIssuer("https://discoverme.com").build();
         try {
@@ -78,7 +87,30 @@ public class JWTUtil {
             }else {
                 return null;
             }
-        } catch (JWTVerificationException e) {
+        }catch (AlgorithmMismatchException | IncorrectClaimException e){
+         return validateOAuthToken(token);
+        }catch (JWTVerificationException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public String validateOAuthToken(String token) throws TokenExpiredException{
+        try {
+            NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
+                    .setAudience(Collections.singletonList(clientId))
+                    .build();
+            GoogleIdToken idToken = verifier.verify(token);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                return payload.getEmail();
+            } else {
+                return null;
+            }
+        } catch (IOException | GeneralSecurityException e) {
+            System.err.println(e.getMessage());
             return null;
         }
     }

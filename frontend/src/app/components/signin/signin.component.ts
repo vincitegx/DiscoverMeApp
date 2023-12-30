@@ -23,6 +23,7 @@ import { UserDto } from 'src/app/dtos/userdto';
 })
 export class SigninComponent implements OnInit {
   private readonly notifier: NotifierService;
+  url: string = "";
   public form: FormGroup;
   private signinRequest: SigninRequest;
   private verifiedMessage: string;
@@ -66,6 +67,7 @@ export class SigninComponent implements OnInit {
         this.notifier.notify('success', message);
       }
     });
+    this.auth.get("auth/url").subscribe((data: any) => {this.url = data.authURL});
   }
 
   login() {
@@ -77,7 +79,11 @@ export class SigninComponent implements OnInit {
       this.auth.login(this.signinRequest).subscribe({
         next: (response: JwtResponse) => {
           this.isLoading.next(false);
-          this.router.navigateByUrl('home');
+          if(response.user.role == "ADMIN"){
+            this.router.navigateByUrl('home');
+          }else{
+            this.router.navigateByUrl('home');
+          }
           this.notifier.notify('success', 'Welcome, '+ response.user.stageName);
           this.form.reset();
         },

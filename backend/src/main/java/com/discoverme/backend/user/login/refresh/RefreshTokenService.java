@@ -55,6 +55,10 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
+    public boolean existByToken(String token){
+        return refreshTokenRepository.findByToken(token).isPresent();
+    }
+
     public void deleteRefreshToken(String token) {
         refreshTokenRepository.deleteByToken(token);
     }

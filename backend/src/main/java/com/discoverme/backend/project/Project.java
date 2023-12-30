@@ -35,8 +35,6 @@ public class Project {
     private Socials social;
     @Column(nullable = false)
     private String contentUri;
-//    @OneToOne
-//    private Content content;
     @Enumerated(EnumType.STRING)
     private ProjectApprovalStatus status;
 

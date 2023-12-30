@@ -143,14 +143,50 @@ button[type='submit'] {
     border-color: rgba(90, 134, 195, 0.486);
 }
 
-/* modules/text.css */
-
-p {
-    margin-bottom: 24px;
-    margin-bottom: 1.5rem;
-    margin-top: 24px;
-    margin-top: 1.5rem;
-}
+.btn-google {
+    font-family: Raleway-Bold;
+    font-size: 16px;
+    line-height: 1.2;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin: 18px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s
+  }
+  
+  .btn-face {
+    color: #3b5998
+  }
+  
+  .btn-face i {
+    font-size: 20px;
+    margin-right: 10px;
+    padding-bottom: 1px
+  }
+  
+  .btn-google {
+    color: #555
+  }
+  
+  .btn-google img {
+    width: 19px;
+    margin-right: 10px;
+    padding-bottom: 1px
+  }
 
 .text--center {
     text-align: center;
@@ -174,28 +210,6 @@ p {
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-}
-
-.background .shape {
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
-
-.shape:first-child {
-    background: linear-gradient(#009fc1,
-            #002768);
-    left: -100px;
-    top: -80px;
-}
-
-.shape:last-child {
-    background: linear-gradient(to right,
-            #002768,
-            rgba(23, 44, 241, 0.486));
-    right: -80px;
-    bottom: -80px;
 }
 
 .form__field {

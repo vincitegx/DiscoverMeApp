@@ -5,6 +5,7 @@ import { Socials } from 'src/app/dtos/socials';
 import { ProjectService } from 'src/app/services/project.service';
 import { ProjectRequest } from './project-request';
 import { Router } from '@angular/router';
+import { CalenderService } from 'src/app/services/calender.service';
 
 @Component({
   selector: 'app-submit-project',
@@ -17,7 +18,7 @@ export class SubmitProjectComponent implements OnInit{
   addProjectForm: FormGroup;
   projectRequest: ProjectRequest;
   public defaultSelectedPlatform: number=1;
-  constructor(private router: Router, private projectService: ProjectService){
+  constructor(private router: Router, private projectService: ProjectService, private calenderService: CalenderService){
     this.addProjectForm = new FormGroup({
       title : new FormControl('', Validators.required),
       link : new FormControl('', Validators.required),

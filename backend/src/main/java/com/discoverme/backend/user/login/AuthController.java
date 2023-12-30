@@ -50,21 +50,26 @@ public class AuthController {
 
 
     @PostMapping("logout")
-    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user) {
-        boolean isLoggedOut = false;
+    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user, HttpServletResponse servletResponse) {
         Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
                 .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
                 .findFirst();
         if(cookies.isPresent()){
             RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
             if(refreshToken != null){
-                SecurityContextHolder.clearContext();
                 refreshTokenService.deleteRefreshToken(refreshToken.getToken());
-                isLoggedOut =true;
-            }else{
-                SecurityContextHolder.clearContext();
             }
+            Cookie refreshTokenCookie = new Cookie(JWTAuthenticationFilter.COOKIE_NAME, cookies.get().getValue());
+            refreshTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setSecure(true);
+            refreshTokenCookie.setAttribute("SameSite", "None");
+            refreshTokenCookie.setMaxAge(0);
+            refreshTokenCookie.setPath("/");
+            refreshTokenCookie.setAttribute("Priority", "High");
+            servletResponse.addCookie(refreshTokenCookie);
+        }else {
+            SecurityContextHolder.clearContext();
         }
-        return new ResponseEntity<>(isLoggedOut, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

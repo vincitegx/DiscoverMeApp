@@ -48,9 +48,10 @@ public class ProjectController {
     }
 
     @GetMapping("approved")
-    public ResponseEntity<Page<ProjectResponse>> getApprovedProjects(){
-        Page<ProjectResponse> projectResponseList = projectService.getApprovedProjects(
-                PageRequest.of(0, 15, Sort.Direction.ASC, "id"));
+    public ResponseEntity<Page<ProjectResponse>> getApprovedProjects(@RequestParam Optional<String> search,
+                                                                     @RequestParam Optional<Integer> page){
+        Page<ProjectResponse> projectResponseList = projectService.getApprovedProjects(search.orElse(""),
+                PageRequest.of(page.orElse(0), 3));
         return new ResponseEntity<>(projectResponseList, HttpStatus.OK);
     }
     @GetMapping("disapproved")

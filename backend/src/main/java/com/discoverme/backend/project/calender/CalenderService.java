@@ -20,18 +20,18 @@ public class CalenderService {
         Calender calender = new Calender();
         calender.setName(calenderRequest.getName());
         calender = calenderRepository.save(calender);
-        return new CalenderResponse(calender.getId(), calender.getName());
+        return new CalenderResponse(calender.getId(), calender.getName(), calender.getStatus());
     }
 
     public void deleteProjectCalender(Long projectCalenderId) {
-        calenderRepository.findById(projectCalenderId).ifPresent(tag->{ calenderRepository.delete(tag);});
+        calenderRepository.findById(projectCalenderId).ifPresent(calenderRepository::delete);
     }
 
     public CalenderResponse editProjectCalender(CalenderRequest calenderRequest) {
         Calender projectTag = calenderRepository.findByName(calenderRequest.getName()).orElseThrow(()-> new ProjectException("No such tag found"));
         projectTag.setName(projectTag.getName());
         projectTag = calenderRepository.save(projectTag);
-        return new CalenderResponse(projectTag.getId(), projectTag.getName());
+        return new CalenderResponse(projectTag.getId(), projectTag.getName(), projectTag.getStatus());
     }
     public Calender updateProjectStatus(ProjectStatusRequest projectStatusRequest) {
         Calender calender = calenderRepository.findById(projectStatusRequest.getId()).orElseThrow(()-> new ProjectException("No such ID associated"));
@@ -57,6 +57,6 @@ public class CalenderService {
     }
 
     private CalenderResponse mapCalenderToDto(Calender calender){
-        return new CalenderResponse(calender.getId(), calender.getName());
+        return new CalenderResponse(calender.getId(), calender.getName(), calender.getStatus());
     }
 }

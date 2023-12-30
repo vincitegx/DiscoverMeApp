@@ -10,7 +10,9 @@
                         <div class="col-md-12"><input type="text" class="form-control" placeholder="Stage Name"
                                 [value]="username"></div>
                     </div>
-                    <div class="mt-5 text-end"><button class="btn btn-primary profile-button" type="button">Save
+                    <div class="mt-5 text-end">
+                        <a [routerLink]="['/home']" class="btn btn-secondary">&leftarrow; Back</a> &nbsp;
+                        <button class="btn btn-primary profile-button" type="button">Save
                             Profile</button></div>
                 </div>
             </div>
@@ -74,10 +76,11 @@
                                     class="feather feather-facebook mr-2 icon-inline text-primary">
                                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                                 </svg>
-                                {{ user.name ?? "Facebook" }}
+                                <span *ngIf="!!fbUsername">{{ fbUsername }}</span>
+                                <span *ngIf="!fbUsername">Facebook</span>
                             </h6>
                             <span class="border px-3 p-1 add-experience rounded"><i
-                                    class="fa fa-plus"></i>&nbsp;<a (click)="signInWithFB()">Disconnect</a></span>
+                                    class="fa fa-plus"></i>&nbsp;<a (click)="fbAction()">{{ fbUsername ? 'Disconnect' : 'Connect' }}</a></span>
                         </li>
                     </ul>
                 </div>

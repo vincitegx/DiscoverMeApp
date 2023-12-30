@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
-
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
 import { AuthService } from './auth.service';
+
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
-  constructor(public authService: AuthService, public router: Router) {}
+export class AuthRedirectGuard{
+  constructor(private authService: AuthService, private router: Router) {}
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -20,10 +16,10 @@ export class AuthGuard {
     return this.authService.isLoggedIn$().pipe(
       take(1),
       map(isAuthenticated => {
-        if (isAuthenticated) {
+        if (!isAuthenticated) {
           return true;
         } else {
-          return this.router.createUrlTree(['/signin']);
+          return this.router.createUrlTree(['/home']);
         }
       })
     );

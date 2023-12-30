@@ -64,7 +64,7 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    @CachePut(cacheNames = "approved-projects")
+//    @CachePut(cacheNames = "approved-projects")
     public ProjectResponse approveProject(String id) {
         Long projectId = Long.parseLong(id);
         Project project =projectRepository.findById(projectId).orElseThrow(()-> new ProjectException("No such Project Found"));
@@ -81,10 +81,10 @@ public class ProjectService {
         return mapProjectToResponse(project);
     }
 
-    @Cacheable(cacheNames = "approved-projects")
-    public Page<ProjectResponse> getApprovedProjects(PageRequest request) {
+//    @Cacheable(cacheNames = "approved-projects")
+    public Page<ProjectResponse> getApprovedProjects(String search, PageRequest request) {
         Calender calender = calenderService.getProjectCalender();
-        Page<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.APPROVED, calender, request);
+        Page<Project> projects = projectRepository.findByStatusAndCalenderAndSongTitleContainingOrStageNameContaining(ProjectApprovalStatus.APPROVED.name(),calender.getId(),search, request);
         return projects.map(this::mapProjectToResponse);
     }
     

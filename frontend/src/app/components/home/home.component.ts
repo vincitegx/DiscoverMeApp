@@ -1,6 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable, catchError, map, of, startWith, tap } from 'rxjs';
+import { AppState } from 'src/app/dtos/app-state';
 import { Project } from 'src/app/dtos/project';
+import { DataState } from 'src/app/enums/data-state';
+import { CalenderService } from 'src/app/services/calender.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { environment } from 'src/environments/environment.development';
 
@@ -11,20 +16,47 @@ import { environment } from 'src/environments/environment.development';
 })
 export class HomeComponent {
   private readonly apiServerUrl: string;
+  readonly DataState = DataState;
+  phase$: Observable<string> = of();
+  pages: Array<number>= [];
+  page:number=0;
   @Input() currentPage: number = 1;
   @Input() totalPages: number = 10;
   fileurl:string;
   projects$: Observable<Array<Project>>;
-  constructor(private projectService: ProjectService) { 
+  appState$:Observable<AppState<any>> = of(); 
+  search:string;
+  searchForm: FormGroup;
+  private dataSubject = new BehaviorSubject<Array<Project>>([]);
+  constructor(private projectService: ProjectService, private calenderService: CalenderService) { 
     this.apiServerUrl = environment['api-base-url'];
     this.fileurl  = this.apiServerUrl+"api/v1/projects/contents";
     this.projects$  = of([]);
+    this.search="";
+    this.searchForm = new FormGroup({
+      search : new FormControl('', [Validators.required]),
+    })
   }
 
   ngOnInit(): void { 
-    this.projects$ = this.projectService.getProjects().pipe(map(response=>{
-      console.log(response.content)
-      return response.content}));
+    this.phase$ = this.calenderService.getCurrentCalender().pipe(map(response=>{
+      return this.capitalizeFirstLetter(response.status)}),
+      catchError((error:HttpErrorResponse)=>{
+        console.log(error);
+        return "";
+      }));
+      this.appState$ =this.projectService.getProjects(this.search,this.page)
+      .pipe(
+        map(response=>{
+          this.dataSubject.next(response);
+          this.pages = new Array(response['totalPages']);
+          return {dataState:DataState.LOADED_STATE, appData:response}
+        }),
+        startWith({dataState:DataState.LOADING_STATE}),
+        catchError((error:string)=>{
+          return of({dataState:DataState.ERROR_STATE, error})
+        })
+      );
   }
 
 
@@ -60,11 +92,27 @@ export class HomeComponent {
     );
   }
 
+  setPage(i:number,event:any){
+    event.preventDefault();
+    this.page = i;
+    this.appState$ = this.projectService.getProjects(this.search,this.page)
+    .pipe(
+      map(response=>{
+        this.pages = new Array(response['totalPages']);
+        return {dataState:DataState.LOADED_STATE, appData:response}
+      }),
+      startWith({dataState:DataState.LOADING_STATE}),
+      catchError((error:string)=>{
+        return of({dataState:DataState.ERROR_STATE, error})
+      })
+    );
+  }
+
   getSocialIconClass(name: string): string {
     switch (name) {
       case 'FACEBOOK':
         return 'fa fa-facebook';
-      case 'TWITTER':
+      case 'X':
         return 'fa fa-twitter';
       case 'INSTAGRAM':
         return 'fa fa-instagram';
@@ -72,5 +120,33 @@ export class HomeComponent {
       default:
         return ''; // Default case, no icon
     }
+  }
+
+  capitalizeFirstLetter(word: string): string {
+    if (word.length === 0) {
+      return word;
+    }
+    const modifiedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    return modifiedWord;
+  }
+
+  setSearch(event:any){
+    event.preventDefault();
+    this.search = this.searchForm.get('search')?.value ?? "";
+    this.appState$ =this.projectService.getProjects(this.search,this.page)
+      .pipe(
+        tap(console.log),
+        map(response=>{
+          console.log(response);
+          this.dataSubject.next(response);
+          this.pages = new Array(response['totalPages']);
+          console.log(this.pages);
+          return {dataState:DataState.LOADED_STATE, appData:response}
+        }),
+        startWith({dataState:DataState.LOADING_STATE}),
+        catchError((error:string)=>{
+          return of({dataState:DataState.ERROR_STATE, error})
+        })
+      );
   }
 }
