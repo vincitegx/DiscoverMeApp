@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { SigninRequest } from '../components/signin/signinrequest';
 import { JwtResponse } from '../components/signin/jwtresponse';
@@ -16,8 +16,6 @@ export class AuthService {
   private readonly apiServerUrl: string;
   @Output() loggedIn: EventEmitter<boolean>;
   @Output() user: EventEmitter<UserDto>;
-  private refreshTokenSubject: BehaviorSubject<JwtResponse>;
-  private isTokenRefreshingSubject: BehaviorSubject<boolean>;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   token: string = "";
 
@@ -25,8 +23,6 @@ export class AuthService {
     this.apiServerUrl = environment['api-base-url'];
     this.loggedIn = new EventEmitter();
     this.user = new EventEmitter();
-    this.refreshTokenSubject = new BehaviorSubject<JwtResponse>({ "authToken": '', "user": {} });
-    this.isTokenRefreshingSubject = new BehaviorSubject<boolean>(false);
   }
 
   refreshToken(): Observable<JwtResponse> {
@@ -57,6 +53,7 @@ export class AuthService {
   }
 
   getToken(code: string): Observable<JwtResponse> {
+    this.isAuthenticatedSubject.next(true);
     return this.httpClient.post<JwtResponse>(`${this.apiServerUrl}auth/callback?code=${code}`, {observe: "response"})
       .pipe(map((response: JwtResponse) => {
         this.localStorageService.store("tkn", response.authToken);
@@ -128,6 +125,7 @@ export class AuthService {
       }
       return res;
     }),catchError((error:HttpErrorResponse)=>{
+      tap(console.log)
       return new Observable<HttpEvent<any>>();
     })
     );

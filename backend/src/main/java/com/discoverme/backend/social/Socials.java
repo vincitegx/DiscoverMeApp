@@ -1,4 +1,4 @@
-package com.discoverme.backend.project;
+package com.discoverme.backend.social;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

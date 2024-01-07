@@ -1,7 +1,6 @@
 package com.discoverme.backend.project.calender;
 
 import com.discoverme.backend.project.ProjectException;
-import com.discoverme.backend.project.ProjectStatusRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -16,27 +15,8 @@ import java.util.List;
 public class CalenderService {
     private final CalenderRepository calenderRepository;
 
-    public CalenderResponse addProjectCalender(CalenderRequest calenderRequest) {
-        Calender calender = new Calender();
-        calender.setName(calenderRequest.getName());
-        calender = calenderRepository.save(calender);
-        return new CalenderResponse(calender.getId(), calender.getName(), calender.getStatus());
-    }
-
-    public void deleteProjectCalender(Long projectCalenderId) {
-        calenderRepository.findById(projectCalenderId).ifPresent(calenderRepository::delete);
-    }
-
-    public CalenderResponse editProjectCalender(CalenderRequest calenderRequest) {
-        Calender projectTag = calenderRepository.findByName(calenderRequest.getName()).orElseThrow(()-> new ProjectException("No such tag found"));
-        projectTag.setName(projectTag.getName());
-        projectTag = calenderRepository.save(projectTag);
-        return new CalenderResponse(projectTag.getId(), projectTag.getName(), projectTag.getStatus());
-    }
-    public Calender updateProjectStatus(ProjectStatusRequest projectStatusRequest) {
-        Calender calender = calenderRepository.findById(projectStatusRequest.getId()).orElseThrow(()-> new ProjectException("No such ID associated"));
-        calender.setStatus(projectStatusRequest.getStatus());
-        return calenderRepository.save(calender);
+    public void addProjectCalender() {
+        calenderRepository.save(new Calender());
     }
 
     @Cacheable(cacheNames = "calender")
@@ -57,6 +37,6 @@ public class CalenderService {
     }
 
     private CalenderResponse mapCalenderToDto(Calender calender){
-        return new CalenderResponse(calender.getId(), calender.getName(), calender.getStatus());
+        return new CalenderResponse(calender.getId(), calender.getStartDate(), calender.getEndDate());
     }
 }

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { SignupRequest } from './signup-request';
@@ -116,8 +116,5 @@ export class SignupComponent {
         }
       });  
     }
-    // else{
-    //   this.notifier.notify('error', 'Invalid Registration :(');
-    // }
   }
 }

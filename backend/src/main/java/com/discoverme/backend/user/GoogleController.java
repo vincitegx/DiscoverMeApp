@@ -3,7 +3,6 @@ package com.discoverme.backend.user;
 import com.discoverme.backend.security.CustomOAuth2UserService;
 import com.discoverme.backend.security.JWTAuthenticationFilter;
 import com.discoverme.backend.user.login.JwtResponse;
-import com.discoverme.backend.user.login.UrlDto;
 import com.google.api.client.googleapis.auth.oauth2.*;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -39,8 +38,7 @@ public class GoogleController {
     @GetMapping("url")
     public ResponseEntity<UrlDto> auth() {
         String url = new GoogleAuthorizationCodeRequestUrl(clientId,
-//                "http://localhost:8080/auth/callback",
-                "https://localhost:4200/home",
+                "https://localhost:4200",
                 Arrays.asList(
                         "email",
                         "profile",
@@ -50,7 +48,6 @@ public class GoogleController {
 
     @PostMapping("callback")
     public ResponseEntity<JwtResponse> callback(@RequestParam("code") String code) {
-        System.out.println("entered callback");
         JwtResponse response;
         try {
             NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -63,7 +60,7 @@ public class GoogleController {
                     clientId,
                     clientSecret,
                     code,
-                    "https://localhost:4200/home"
+                    "https://localhost:4200"
             ).execute();
             GoogleIdToken idToken = verifier.verify(googleTokenResponse.getIdToken());
             if (idToken != null) {

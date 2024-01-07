@@ -4,7 +4,7 @@
             <input type="text" [formControlName]="'title'" name="title" placeholder="Enter Song Title" class="form-control" id="exampleInputEmail1">
         </div>
         <div class="mb-3">
-            <input type="text" [formControlName]="'link'" name="link" placeholder="Enter Link" class="form-control" id="exampleInputEmail1">
+            <input type="url" [formControlName]="'link'" name="link" placeholder="Enter Link" class="form-control" id="exampleInputEmail1">
         </div>
         <div class="mb-3">
             <input type="file" (change)="onSelectVideo($event)" [formControlName]="'file'" accept=".mp4,.mov" name="file" class="form-control" id="exampleInputPassword1">

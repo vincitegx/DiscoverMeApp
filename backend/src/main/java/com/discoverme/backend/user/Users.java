@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @Entity
 @Data
@@ -29,9 +28,6 @@ public class Users {
     @Column(nullable = false, unique = true)
     @Email
     private String email;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<UserSocials> userSocials;
 
     @Column(nullable = false)
     private String password;

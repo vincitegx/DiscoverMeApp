@@ -1,12 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-custom fixed-top"
-[style.background]="shouldSetBackgroundColor() ? '#002768' : 'transparent'">
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
     <ng-container *ngIf="isloggedIn$ | async; let loggedIn">
       <div class="dropdown" *ngIf="loggedIn">
         <a *ngIf="user$ | async as user" class="dropbtn btn text-white">{{ user.stageName }}</a>
         <div id="myDropdown" class="dropdown-content text-white">
-          <a class="text-white" href="home">Home</a>
+          <a class="text-white" href="">Home</a>
           <a class="text-white" href="profile">Profile</a>
           <a class="text-white" (click)="logout()">Logout</a>
         </div>

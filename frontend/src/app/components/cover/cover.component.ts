@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-cover',
@@ -14,7 +14,7 @@ export class CoverComponent implements OnInit{
       ngOnInit(): void{}
 
       loginWithRedirect():void{
-          this.auth.loginWithRedirect();
+          this.auth.disconnectFacebook();
         }
 
 }

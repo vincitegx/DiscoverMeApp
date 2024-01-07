@@ -1,11 +1,11 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.social.Socials;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,34 +32,21 @@ public class ProjectController {
         return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 
-    @PutMapping("approve")
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<ProjectResponse> approveProject(@RequestParam String id) {
-        ProjectResponse projectResponse = projectService.approveProject(id);
-        return new ResponseEntity<>(projectResponse, HttpStatus.OK);
-    }
-
-    @PutMapping("disapprove")
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<ProjectResponse> disApproveProject(@RequestParam String id) {
-        ProjectResponse projectResponse = projectService.disApproveProject(id);
-        return new ResponseEntity<>(projectResponse, HttpStatus.OK);
-    }
-
-    @GetMapping("approved")
-    public ResponseEntity<Page<ProjectResponse>> getApprovedProjects(@RequestParam Optional<String> search,
+    @GetMapping
+    public ResponseEntity<Page<ProjectResponse>> getCurrentProjects(@RequestParam Optional<String> search,
                                                                      @RequestParam Optional<Integer> page){
-        Page<ProjectResponse> projectResponseList = projectService.getApprovedProjects(search.orElse(""),
+        Page<ProjectResponse> projectResponseList = projectService.getCurrentProjects(search.orElse(""),
                 PageRequest.of(page.orElse(0), 3));
         return new ResponseEntity<>(projectResponseList, HttpStatus.OK);
     }
-    @GetMapping("disapproved")
-    public ResponseEntity<Page<ProjectResponse>> getDisApprovedProjects(Pageable pageable){
-        Page<ProjectResponse> projectResponseList = projectService.getDisApprovedProjects(pageable);
-        return new ResponseEntity<>(projectResponseList, HttpStatus.OK);
+
+    @GetMapping("limit")
+    public ResponseEntity<Boolean> isProjectLimitExceeded(){
+        System.out.println(projectService.isProjectLimitExceeded());
+        return new ResponseEntity<>(projectService.isProjectLimitExceeded(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("calender")
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<Page<ProjectResponse>> getAllProjectsForACalender(@RequestParam @NonNull String calenderId, Pageable pageable){
         Long id = Long.parseLong(calenderId);
@@ -75,18 +61,5 @@ public class ProjectController {
     @GetMapping("socials")
     public ResponseEntity<List<Socials>> getAllSocials(){
         return new ResponseEntity<>(projectService.getAllSocials(), HttpStatus.OK);
-    }
-
-    @DeleteMapping
-    @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<Void> deleteDisApprovedProjects(Pageable pageable) {
-        projectService.deleteDisApprovedProjects(pageable);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("voters")
-    public ResponseEntity<List<ProjectResponse>> getTop5ProjectsWithTheHighestVoters(@RequestParam String id) {
-        List<ProjectResponse> projectResponse = projectService.getTop5ProjectsWithTheHighestVoters(id);
-        return new ResponseEntity<>(projectResponse, HttpStatus.OK);
     }
 }

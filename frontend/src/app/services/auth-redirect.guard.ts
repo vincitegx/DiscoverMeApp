@@ -19,7 +19,7 @@ export class AuthRedirectGuard{
         if (!isAuthenticated) {
           return true;
         } else {
-          return this.router.createUrlTree(['/home']);
+          return this.router.createUrlTree(['/']);
         }
       })
     );

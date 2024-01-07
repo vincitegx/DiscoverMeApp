@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.Objects;
+
 /**
  *
  * @author TEGA
@@ -20,20 +22,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class CacheConfig {
     
     public static final String CALENDER = "calender";
-    public static final String SUPPORTING_PROJECTS = "supporting-projects";
-    public static final String APPROVED_PROJECTS = "approved-projects";
 
     @Bean
     public CacheManager cacheManager(){
-        return new ConcurrentMapCacheManager(CALENDER, SUPPORTING_PROJECTS, APPROVED_PROJECTS);
+        return new ConcurrentMapCacheManager(CALENDER);
     }
     
-    @Scheduled(fixedRate = 3599999)
+    @Scheduled(fixedRate = 604800000)
     public void evictAllCaches(){
         try{
-            cacheManager().getCache(CALENDER).clear();
-            cacheManager().getCache(SUPPORTING_PROJECTS).clear();
-            cacheManager().getCache(APPROVED_PROJECTS).clear();
+            Objects.requireNonNull(cacheManager().getCache(CALENDER)).evictIfPresent("calender");
         }catch(NullPointerException ex){
             log.error(ex.getLocalizedMessage());
         }

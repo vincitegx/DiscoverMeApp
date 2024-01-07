@@ -5,30 +5,27 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
-import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import { CalenderService } from './calender.service';
+import { ProjectService } from './project.service';
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectSubmissionGuard {
-  constructor(private calenderService: CalenderService, private router: Router) {}
-
+  constructor(private projectService: ProjectService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.calenderService.getCurrentCalender().pipe(
-      map(response => {
-        console.log(response.status);
-        if (response.status === 'SUBMISSION') {
-          return true;
+    return this.projectService.isProjectLimitExceeded().pipe(
+      map(isLimitExceeded => {
+        if (isLimitExceeded) {
+          return this.router.createUrlTree(['/']);
         } else {
-          return this.router.createUrlTree(['/home']);
+          return true;
         }
       }),
       catchError(() => {
-        return of(this.router.createUrlTree(['/home']));
+        return of(this.router.createUrlTree(['/']));
       })
     );
   }

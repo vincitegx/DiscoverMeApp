@@ -3,11 +3,11 @@ package com.discoverme.backend.project;
 import com.discoverme.backend.project.calender.Calender;
 import com.discoverme.backend.project.calender.CalenderService;
 import com.discoverme.backend.project.file.FileService;
+import com.discoverme.backend.social.Socials;
+import com.discoverme.backend.social.SocialsRepository;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -26,26 +26,24 @@ public class ProjectService {
     private final FileService fileService;
     private final LoggedInUserService loggedInUserService;
     private final SocialsRepository socialsRepository;
+    private final SecureRandomStringGenerator secureRandomStringGenerator;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
         Users user = userService.getCurrentUser();
-        if(!calender.getStatus().equals(PeriodStatus.SUBMISSION)){
-            throw new ProjectException("You cannot submit a project currently");
-        }
         Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
         if(project.isPresent()){
-            throw new ProjectException("You can only register one project");
+            throw new ProjectException("You can add only one project per week");
         }
         String contentUri = fileService.uploadFile(content);
         Project project1 = Project.builder()
+                .url(secureRandomStringGenerator.apply(10))
                 .calender(calender)
                 .songTitle(projectRequest.getSongTitle())
                 .songUri(projectRequest.getSongUri())
-                .user(userService.getCurrentUser())
+                .user(user)
                 .contentUri(contentUri)
                 .social(projectRequest.getSocial())
-                .status(ProjectApprovalStatus.PENDING)
                 .build();
         project1 = saveProject(project1);
         return mapProjectToResponse(project1);
@@ -63,56 +61,24 @@ public class ProjectService {
         Project project = projectRepository.findById(id).orElseThrow(()-> new ProjectException("No project with such ID"));
         projectRepository.delete(project);
     }
-
-//    @CachePut(cacheNames = "approved-projects")
-    public ProjectResponse approveProject(String id) {
-        Long projectId = Long.parseLong(id);
-        Project project =projectRepository.findById(projectId).orElseThrow(()-> new ProjectException("No such Project Found"));
-        project.setStatus(ProjectApprovalStatus.APPROVED);
-        project = projectRepository.save(project);
-        return mapProjectToResponse(project);
-    }
-
-    public ProjectResponse disApproveProject(String id) {
-        Long projectId = Long.parseLong(id);
-        Project project =projectRepository.findById(projectId).orElseThrow(()-> new ProjectException("No such Project Found"));
-        project.setStatus(ProjectApprovalStatus.REJECTED);
-        project = projectRepository.save(project);
-        return mapProjectToResponse(project);
-    }
-
-//    @Cacheable(cacheNames = "approved-projects")
-    public Page<ProjectResponse> getApprovedProjects(String search, PageRequest request) {
+    public Page<ProjectResponse> getCurrentProjects(String search, PageRequest request) {
         Calender calender = calenderService.getProjectCalender();
-        Page<Project> projects = projectRepository.findByStatusAndCalenderAndSongTitleContainingOrStageNameContaining(ProjectApprovalStatus.APPROVED.name(),calender.getId(),search, request);
+        Page<Project> projects = projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(calender.getId(),search, request);
         return projects.map(this::mapProjectToResponse);
     }
     
     public ProjectResponse mapProjectToResponse(Project project){
         return ProjectResponse.builder()
                 .id(project.getId())
+                .url(project.getUrl())
                 .songUri(project.getSongUri())
                 .songTitle(project.getSongTitle())
                 .contentUri(project.getContentUri())
-                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId().toString()))
-                .isVoted(loggedInUserService.checkVoteStateForLoggedInUser(project.getId().toString()))
-                .noOfVoters(project.getVoteCount())
-                .noOfSupportedProjects(loggedInUserService.getProjectsSupported(project.getUser().getId()).size())
+                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId()))
+                .percentOfSupport(loggedInUserService.getProjectsSupportedToLoggedInUser(project.getUser()))
                 .social(project.getSocial())
                 .stageName(project.getUser().getStageName())
                 .build();
-    }
-
-    @Cacheable(cacheNames = "supporting-projects")
-    public List<ProjectResponse> getTop5ProjectsWithTheHighestVoters(String id) {
-        Calender calender = calenderService.getProjectCalender();
-        List<Project> projects = projectRepository.findTop5ByCalenderOrderByVoteCountDesc(calender);
-        List<ProjectResponse> projectResponseList = new ArrayList<>();
-        projects.forEach(project -> {
-            ProjectResponse projectResponse = mapProjectToResponse(project);
-            projectResponseList.add(projectResponse);
-        });
-        return projectResponseList;
     }
 
     public Page<ProjectResponse> getAllProjectsForACalender(Long id, Pageable pageable) {
@@ -124,27 +90,12 @@ public class ProjectService {
         return projectResponsePage;
     }
 
-    public void deleteDisApprovedProjects(Pageable pageable) {
-        Calender calender = calenderService.getProjectCalender();
-        Page<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.REJECTED, calender, pageable);
-        List<Project> projectList = projects.toList();
-        projectList.forEach(project -> {
-            deleteProject(project.getId());
-            String contentUri = project.getContentUri();
-            fileService.deleteFile(contentUri);
-        });
-    }
-
-    public Page<ProjectResponse> getDisApprovedProjects(Pageable pageable) {
-        Calender calender = calenderService.getProjectCalender();
-        Page<Project> projects = projectRepository.findByStatusAndCalender(ProjectApprovalStatus.REJECTED, calender, pageable);
-        List<Project> projectList = projects.toList();
-        Page<ProjectResponse> projectResponsePage = new PageImpl(projectList);
-        projectList.forEach(project -> projectResponsePage.and(mapProjectToResponse(project)));
-        return projectResponsePage;
-    }
-
     public List<Socials> getAllSocials() {
         return socialsRepository.findAll();
+    }
+
+    public Boolean isProjectLimitExceeded() {
+        long projectCount = projectRepository.count();
+        return projectCount == 50;
     }
 }

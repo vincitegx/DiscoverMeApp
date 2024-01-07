@@ -12,11 +12,11 @@ export class ProjectService {
   constructor(private http: HttpClient) { }
 
   public getProjects(search : string, page: number): Observable<any> {
-    return this.http.get<any>(`${this.apiServerUrl}api/v1/projects/approved?search=${search}&page=${page}`);
+    return this.http.get<any>(`${this.apiServerUrl}api/v1/projects?search=${search}&page=${page}`);
   }
 
-  updateVoteStatus(projectId: number): Observable<void> {
-    const url = `${this.apiServerUrl}api/v1/projects/${projectId}/vote`;
+  updateSupportStatus(projectId: number): Observable<void> {
+    const url = `${this.apiServerUrl}api/v1/projects/${projectId}/support`;
     return this.http.put<void>(url, {});
   }
 
@@ -24,11 +24,11 @@ export class ProjectService {
     return this.http.post<any>(`${this.apiServerUrl}api/v1/projects`, formData);
   }
 
-  public getAllSocials(): Observable<Array<Socials>> {
-    return this.http.get<Array<Socials>>(`${this.apiServerUrl}api/v1/projects/socials`);
-  }
-
   public deleteProject(projectId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/employee/delete/${projectId}`);
+  }
+
+  public isProjectLimitExceeded(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiServerUrl}api/v1/projects/limit`);
   }
 }

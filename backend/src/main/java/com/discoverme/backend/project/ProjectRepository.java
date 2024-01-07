@@ -16,13 +16,13 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     Optional<Project> findByUserAndCalender(Users user, Calender calender);
     Page<Project> findByUser(Users user, Pageable pageable);
-    Page<Project> findByStatusAndCalender(ProjectApprovalStatus status, Calender calender, Pageable pageable);
+    List<Project> findByUser(Users user);
 
-    @Query("SELECT p FROM Project p WHERE p.calender = :calender ORDER BY p.voteCount DESC")
+    @Query("SELECT p FROM Project p WHERE p.calender = :calender ORDER BY p.supportCount DESC")
     List<Project> findTop5ByCalenderOrderByVoteCountDesc(Calender calender);
 
     Page<Project> findByCalender(Calender calender, Pageable pageable);
 
-    @Query(value = "SELECT p.* FROM project p INNER JOIN users u ON (p.user_id = u.id) WHERE p.status = :status AND p.calender_id = :calender AND (p.song_title LIKE %:search% OR u.stage_name LIKE %:search%) ORDER BY p.vote_count DESC", nativeQuery = true)
-    Page<Project> findByStatusAndCalenderAndSongTitleContainingOrStageNameContaining(String status,Long calender,String search, PageRequest request);
+    @Query(value = "SELECT p.* FROM project p INNER JOIN users u ON (p.user_id = u.id) WHERE p.calender_id = :calender AND (p.song_title LIKE %:search% OR u.stage_name LIKE %:search%) ORDER BY p.support_count DESC", nativeQuery = true)
+    Page<Project> findByCalenderAndSongTitleContainingOrStageNameContaining(Long calender,String search, PageRequest request);
 }

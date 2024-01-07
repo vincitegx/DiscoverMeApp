@@ -6,5 +6,4 @@ INSERT INTO socials (name) VALUES
     ('FACEBOOK'),
     ('X'),
     ('TIKTOK'),
-    ('INSTAGRAM'),
-    ('YOUTUBE');
+    ('INSTAGRAM')

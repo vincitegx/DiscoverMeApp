@@ -53,7 +53,7 @@ public class SecurityFilterChainConfig {
                                 xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
                         )
                                 .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                                .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy","default-src 'self'"))
+                                .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy","default-src 'self' https://localhost:4200"))
                          .referrerPolicy(referrer -> referrer
                                                 .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                                         )
@@ -64,7 +64,6 @@ public class SecurityFilterChainConfig {
                                 )
 
                 );
-//        httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource())
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
@@ -76,6 +75,8 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/auth/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/projects/contents")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/projects/contents/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/projects/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/projects/limit")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/v3/api-docs")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/v3/users/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/v2/api-docs")).permitAll()

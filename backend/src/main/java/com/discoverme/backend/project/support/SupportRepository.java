@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface SupportRepository extends JpaRepository<Support, Long> {
+    Optional<Support> findByProjectAndUser(Project project, Users user);
     List<Support> findByProject(Project project);
     List<Support> findByUser(Users user);
     Optional<Support> findTopByProjectAndUserOrderByIdDesc(Project project, Users currentUser);

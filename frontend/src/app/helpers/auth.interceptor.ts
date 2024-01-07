@@ -22,7 +22,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       req = this.addToken(req, jwtToken);
     }
     req = req.clone({ withCredentials: true });
-    if (req.url.indexOf('refresh') !== -1 || req.url.indexOf('login') !== -1 || req.url.indexOf('logout') !== -1) {
+    if (req.url.indexOf('refresh') !== -1 || req.url.indexOf('login') !== -1 || req.url.indexOf('logout') !== -1 || req.url.indexOf('project')) {
       return next.handle(req);
     }
 

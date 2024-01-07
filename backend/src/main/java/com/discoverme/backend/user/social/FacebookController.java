@@ -1,12 +1,13 @@
-package com.discoverme.backend.user.login;
+package com.discoverme.backend.user.social;
 
-import com.discoverme.backend.security.CustomOAuth2UserService;
-import com.discoverme.backend.user.UserMapper;
+import com.discoverme.backend.user.UrlDto;
+import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Version;
 import com.restfb.scope.FacebookPermissions;
 import com.restfb.scope.ScopeBuilder;
+import com.restfb.types.Account;
 import com.restfb.types.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +33,8 @@ public class FacebookController {
         facebookClient = new DefaultFacebookClient(Version.LATEST);
         ScopeBuilder scopeBuilder = new ScopeBuilder();
         scopeBuilder.addPermission(FacebookPermissions.EMAIL);
+        scopeBuilder.addPermission(FacebookPermissions.PUBLIC_PROFILE);
+        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_VIDEOS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_POSTS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_PHOTOS);
@@ -46,6 +49,7 @@ public class FacebookController {
 //        scopeBuilder.addPermission(FacebookPermissions.USER_GENDER);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_FRIENDS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_BIRTHDAY);
+//        facebookClient.getFacebookEndpointUrls().
         String url = facebookClient.getLoginDialogUrl(appId, "https://localhost:4200/profile", scopeBuilder);
         return ResponseEntity.ok(new UrlDto(url));
     }
@@ -57,12 +61,13 @@ public class FacebookController {
         FacebookClient.AccessToken facebookTokenResponseExtended = facebookClient.obtainExtendedAccessToken(
                 appId, appSecret, facebookTokenResponse.getAccessToken());
         FacebookClient defaultFacebookClient = new DefaultFacebookClient(facebookTokenResponseExtended.getAccessToken(), Version.LATEST);
+        Connection<Account> connection = defaultFacebookClient.fetchConnection("/me/accounts", Account.class);
         User user = defaultFacebookClient.fetchObject("me", User.class);
             Cookie refreshTokenCookie = new Cookie("fb-access-token", facebookTokenResponseExtended.getAccessToken());
             refreshTokenCookie.setHttpOnly(true);
             refreshTokenCookie.setSecure(true);
             refreshTokenCookie.setAttribute("SameSite", "None");
-            refreshTokenCookie.setMaxAge(facebookTokenResponse.getExpires().getDate());
+            refreshTokenCookie.setMaxAge((int) facebookTokenResponse.getExpires().getTime());
             refreshTokenCookie.setPath("/");
             refreshTokenCookie.setAttribute("Priority", "High");
             servletResponse.addCookie(refreshTokenCookie);

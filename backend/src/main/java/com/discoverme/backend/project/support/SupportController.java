@@ -17,28 +17,15 @@ import java.util.List;
 public class SupportController {
     private final SupportService supportService;
     private final LoggedInUserService loggedInUserService;
-    @PostMapping("support")
-    public ResponseEntity<Void> supportProject(@RequestParam @NonNull String projectId) {
-        supportService.addSupporter(projectId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("support")
-    public ResponseEntity<Void> removeSupport(@RequestParam @NonNull String projectId) {
-        supportService.unSupportProject(projectId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PutMapping("{projectId}/support")
+    public ResponseEntity<Void> toggleSupport(@PathVariable Long projectId) {
+        supportService.toggleSupport(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     @GetMapping("support")
-    public ResponseEntity<List<UserDto>> getProjectSupporters(@RequestParam @NonNull String projectId){
+    public ResponseEntity<List<UserDto>> getProjectSupporters(@RequestParam @NonNull Long projectId){
         List<UserDto> users =  supportService.getProjectSupporters(projectId);
         return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-    
-    @GetMapping("supported")
-    public ResponseEntity<List<ProjectResponse>> getProjectsSupported(@RequestParam @NonNull String id){
-        Long userId = Long.parseLong(id);
-        List<ProjectResponse> projects = loggedInUserService.getProjectsSupported(userId);
-        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 }

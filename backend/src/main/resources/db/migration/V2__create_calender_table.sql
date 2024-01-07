@@ -4,7 +4,6 @@
  */
 CREATE  TABLE calender (
 	id                   bigserial PRIMARY KEY NOT NULL  ,
-	name           varchar(255)  NOT NULL,
-	status           varchar(255)  NOT NULL,
-	CONSTRAINT valid_status CHECK (status IN ('SUBMISSION', 'VOTING', 'SUPPORT'))
+	start_date           timestamp  NOT NULL,
+	end_date           timestamp  NOT NULL
  );

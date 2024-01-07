@@ -12,6 +12,6 @@ export class CalenderService {
   constructor(private http: HttpClient) { }
 
   public getCurrentCalender(): Observable<CalenderResponse> {
-    return this.http.get<CalenderResponse>(`${this.apiServerUrl}api/v1/projects/calenders/active`);
+    return this.http.get<CalenderResponse>(`${this.apiServerUrl}api/v1/projects/calenders`);
   }
 }

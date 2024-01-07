@@ -9,12 +9,11 @@ import {
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { JwtResponse } from 'src/app/components/signin/jwtresponse';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SigninRequest } from 'src/app/components/signin/signinrequest';
 import { NotifierService } from 'angular-notifier';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { VerifiedMessageService } from 'src/app/shared/services/verified-message.service';
-import { UserDto } from 'src/app/dtos/userdto';
 
 @Component({
   selector: 'app-signin',
@@ -70,9 +69,9 @@ export class SigninComponent implements OnInit {
         next: (response: JwtResponse) => {
           this.isLoading.next(false);
           if(response.user.role == "ADMIN"){
-            this.router.navigateByUrl('home');
+            this.router.navigateByUrl('');
           }else{
-            this.router.navigateByUrl('home');
+            this.router.navigateByUrl('');
           }
           this.notifier.notify('success', 'Welcome, '+ response.user.stageName);
           this.form.reset();

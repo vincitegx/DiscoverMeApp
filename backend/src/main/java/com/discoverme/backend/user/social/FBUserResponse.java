@@ -1,4 +1,4 @@
-package com.discoverme.backend.user.login;
+package com.discoverme.backend.user.social;
 
 public record FBUserResponse(String name) {
 }

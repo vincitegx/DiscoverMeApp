@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface CalenderRepository extends JpaRepository<Calender, Long> {
-    Optional<Calender> findByName(String name);
     Optional<Calender> findFirstByOrderByIdDesc();
 }

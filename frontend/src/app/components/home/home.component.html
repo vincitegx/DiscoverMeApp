@@ -1,11 +1,10 @@
 <section class="section" id="main-container">
-  <div class="bottom-0 end-0 rounded-circle m-4" style="position: fixed;" *ngIf="(phase$ | async) === 'Submission'">
+  <div class="bottom-0 end-0 rounded-circle m-4" style="position: fixed;" *ngIf="!(isProjectLimitReached$ | async)">
     <a [routerLink]="['/project']" class="btn btn-primary btn-lg">
       <i class="fa fa-plus"></i>
     </a>
   </div>
   <div class="d-flex justify-content-between align-items-center">
-    <h3>{{ (phase$ | async) }} Phase</h3>
     <form class="form-inline my-2 my-md-0" [formGroup]="searchForm" (ngSubmit)="setSearch($event)">
       <div class="input-group">
         <input class="form-control" type="text" name="search" [formControlName]="'search'"
@@ -17,21 +16,24 @@
         </div>
       </div>
     </form>
+    <form class="text-left">  
+      <select class="form-control" name="sort">
+        <option value="id" selected>Default Sorting (All Projects)</option>
+        <option value="name">(A-Z) Alphabetical</option>
+        <option value="priceMp3">Price</option>
+      </select>
+    </form> 
   </div>
   <hr>
   <ng-container *ngIf="(appState$ | async) as appState" [ngSwitch]="appState.dataState">
-    <ng-container *ngSwitchCase="DataState.LOADING_STATE">
-      <div class="col-md-12 single-note-item text-center">
-        <div class=" spinner-border text-info"></div>
+    <ng-container *ngSwitchCase="DataState.EMPTY_STATE">
+      <div class="col-md-12 text-center my-3">
+        <div class="alert alert-info">
+          No Projects Registered.
+        </div>
       </div>
     </ng-container>
     <ng-container *ngSwitchCase="DataState.LOADED_STATE">
-      <ng-container *ngIf="appState.appData['content'].length === 0">
-        <div class="col-md-12 text-center my-3">
-          <div class="badge badge-info p-3" style="font-size: 16px; font-weight: 200;">
-            Add A Project</div>
-        </div>
-      </ng-container>
       <ng-container *ngIf="appState.appData['content'].length > 0">
         <div class="row align-items-center">
           <div class="col-4" *ngFor="let project of appState.appData['content']; let i=index">
@@ -45,17 +47,21 @@
                   <h6 class="font-weight-bold">{{ project.stageName }}</h6>
                   <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
                   <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{
-                      project.noOfSupportedProjects }}%</span></h6>
+                      project.percentOfSupport }}%</span></h6>
                 </div>
-                <button class="btn btn-success" (click)="onVoteButtonClick(project)">
-                  {{ project.voted ? 'Unvote' : 'Vote' }}
+                <button class="btn btn-success" (click)="onSupportButtonClick(project)">
+                  {{ project.isSupported ? 'Unsupport' : 'Support' }}
                 </button>
               </div>
             </div>
           </div>
         </div>
       </ng-container>
-
+    </ng-container>
+    <ng-container *ngSwitchCase="DataState.LOADING_STATE">
+      <div class="col-md-12 single-note-item text-center">
+        <div class=" spinner-border text-info"></div>
+      </div>
     </ng-container>
     <ng-container *ngSwitchCase="DataState.ERROR_STATE">
       <div class="alert alert-danger p-3">

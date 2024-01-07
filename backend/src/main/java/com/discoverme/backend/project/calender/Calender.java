@@ -1,11 +1,13 @@
 package com.discoverme.backend.project.calender;
 
-import com.discoverme.backend.project.PeriodStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Data
@@ -17,8 +19,14 @@ public class Calender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
-    private String name;
-    @Enumerated(EnumType.STRING)
-    private PeriodStatus status;
+    @Column(nullable = false)
+    private Date startDate;
+    @Column(nullable = false)
+    private Date endDate;
+
+    @PrePersist
+    public void add(){
+        this.startDate = Date.from(Instant.now());
+        this.endDate = Date.from(Instant.now().plusSeconds(604800));
+    }
 }
