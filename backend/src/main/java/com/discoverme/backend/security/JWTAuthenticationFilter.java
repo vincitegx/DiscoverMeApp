@@ -37,13 +37,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException, TokenExpiredException {
+        System.out.println("inside authfilter");
         final String authorizationHeader = request.getHeader("Authorization");
         String email;
         String token;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            System.out.println("there is a bearer auth");
             token = authorizationHeader.substring(7);
+            System.out.println("jwt: "+ token);
             email = jwtUtil.validateToken(token);
+            System.out.println("email: "+email);
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                System.out.println("passed auth");
                 UserDetails userDetails
                         = this.userDetailsService.loadUserByUsername(email);
                 var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

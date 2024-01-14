@@ -184,6 +184,16 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.5</version>
+        </dependency>
+        <dependency>
+            <groupId>de.chandre.quartz</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.restfb</groupId>
             <artifactId>restfb</artifactId>
             <version>2023.17.0</version>

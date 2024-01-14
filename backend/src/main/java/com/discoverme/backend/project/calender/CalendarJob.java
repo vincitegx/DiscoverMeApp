@@ -1,25 +1,19 @@
 package com.discoverme.backend.project.calender;
 
-import org.quartz.*;
+import org.jetbrains.annotations.NotNull;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
-@Component
-@PersistJobDataAfterExecution
-@DisallowConcurrentExecution
-public class CalendarJob implements StatefulJob  {
-    private CalenderService calendarService;
-    public CalendarJob() {}
+
+public class CalendarJob extends QuartzJobBean {
     @Autowired
-    public void setCalendarService(CalenderService calendarService) {
-        this.calendarService = calendarService;
-    }
+    private CalenderRepository calendarRepository;
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        if (calendarService == null) {
-            throw new JobExecutionException("CalendarService not properly injected.");
-        }
-        calendarService.addProjectCalender();
+    protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        Calender calendarEntity = new Calender();
+        calendarRepository.save(calendarEntity);
     }
 }

@@ -41,7 +41,7 @@ public class RefreshTokenController {
                 return refreshTokenService.refreshToken(user, cookies.get().getValue());
             } else {
                 GoogleRefreshTokenResponse refreshTokenResponse = userInfoClient.post()
-                        .uri( uriBuilder -> uriBuilder
+                        .uri("https://oauth2.googleapis.com/", uriBuilder -> uriBuilder
                                 .path("token")
                                 .queryParam("client_id", clientId)
                                 .queryParam("client_secret", clientSecret)

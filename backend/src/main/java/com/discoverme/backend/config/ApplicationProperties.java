@@ -9,5 +9,34 @@ import org.springframework.stereotype.Component;
 public final class ApplicationProperties {
     @Value("${jwt.expiry.minutes}")
     private Long jwtValidity;
-    private final String refreshTokenCookie="refresh-token";
+
+    @Value("${refresh.token.cookie}")
+    private String refreshTokenCookie;
+
+    @Value("${frontend.domain}")
+    private String frontendDomain;
+
+    @Value("${organization.properties.mail}")
+    private String mailAddress;
+
+    @Value("${spring.security.oauth2.resourceserver.opaque-token.introspection-uri}")
+    private String introspectionUri;
+
+    @Value("${spring.security.oauth2.resourceserver.opaque-token.client-id}")
+    private String googleClientId;
+
+    @Value("${spring.security.oauth2.resourceserver.opaque-token.client-secret}")
+    private String googleClientSecret;
+
+    @Value("${file.upload-dir}")
+    private String fileUploadDir;
+
+    @Value("${pagination.content.max-size}")
+    private Integer pageSize;
+
+    @Value("${project.max-size}")
+    private Integer projectMaxSize;
+
+    @Value("${random.string.generator.max-size}")
+    private Integer randomStringGeneratorMaxSize;
 }

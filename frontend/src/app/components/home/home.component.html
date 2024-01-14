@@ -47,7 +47,7 @@
                   <h6 class="font-weight-bold">{{ project.stageName }}</h6>
                   <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
                   <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{
-                      project.percentOfSupport }}%</span></h6>
+                      project.percentOfSupport ?? 0 }}%</span></h6>
                 </div>
                 <button class="btn btn-success" (click)="onSupportButtonClick(project)">
                   {{ project.isSupported ? 'Unsupport' : 'Support' }}

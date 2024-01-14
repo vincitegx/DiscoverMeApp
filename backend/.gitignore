@@ -15,3 +15,5 @@ target/
 nbactions.xml
 !**/tokens/
 !**/src/main/resources/**.json
+**\*.crt
+**\*.ssl

@@ -88,6 +88,7 @@ public class JWTUtil {
                 return null;
             }
         }catch (AlgorithmMismatchException | IncorrectClaimException e){
+            System.out.println("Going for oauth verification");
          return validateOAuthToken(token);
         }catch (JWTVerificationException e){
             System.out.println(e.getMessage());
@@ -97,6 +98,7 @@ public class JWTUtil {
 
     public String validateOAuthToken(String token) throws TokenExpiredException{
         try {
+            System.out.println("clientId: "+clientId);
             NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
@@ -104,9 +106,11 @@ public class JWTUtil {
                     .build();
             GoogleIdToken idToken = verifier.verify(token);
             if (idToken != null) {
+                System.out.println("idtoken: "+ idToken);
                 GoogleIdToken.Payload payload = idToken.getPayload();
                 return payload.getEmail();
             } else {
+                System.out.println("idtoken is null ");
                 return null;
             }
         } catch (IOException | GeneralSecurityException e) {

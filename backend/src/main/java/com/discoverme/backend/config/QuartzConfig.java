@@ -1,110 +1,71 @@
 package com.discoverme.backend.config;
 
 import com.discoverme.backend.project.calender.CalendarJob;
-import org.quartz.*;
+import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class QuartzConfig {
 
-//    @Autowired
-//    private ApplicationContext applicationContext;
-//
-//    @Bean
-//    public AutowiringSpringBeanJobFactory jobFactory() {
-//        return new AutowiringSpringBeanJobFactory();
-//    }
-//
-//    @Bean
-//    public SchedulerFactoryBean schedulerFactory(AutowiringSpringBeanJobFactory jobFactory, Trigger... triggers) {
-//        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-//        factory.setOverwriteExistingJobs(true);
-//        factory.setJobFactory(jobFactory);
-//        factory.setTriggers(triggers);
-//        return factory;
-//    }
-//
-//    @Bean
-//    public JobDetailFactoryBean calendarJobDetail() {
-//        return createJobDetail(CalendarJob.class);
-//    }
-//
-//    @Bean
-//    public SimpleTriggerFactoryBean calendarJobTrigger(JobDetail calendarJobDetail) {
-//        return createTrigger(calendarJobDetail); // Repeat every week in milliseconds
-//    }
-//
-//    // Add methods for other jobs and triggers here
-//
-//    private <T extends Job> JobDetailFactoryBean createJobDetail(Class<T> jobClass) {
-//        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-//        factoryBean.setJobClass(jobClass);
-//        factoryBean.setGroup(jobClass.getSimpleName() + "Group");
-//        factoryBean.setName(jobClass.getSimpleName());
-//        return factoryBean;
-//    }
-//
-//    private SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail) {
-//        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-//        factoryBean.setJobDetail(jobDetail);
-//        factoryBean.setRepeatInterval(604800000);
-//        factoryBean.setGroup(jobDetail.getKey().getGroup());
-//        factoryBean.setName(jobDetail.getKey().getName() + "Trigger");
-//        factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-//        return factoryBean;
-//    }
-
-//    @Bean
-//    public JobDetailFactoryBean calendarJobDetail() {
-//        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-//        factoryBean.setJobClass(CalendarJob.class);
-//        factoryBean.setGroup("calendarJobGroup");
-//        factoryBean.setName("calendarJob");
-//        return factoryBean;
-//    }
-//
-//    @Bean
-//    public SimpleTriggerFactoryBean calendarJobTrigger(JobDetail calendarJobDetail) {
-//        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-//        factoryBean.setJobDetail(calendarJobDetail);
-//        factoryBean.setRepeatInterval(7 * 24 * 60 * 60 * 1000); // Repeat every week in milliseconds
-//        factoryBean.setGroup("calendarJobGroup");
-//        factoryBean.setName("calendarJobTrigger");
-//        return factoryBean;
-//    }
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Bean
-    public JobDetail sampleJobDetail() {
-        return JobBuilder.newJob(CalendarJob.class)
-                .withIdentity("calendarJob")
-                .storeDurably()
-                .build();
+    public JobDetailFactoryBean jobDetailFactoryBean() {
+        JobDetailFactoryBean factory = new JobDetailFactoryBean();
+        factory.setJobClass(CalendarJob.class);
+        factory.setDurability(true);
+        return factory;
     }
 
     @Bean
-    public Trigger sampleJobTrigger(JobDetail jobDetail) {
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInMilliseconds(7 * 24 * 60 * 60 * 1000)
-                .repeatForever();
+    public CronTriggerFactoryBean cronTriggerFactoryBean(JobDetail jobDetail) {
+        CronTriggerFactoryBean factory = new CronTriggerFactoryBean();
+        factory.setJobDetail(jobDetail);
+        factory.setCronExpression("0 0 0 * * ?");
+        factory.setStartDelay(0);
+        return factory;
+    }
+//    @Bean
+//    @Primary
+//    public Trigger jobTrigger(JobDetail job) {
+//        return TriggerBuilder.newTrigger()
+//                .forJob(job)
+//                .withIdentity("calendarTrigger")
+//                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(24).repeatForever())
+//                .startNow()
+//                .build();
+//    }
 
-        return TriggerBuilder.newTrigger()
-                .forJob(jobDetail)
-                .withIdentity("sampleTrigger")
-                .withSchedule(scheduleBuilder)
-                .build();
+
+    @Bean
+    public SchedulerFactoryBean schedulerFactoryBean(Trigger cronTrigger, JobDetail jobDetail, DataSource dataSource) {
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        factory.setConfigLocation(applicationContext.getResource("classpath:application.properties"));
+        factory.setJobFactory(springBeanJobFactory());
+        factory.setJobDetails(jobDetail);
+        factory.setTriggers(cronTrigger);
+        factory.setDataSource(dataSource);
+        factory.setOverwriteExistingJobs(true);
+        factory.setAutoStartup(true);
+        return factory;
     }
 
     @Bean
-    public SchedulerFactoryBean schedulerFactory(Trigger trigger, JobDetail jobDetail) {
-        SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
-        schedulerFactory.setTriggers(trigger);
-        schedulerFactory.setJobDetails(jobDetail);
-        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-        schedulerFactory.setJobFactory(jobFactory);
-        return schedulerFactory;
+    public SpringBeanJobFactory springBeanJobFactory() {
+        return new SpringBeanJobFactory();
     }
 }

@@ -22,15 +22,17 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       req = this.addToken(req, jwtToken);
     }
     req = req.clone({ withCredentials: true });
-    if (req.url.indexOf('refresh') !== -1 || req.url.indexOf('login') !== -1 || req.url.indexOf('logout') !== -1 || req.url.indexOf('project')) {
+    if (req.url.indexOf('refresh') !== -1 || req.url.indexOf('login') !== -1 || req.url.indexOf('logout') !== -1) {
       return next.handle(req);
     }
 
     return next.handle(req).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
+          console.log("401")
           return this.handleAuthErrors(req, next);
         }else if (error instanceof HttpErrorResponse && error.status === 400) {
+          console.log("400")
           return this.handleLogoutAuthErrors(req, next);
         }else {
           return throwError(error);

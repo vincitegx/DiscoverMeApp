@@ -20,9 +20,11 @@ public class LoggedInUserService {
         boolean supportState = false;
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + projectId));
-        Optional<Support> support = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
-        if(support.isPresent()){
-            supportState = true;
+        if(userService.getCurrentUser() != null){
+            Optional<Support> support = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
+            if(support.isPresent()){
+                supportState = true;
+            }
         }
         return supportState;
     }

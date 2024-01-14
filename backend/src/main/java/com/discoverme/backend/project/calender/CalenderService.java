@@ -15,11 +15,7 @@ import java.util.List;
 public class CalenderService {
     private final CalenderRepository calenderRepository;
 
-    public void addProjectCalender() {
-        calenderRepository.save(new Calender());
-    }
-
-    @Cacheable(cacheNames = "calender")
+//    @Cacheable(cacheNames = "calender")
     public Calender getProjectCalender() {
         return calenderRepository.findFirstByOrderByIdDesc().orElseThrow(()-> new ProjectException("No calender found"));
     }

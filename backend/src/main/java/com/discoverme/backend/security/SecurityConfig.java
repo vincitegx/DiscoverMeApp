@@ -47,7 +47,7 @@ public class SecurityConfig {
     @Bean
     public WebClient userInfoClient(){
 //        return WebClient.builder().baseUrl(introspectUri).build();
-        return WebClient.builder().baseUrl("https://oauth2.googleapis.com/").build();
+        return WebClient.builder().build();
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {

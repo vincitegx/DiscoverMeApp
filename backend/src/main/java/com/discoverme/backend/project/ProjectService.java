@@ -1,5 +1,6 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.config.ApplicationProperties;
 import com.discoverme.backend.project.calender.Calender;
 import com.discoverme.backend.project.calender.CalenderService;
 import com.discoverme.backend.project.file.FileService;
@@ -25,19 +26,19 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final FileService fileService;
     private final LoggedInUserService loggedInUserService;
-    private final SocialsRepository socialsRepository;
     private final SecureRandomStringGenerator secureRandomStringGenerator;
+    private final ApplicationProperties properties;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
         Users user = userService.getCurrentUser();
         Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
         if(project.isPresent()){
-            throw new ProjectException("You can add only one project per week");
+            throw new IllegalArgumentException("You can add only one project per week");
         }
         String contentUri = fileService.uploadFile(content);
         Project project1 = Project.builder()
-                .url(secureRandomStringGenerator.apply(10))
+                .url(secureRandomStringGenerator.apply(properties.getRandomStringGeneratorMaxSize()))
                 .calender(calender)
                 .songTitle(projectRequest.getSongTitle())
                 .songUri(projectRequest.getSongUri())
@@ -74,8 +75,8 @@ public class ProjectService {
                 .songUri(project.getSongUri())
                 .songTitle(project.getSongTitle())
                 .contentUri(project.getContentUri())
-                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId()))
-                .percentOfSupport(loggedInUserService.getProjectsSupportedToLoggedInUser(project.getUser()))
+//                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId()))
+//                .percentOfSupport(loggedInUserService.getProjectsSupportedToLoggedInUser(project.getUser()))
                 .social(project.getSocial())
                 .stageName(project.getUser().getStageName())
                 .build();
@@ -90,12 +91,8 @@ public class ProjectService {
         return projectResponsePage;
     }
 
-    public List<Socials> getAllSocials() {
-        return socialsRepository.findAll();
-    }
-
     public Boolean isProjectLimitExceeded() {
         long projectCount = projectRepository.count();
-        return projectCount == 50;
+        return projectCount == properties.getProjectMaxSize();
     }
 }

@@ -79,39 +79,39 @@ export class SubmitProjectComponent implements OnInit {
 
   onSelectVideo(e: any) {
     const videoFile = e.target.files[0];
-    const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB
-    if (!videoFile.type.startsWith('video/')) {
-      console.error('Invalid file type. Please select a video file.');
-      this.notifier.notify('error', 'Invalid file type. Please select a video file.');
-      return;
-    }
-    if (videoFile.size > maxSizeInBytes) {
-      console.error('File size should be no greater than 10 MB.');
-      this.notifier.notify('error', 'File size should be no greater than 10 MB.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      const videoElement = document.createElement('video');
-      videoElement.src = event.target.result;
-      videoElement.addEventListener('loadedmetadata', () => {
-        const durationInSeconds = Math.floor(videoElement.duration);
-        if (durationInSeconds > 60) {
-          console.error('Video duration should be no longer than 60 seconds.');
-          this.notifier.notify('error', 'Video duration should be no longer than 60 seconds.');
-          return;
-        }
-        const sourceRatio = videoElement.videoWidth / videoElement.videoHeight;
-        if (sourceRatio < 1.91 || sourceRatio > 9 / 16) {
-          console.error('Invalid source ratio. It should be between 1.91:1 and 9:16.');
-          this.notifier.notify('error', 'Invalid source ratio. It should be between 1.91:1 and 9:16.');
-          return;
-        }
-        this.video = videoFile;
-      });
-      videoElement.load();
-    };
-    reader.readAsDataURL(videoFile);
+    // const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB
+    // if (!videoFile.type.startsWith('video/')) {
+    //   console.error('Invalid file type. Please select a video file.');
+    //   this.notifier.notify('error', 'Invalid file type. Please select a video file.');
+    //   return;
+    // }
+    // if (videoFile.size > maxSizeInBytes) {
+    //   console.error('File size should be no greater than 10 MB.');
+    //   this.notifier.notify('error', 'File size should be no greater than 10 MB.');
+    //   return;
+    // }
+    // const reader = new FileReader();
+    // reader.onload = (event: any) => {
+    //   const videoElement = document.createElement('video');
+    //   videoElement.src = event.target.result;
+    //   videoElement.addEventListener('loadedmetadata', () => {
+    //     const durationInSeconds = Math.floor(videoElement.duration);
+    //     if (durationInSeconds > 60) {
+    //       console.error('Video duration should be no longer than 60 seconds.');
+    //       this.notifier.notify('error', 'Video duration should be no longer than 60 seconds.');
+    //       return;
+    //     }
+    //     const sourceRatio = videoElement.videoWidth / videoElement.videoHeight;
+    //     if (sourceRatio < 1.91 || sourceRatio > 9 / 16) {
+    //       console.error('Invalid source ratio. It should be between 1.91:1 and 9:16.');
+    //       this.notifier.notify('error', 'Invalid source ratio. It should be between 1.91:1 and 9:16.');
+    //       return;
+    //     }
+    //     this.video = videoFile;
+    //   });
+    //   videoElement.load();
+    // };
+    // reader.readAsDataURL(videoFile);
     this.video = videoFile;
   }
 

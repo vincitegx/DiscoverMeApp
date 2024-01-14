@@ -129,6 +129,12 @@ public class CustomExceptionHandler {
     public ResponseEntity<ErrorResponse> projectException(ProjectException exception) {
         return createErrorResponse(EXPECTATION_FAILED, exception.getMessage());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException exception) {
+        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+    }
+
 //    @ExceptionHandler(IOException.class)
 //    public ResponseEntity<ErrorResponse> iOException(IOException exception) {
 //        return createErrorResponse(INTERNAL_SERVER_ERROR, ERROR_PROCESSING_FILE);
