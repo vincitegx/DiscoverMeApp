@@ -9,7 +9,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class DefaultComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router) {}
-
   ngOnInit() {
     const queryParams = this.router.parseUrl(this.router.url).queryParams;
     if (queryParams['code'] && queryParams['authuser']) {

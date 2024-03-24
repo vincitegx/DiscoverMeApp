@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedInSub$: Subscription = new Subscription();
   logout$: Subscription = new Subscription();
   user$: BehaviorSubject<UserDto> = new BehaviorSubject<UserDto>({});
+  user: UserDto = {}; 
   constructor(
     @Inject(DOCUMENT) public document: Document,
     public auth: AuthService,
@@ -31,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isLoggedInSub$ = this.auth.isLoggedIn$().subscribe((loggedIn: boolean) => {
       this.isloggedIn$.next(loggedIn);
       if (loggedIn) {
-        this.user$.next(this.auth.getUser());
+        this.user = this.auth.getUser();
       }
     });
   }

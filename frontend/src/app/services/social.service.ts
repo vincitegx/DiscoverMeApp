@@ -13,7 +13,7 @@ export class SocialService {
   constructor(private http: HttpClient) { }
 
   public getAllSocials(): Observable<Array<Socials>> {
-    return this.http.get<Array<Socials>>(`${this.apiServerUrl}api/v1/projects/socials`);
+    return this.http.get<Array<Socials>>(`${this.apiServerUrl}api/v1/socials`);
   }
 
   isSocialConnected(name: string) {

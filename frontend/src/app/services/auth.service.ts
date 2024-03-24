@@ -38,12 +38,11 @@ export class AuthService {
     return this.httpClient
       .post<JwtResponse>(`${this.apiServerUrl}api/v1/auth/login`, signinRequest)
       .pipe(
-        map((response: JwtResponse) => {
+        tap((response: JwtResponse) => {
           this.localStorageService.store("tkn", response.authToken);
           this.localStorageService.store("user", response.user);
           this.loggedIn.emit(true);
           this.user.emit(response.user);
-          return response;
         })
       );
   }

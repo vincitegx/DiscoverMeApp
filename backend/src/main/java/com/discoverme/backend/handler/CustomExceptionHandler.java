@@ -39,15 +39,15 @@ public class CustomExceptionHandler {
     private static final String ERROR_PROCESSING_FILE = "Error occurred while processing file";
     private static final String NOT_ENOUGH_PERMISSION = "You do not have enough permission";
 
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleApiRequestException(Exception e) {
-        return ResponseEntity.badRequest().body(
-                ErrorResponse.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .message(e.getMessage())
-                        .status(HttpStatus.BAD_REQUEST)
-                        .build());
-    }
+//    @ExceptionHandler(value = RuntimeException.class)
+//    public ResponseEntity<ErrorResponse> handleApiRequestException(Exception e) {
+//        return ResponseEntity.badRequest().body(
+//                ErrorResponse.builder()
+//                        .timeStamp(LocalDateTime.now())
+//                        .message(e.getMessage())
+//                        .status(HttpStatus.BAD_REQUEST)
+//                        .build());
+//    }
 
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<ErrorResponse> accountDisabledException() {
@@ -70,13 +70,13 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<ErrorResponse> tokenExpiredException() {
-        return createErrorResponse(UNAUTHORIZED, "JWT Expired");
+    public ResponseEntity<ErrorResponse> tokenExpiredException(TokenExpiredException ex) {
+        return createErrorResponse(UNAUTHORIZED, ex.getMessage());
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> authenticationException() {
-        return createErrorResponse(UNAUTHORIZED, "JWT Expired");
+    public ResponseEntity<ErrorResponse> authenticationException(AuthenticationException ex) {
+        return createErrorResponse(UNAUTHORIZED, ex.getMessage());
     }
 
     @ExceptionHandler(UserException.class)
@@ -142,7 +142,7 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(RefreshFailedException.class)
     public ResponseEntity<ErrorResponse> refreshFailedException(RefreshFailedException exception) {
-        return createErrorResponse(BAD_REQUEST, "Please Login Again");
+        return createErrorResponse(BAD_REQUEST, exception.getMessage());
     }
 
 

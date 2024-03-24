@@ -36,7 +36,4 @@ public final class ApplicationProperties {
 
     @Value("${project.max-size}")
     private Integer projectMaxSize;
-
-    @Value("${random.string.generator.max-size}")
-    private Integer randomStringGeneratorMaxSize;
 }

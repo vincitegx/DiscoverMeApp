@@ -38,7 +38,7 @@ public class ProjectService {
         }
         String contentUri = fileService.uploadFile(content);
         Project project1 = Project.builder()
-                .url(secureRandomStringGenerator.apply(properties.getRandomStringGeneratorMaxSize()))
+                .url(secureRandomStringGenerator.apply(10))
                 .calender(calender)
                 .songTitle(projectRequest.getSongTitle())
                 .songUri(projectRequest.getSongUri())
