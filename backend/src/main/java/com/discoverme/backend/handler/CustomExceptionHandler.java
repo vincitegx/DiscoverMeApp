@@ -142,7 +142,7 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(RefreshFailedException.class)
     public ResponseEntity<ErrorResponse> refreshFailedException(RefreshFailedException exception) {
-        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+        return createErrorResponse(UNAUTHORIZED, exception.getMessage());
     }
 
 

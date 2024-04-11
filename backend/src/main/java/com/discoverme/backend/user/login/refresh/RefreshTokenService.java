@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.RefreshFailedException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -35,22 +36,22 @@ public class RefreshTokenService {
     }
 
 //    @CachePut(cacheNames = "userdto")
-    public JwtResponse refreshToken(UserDto user, String token) {
+    public JwtResponse refreshToken(UserDto user, String token) throws RefreshFailedException {
         RefreshToken refreshToken = validateRefreshToken(user, token);
         String authToken = jwtUtil.generateJwtToken(refreshToken);
         return new JwtResponse(authToken, user);
     }
 
-    public RefreshToken validateRefreshToken(UserDto userDto, String token) {
+    public RefreshToken validateRefreshToken(UserDto userDto, String token) throws RefreshFailedException {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new UserException("Invalid refresh Token"));
         if (refreshToken.getExpiresAt().isBefore(LocalDateTime.now(clock))) {
             deleteRefreshToken(refreshToken.getToken());
-            throw new UserException("Refresh token was expired. Please make a new signin request");
+            throw new RefreshFailedException("Refresh token was expired. Please make a new signin request");
         }
         UserDto user = userMapper.apply(refreshToken.getUser());
         if (!user.getId().equals(userDto.getId())) {
-            throw new UserException("You will need to login again");
+            throw new RefreshFailedException("You will need to login again");
         }
         return refreshToken;
     }

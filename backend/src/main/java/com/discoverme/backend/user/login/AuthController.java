@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.security.auth.RefreshFailedException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -45,12 +47,15 @@ public class AuthController {
         servletResponse.addCookie(refreshTokenCookie);
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, response.getAuthToken())
+//                .header("X-Content-Type-Options", "nosniff")
+//                .header("X-Frame-Options", "SAME-ORIGIN")
+//                .header("Content-Security-Policy", "default-src 'self' https://localhost:4200")
                 .body(response);
     }
 
 
     @PostMapping("logout")
-    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user, HttpServletResponse servletResponse) {
+    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user, HttpServletResponse servletResponse) throws RefreshFailedException {
         Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
                 .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
                 .findFirst();

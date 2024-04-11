@@ -31,12 +31,14 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           console.log("401")
           return this.handleAuthErrors(req, next);
-        }else if (error instanceof HttpErrorResponse && error.status === 400) {
-          console.log("400")
-          return this.handleLogoutAuthErrors(req, next);
-        }else {
-          return throwError(error);
         }
+        // else if (error instanceof HttpErrorResponse && error.status === 400) {
+        //   console.log("400")
+        //   return this.handleLogoutAuthErrors(req, next);
+        // }else {
+        //   return throwError(error);
+        // }
+        return throwError(error);
       })
     );
   }

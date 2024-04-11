@@ -86,7 +86,7 @@ public class GoogleController {
             System.err.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }

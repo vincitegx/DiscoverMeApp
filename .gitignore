@@ -93,3 +93,7 @@ node_modules
 psd
 thumb
 sketch
+
+**/src/main/resources/*.mp4
+**/src/main/resources/*.jpg
+screenshots/
