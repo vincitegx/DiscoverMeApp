@@ -14,14 +14,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isloggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoggedInSub$: Subscription = new Subscription();
   logout$: Subscription = new Subscription();
-  user$: BehaviorSubject<UserDto> = new BehaviorSubject<UserDto>({});
+  // user$: BehaviorSubject<UserDto> = new BehaviorSubject<UserDto>({});
   user: UserDto = {}; 
+  isLoggedIn$: Observable<boolean>;
+  user$: Observable<UserDto | null>;
+  private subscriptions: Subscription = new Subscription();
   constructor(
     @Inject(DOCUMENT) public document: Document,
     public auth: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+    this.isLoggedIn$ = this.auth.isLoggedIn$();
+    this.user$ = this.auth.getUserObservable();
+  }
 
   ngOnDestroy(): void {
     this.isLoggedInSub$.unsubscribe();
@@ -29,16 +35,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isLoggedInSub$ = this.auth.isLoggedIn$().subscribe((loggedIn: boolean) => {
+    this.auth.isLoggedIn$().subscribe((loggedIn: boolean) => {
       this.isloggedIn$.next(loggedIn);
-      if (loggedIn) {
+      if (loggedIn) {  
         this.user = this.auth.getUser();
       }
     });
   }
 
   logout() {
-    this.logout$ = this.auth.logout$().subscribe(response => {
+    this.auth.logout$().subscribe(response => {
       this.router.navigateByUrl('/');
     });
   }

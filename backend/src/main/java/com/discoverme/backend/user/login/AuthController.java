@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.RefreshFailedException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -55,26 +54,31 @@ public class AuthController {
 
 
     @PostMapping("logout")
-    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user, HttpServletResponse servletResponse) throws RefreshFailedException {
-        Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
-                .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
-                .findFirst();
-        if(cookies.isPresent()){
-            RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
-            if(refreshToken != null){
-                refreshTokenService.deleteRefreshToken(refreshToken.getToken());
+    public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user, HttpServletResponse servletResponse) {
+        try{
+            Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+                    .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
+                    .findFirst();
+            if(cookies.isPresent()){
+                RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
+                if(refreshToken != null){
+                    refreshTokenService.deleteRefreshToken(refreshToken.getToken());
+                }
+                Cookie refreshTokenCookie = new Cookie(JWTAuthenticationFilter.COOKIE_NAME, cookies.get().getValue());
+                refreshTokenCookie.setHttpOnly(true);
+                refreshTokenCookie.setSecure(true);
+                refreshTokenCookie.setAttribute("SameSite", "None");
+                refreshTokenCookie.setMaxAge(0);
+                refreshTokenCookie.setPath("/");
+                refreshTokenCookie.setAttribute("Priority", "High");
+                servletResponse.addCookie(refreshTokenCookie);
+            }else {
+                SecurityContextHolder.clearContext();
             }
-            Cookie refreshTokenCookie = new Cookie(JWTAuthenticationFilter.COOKIE_NAME, cookies.get().getValue());
-            refreshTokenCookie.setHttpOnly(true);
-            refreshTokenCookie.setSecure(true);
-            refreshTokenCookie.setAttribute("SameSite", "None");
-            refreshTokenCookie.setMaxAge(0);
-            refreshTokenCookie.setPath("/");
-            refreshTokenCookie.setAttribute("Priority", "High");
-            servletResponse.addCookie(refreshTokenCookie);
-        }else {
+        }catch (Exception ex){
             SecurityContextHolder.clearContext();
         }
+
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

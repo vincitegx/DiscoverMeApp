@@ -66,8 +66,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           );
         }),
         catchError((error) => {
-          this.authService.logout$();
-          return throwError(error);
+          if (error instanceof HttpErrorResponse && error.status === 403) {
+            console.log("403")
+            return this.handleLogoutAuthErrors(req, next);
+          }
+          return this.handleLogoutAuthErrors(req, next);
+          // this.authService.logout$();
+          // return throwError(error);
         })
       );
     } else {

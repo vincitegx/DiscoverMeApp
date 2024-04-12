@@ -34,7 +34,7 @@ public class FacebookController {
         ScopeBuilder scopeBuilder = new ScopeBuilder();
         scopeBuilder.addPermission(FacebookPermissions.EMAIL);
         scopeBuilder.addPermission(FacebookPermissions.PUBLIC_PROFILE);
-        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
+//        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_VIDEOS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_POSTS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_PHOTOS);
@@ -49,6 +49,10 @@ public class FacebookController {
 //        scopeBuilder.addPermission(FacebookPermissions.USER_GENDER);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_FRIENDS);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_BIRTHDAY);
+        scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_CONTENT_PUBLISH);
+//        scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_BASIC);
+//        scopeBuilder.addPermission(FacebookPermissions.PUBLISH_VIDEO);
+//        scopeBuilder.addPermission(FacebookPermissions.WHATSAPP_BUSINESS_MANAGEMENT);
 //        facebookClient.getFacebookEndpointUrls().
         String url = facebookClient.getLoginDialogUrl(appId, "https://localhost:4200/profile", scopeBuilder);
         return ResponseEntity.ok(new UrlDto(url));

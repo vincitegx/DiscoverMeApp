@@ -40,19 +40,24 @@ public class RefreshTokenController {
             if(refreshTokenService.existByToken(cookies.get().getValue())){
                 return refreshTokenService.refreshToken(user, cookies.get().getValue());
             } else {
-                GoogleRefreshTokenResponse refreshTokenResponse = userInfoClient.post()
-                        .uri("https://oauth2.googleapis.com/", uriBuilder -> uriBuilder
-                                .path("token")
-                                .queryParam("client_id", clientId)
-                                .queryParam("client_secret", clientSecret)
-                                .queryParam("refresh_token", cookies.get().getValue())
-                                .queryParam("grant_type", "refresh_token")
-                                .build())
-                        .retrieve()
-                        .bodyToMono(GoogleRefreshTokenResponse.class)
-                        .block();
-                assert refreshTokenResponse != null;
-                return new JwtResponse(refreshTokenResponse.id_token(), user);
+                try{
+                    GoogleRefreshTokenResponse refreshTokenResponse = userInfoClient.post()
+                            .uri("https://oauth2.googleapis.com/", uriBuilder -> uriBuilder
+                                    .path("token")
+                                    .queryParam("client_id", clientId)
+                                    .queryParam("client_secret", clientSecret)
+                                    .queryParam("refresh_token", cookies.get().getValue())
+                                    .queryParam("grant_type", "refresh_token")
+                                    .build())
+                            .retrieve()
+                            .bodyToMono(GoogleRefreshTokenResponse.class)
+                            .block();
+//                    assert refreshTokenResponse != null;
+                    return new JwtResponse(refreshTokenResponse.id_token(), user);
+                }catch (Exception ex){
+                    System.out.println("Couldn't refresh google jwt");
+                    throw new RefreshFailedException(ex.getMessage());
+                }
             }
         }else{
             SecurityContextHolder.clearContext();

@@ -17,6 +17,7 @@ export class AuthService {
   @Output() loggedIn: EventEmitter<boolean>;
   @Output() user: EventEmitter<UserDto>;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  private userSubject = new BehaviorSubject<UserDto | null>(null);
   token: string = "";
 
   constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService) {
@@ -41,10 +42,16 @@ export class AuthService {
         tap((response: JwtResponse) => {
           this.localStorageService.store("tkn", response.authToken);
           this.localStorageService.store("user", response.user);
+          this.userSubject.next(response.user);
+          this.isAuthenticatedSubject.next(true);
           this.loggedIn.emit(true);
           this.user.emit(response.user);
         })
       );
+  }
+
+  getUserObservable(): Observable<UserDto | null> {
+    return this.userSubject.asObservable();
   }
 
   get(url: string): any {
@@ -57,8 +64,10 @@ export class AuthService {
       .pipe(map((response: JwtResponse) => {
         this.localStorageService.store("tkn", response.authToken);
           this.localStorageService.store("user", response.user);
-          this.loggedIn.emit(true);
-          this.user.emit(response.user);
+          // this.loggedIn.emit(true);
+          // this.user.emit(response.user);
+          this.userSubject.next(response.user);
+        this.isAuthenticatedSubject.next(true);
           return response;
       }));
   }
