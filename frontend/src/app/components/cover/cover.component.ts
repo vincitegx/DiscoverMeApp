@@ -14,7 +14,7 @@ export class CoverComponent implements OnInit{
       ngOnInit(): void{}
 
       loginWithRedirect():void{
-          this.auth.disconnectFacebook();
+          // this.auth.disconnectFacebook();
         }
 
 }

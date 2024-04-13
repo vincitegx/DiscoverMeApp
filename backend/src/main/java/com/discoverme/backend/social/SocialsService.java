@@ -14,4 +14,8 @@ public class SocialsService {
     public List<Socials> getAllSocials() {
         return socialsRepository.findAll();
     }
+
+    public Socials getSocialByPlatform(SocialPlatform platform){
+        return socialsRepository.findByNameIgnoreCase(platform.name());
+    }
 }

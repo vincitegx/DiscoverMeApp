@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { AuthService } from 'src/app/services/auth.service';
+import { SocialService } from 'src/app/services/social.service';
 declare const FB: any;
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,8 @@ export class ProfileComponent implements OnInit{
   fbUsername:string;
 
   constructor(notifierService: NotifierService,
-    private authService:AuthService, private route: ActivatedRoute) {
+    private authService:AuthService, private route: ActivatedRoute,private socialService: SocialService,
+    private router: Router) {
     this.username="";
     this.notifier = notifierService;
     this.fbUsername = this.authService.getFBUser();
@@ -26,8 +28,9 @@ export class ProfileComponent implements OnInit{
     this.route.queryParams
       .subscribe(params => {
         if(params["code"] !== undefined){
-          this.authService.getFBToken(params["code"]).subscribe(result => {
+          this.socialService.getFBToken(params["code"]).subscribe(result => {
             if (result != null) {
+              this.router.navigateByUrl('profile');
               this.notifier.notify('success', "Facebook Account "+result.name+" has been connected");
             } 
           });
@@ -42,7 +45,7 @@ export class ProfileComponent implements OnInit{
     if (this.fbUsername) {
       // If fbUsername exists, it means the user is connected, implement disconnection logic here
       // Call a method in authService to disconnect the Facebook account
-      this.authService.disconnectFacebook().subscribe(() => {
+      this.socialService.disconnectFacebook().subscribe(() => {
         this.notifier.notify('success', 'Facebook Account has been disconnected');
         this.fbUsername = ''; // Reset the fbUsername
       });

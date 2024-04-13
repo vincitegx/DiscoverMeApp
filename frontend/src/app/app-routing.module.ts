@@ -25,7 +25,7 @@ const routes: Routes = [
       {
         path: 'signin',
         component: SigninComponent,
-        // canActivate: [AuthRedirectGuard]
+        canActivate: [AuthRedirectGuard]
       },
       {
         path: 'signup',

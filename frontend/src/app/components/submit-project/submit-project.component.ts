@@ -9,6 +9,7 @@ import { NotifierService } from 'angular-notifier';
 import { AuthService } from 'src/app/services/auth.service';
 import { SocialService } from 'src/app/services/social.service';
 import { BehaviorSubject, catchError, finalize, map, of, tap } from 'rxjs';
+import { UserSocials } from 'src/app/dtos/usersocial';
 
 @Component({
   selector: 'app-submit-project',
@@ -16,12 +17,14 @@ import { BehaviorSubject, catchError, finalize, map, of, tap } from 'rxjs';
   styleUrls: ['./submit-project.component.css']
 })
 export class SubmitProjectComponent implements OnInit {
-  public socials: Array<Socials> = [];
+  public socials: Array<UserSocials> = [];
   public video: any = File;
   addProjectForm: FormGroup;
   projectRequest: ProjectRequest;
   public defaultSelectedPlatform: number = 1;
   isProjectLimitReached:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private isLoading = new BehaviorSubject<boolean>(false);
+  isLoading$ = this.isLoading.asObservable();
   private readonly notifier: NotifierService;
   constructor(private authService: AuthService, private router: Router,
     private projectService: ProjectService, notifierService: NotifierService,
@@ -51,27 +54,22 @@ export class SubmitProjectComponent implements OnInit {
   }
 
   public saveProject(): void {
+    this.isLoading.next(true);
     if (this.isProjectLimitReached.value) {
+      this.isLoading.next(false);
       this.notifier.notify('error', 'Project Submission Limit Reached');
     } else {
       this.projectRequest.setSongTitle(this.addProjectForm.get('title')?.value);
       this.projectRequest.setSongUri(this.addProjectForm.get('link')?.value);
       this.projectRequest.setSocial({ id: this.addProjectForm.get('social')?.value });
-      const selectedSocialId = 1;
-      if (selectedSocialId === 1) { // Assuming 1 is the ID for FACEBOOK
-        // Use AuthService to check if the Facebook account is connected
-        if (!this.socialService.isSocialConnected('FACEBOOK')) {
-          console.error('You have to connect the Facebook account first.');
-          this.notifier.notify('error', 'You have to connect the Facebook account first.');
-          return;
-        }
-      }
       const formData = new FormData();
       formData.append('request', JSON.stringify(this.projectRequest));
       formData.append('content', this.video);
       this.projectService.addProject(formData).subscribe(
         (response) => {
-          this.router.navigateByUrl('link');
+          this.isLoading.next(false);
+          this.router.navigate(['link']);
+          this.notifier.notify('success', 'Content uploaded successfully');
         }
       );
     }
@@ -115,11 +113,15 @@ export class SubmitProjectComponent implements OnInit {
     this.video = videoFile;
   }
 
-  public getPlatforms(): Array<Socials> {
-    this.socialService.getAllSocials().subscribe(
+  public getPlatforms(): Array<UserSocials> {
+    this.socialService.getUserSocials().subscribe(
       (data) => {
-        this.socials = data;
-        return data;
+        if(data.length > 0){
+          this.socials = data;
+          return data;
+        }else{
+          return this.staticPlatformData();
+        }
       }, (error: HttpErrorResponse) => {
         this.socials = this.staticPlatformData();
       }
@@ -127,23 +129,11 @@ export class SubmitProjectComponent implements OnInit {
     return this.socials;
   }
 
-  private staticPlatformData(): Array<Socials> {
+  private staticPlatformData(): Array<UserSocials> {
     return [
       {
-        "id": 1,
-        "name": "FACEBOOK"
-      },
-      {
-        "id": 2,
-        "name": "X"
-      },
-      {
-        "id": 3,
-        "name": "TIKTOK"
-      },
-      {
-        "id": 4,
-        "name": "INSTAGRAM"
+        "id": -1,
+        "social": "Visit your profile to connect an account"
       }
     ];
   }

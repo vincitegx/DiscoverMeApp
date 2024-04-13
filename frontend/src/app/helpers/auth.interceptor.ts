@@ -9,12 +9,18 @@ import {
 import { Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   isTokenRefreshing = false;
+  private readonly notifier: NotifierService;
   refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject(null);
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router,
+    notifierService: NotifierService
+  ) { 
+    this.notifier = notifierService;
+  }
 
   intercept(req: HttpRequest<any>,next: HttpHandler): Observable<HttpEvent<any>> {
     const jwtToken = this.authService.getJwtToken();
@@ -45,6 +51,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   handleLogoutAuthErrors(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService.logout$().subscribe(() => {
       this.router.navigate(['/signin']);
+      this.notifier.notify('info', "Please sign in again");
     });
     return next.handle(req);
   }
@@ -66,10 +73,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           );
         }),
         catchError((error) => {
-          if (error instanceof HttpErrorResponse && error.status === 403) {
-            console.log("403")
-            return this.handleLogoutAuthErrors(req, next);
-          }
+          // if (error instanceof HttpErrorResponse && error.status === 403) {
+          //   console.log("403")
+          //   return this.handleLogoutAuthErrors(req, next);
+          // }
           return this.handleLogoutAuthErrors(req, next);
           // this.authService.logout$();
           // return throwError(error);

@@ -13,10 +13,19 @@
         <div class="mb-3">
             <label for="exampleFormControlSelect1">Select Platform</label>
             <select class="form-select" [formControlName]="'social'" [(ngModel)]="defaultSelectedPlatform" name="social" aria-label="Default select example">
-                <option [value]="s.id" *ngFor="let s of socials;" id="exampleFormControlSelect1">{{s.name}}</option>
+                <option [value]="s.id" *ngFor="let s of socials;" id="exampleFormControlSelect1">{{s.social}}</option>
               </select>
         </div>
         <a [routerLink]="['/home']" class="btn btn-secondary">Back</a> &nbsp;
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+        <button type="submit" class="btn btn-primary">
+            <ng-container *ngIf="isLoading$ | async">
+                <i class="fa fa-spinner fa-spin"></i> &nbsp;&nbsp;
+                <span *ngIf="isLoading$ | async">Processing...</span>
+            </ng-container>
+            <ng-container *ngIf="!(isLoading$ | async)">
+                <span>Submit</span>
+            </ng-container>
+        </button>
     </form>
 </section>

@@ -34,6 +34,10 @@ public class UserSocialsService {
                 .build();
     }
 
+    public UserSocials saveUserSocial(UserSocials userSocials){
+        return userSocialsRepository.save(userSocials);
+    }
+
     private UserDto convertUserToDto(Users user) {
         return userMapper.apply(user);
     }

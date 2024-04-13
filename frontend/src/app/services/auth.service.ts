@@ -7,7 +7,6 @@ import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { SignupRequest } from '../components/signup/signup-request';
 import { LocalStorageService } from 'ngx-webstorage';
 import { UserDto } from '../dtos/userdto';
-import { FBUserResponse } from '../components/profile/fb-user-response';
 
 @Injectable({
   providedIn: 'root',
@@ -70,19 +69,6 @@ export class AuthService {
         this.isAuthenticatedSubject.next(true);
           return response;
       }));
-  }
-
-  getFBToken(code: string): Observable<FBUserResponse> {
-    return this.httpClient.post<FBUserResponse>(`${this.apiServerUrl}auth/fb/callback?code=${code}`, {observe: "response"})
-      .pipe(map((response: FBUserResponse) => {
-        this.localStorageService.store("fb-user", response.name);
-          return response;
-      }));
-  }
-
-  disconnectFacebook(): Observable<boolean> {
-    this.localStorageService.clear("fb-user");
-    return of(true);
   }
 
   public signup(signupRequest: SignupRequest): Observable<any> {
