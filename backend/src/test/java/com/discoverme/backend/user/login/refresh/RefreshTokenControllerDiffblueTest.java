@@ -29,6 +29,7 @@ class RefreshTokenControllerDiffblueTest {
 
         // Act and Assert
         assertThrows(RefreshFailedException.class,
+//                () -> (new RefreshTokenController(refreshTokenService,  mock(WebClient.class)))
                 () -> (new RefreshTokenController(refreshTokenService, new MockHttpServletRequest(), mock(WebClient.class)))
                         .refreshToken(null));
     }

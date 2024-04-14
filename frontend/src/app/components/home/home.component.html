@@ -1,6 +1,6 @@
 <app-header></app-header>
 <section class="section" id="main-container">
-  <div class="bottom-0 end-0 rounded-circle m-4" style="position: fixed;" *ngIf="!(isProjectLimitReached$ | async)">
+  <div class="floating-add-button bottom-0 end-0 rounded-circle m-4" style="position: fixed;" *ngIf="!(isProjectLimitReached$ | async)">
     <a [routerLink]="['/project']" class="btn btn-primary btn-lg">
       <i class="fa fa-plus"></i>
     </a>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="DataState.LOADED_STATE">
+    <!-- <ng-container *ngSwitchCase="DataState.LOADED_STATE">
       <ng-container *ngIf="appState.appData['content'].length > 0">
         <div class="row align-items-center">
           <div class="col-4" *ngFor="let project of appState.appData['content']; let i=index">
@@ -58,7 +58,31 @@
           </div>
         </div>
       </ng-container>
-    </ng-container>
+    </ng-container> -->
+    
+    <ng-container *ngSwitchCase="DataState.LOADED_STATE">
+      <ng-container *ngIf="appState.appData['content'].length > 0">
+          <div class="row align-items-center">
+              <div class="col-12 col-md-4" *ngFor="let project of appState.appData['content']; let i=index">
+                  <div class="card">
+                      <video appVideoHover [src]='fileurl+"/"+project.contentUri' class="card-img-top" controls muted loop></video>
+                      <div class="card-body d-flex justify-content-between">
+                          <div class="content-info">
+                              <h5 class="card-title">{{ project.songTitle }}</h5>
+                              <h6 class="font-weight-bold">{{ project.stageName }}</h6>
+                              <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
+                              <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{ project.percentOfSupport ?? 0 }}%</span></h6>
+                          </div>
+                          <button class="btn btn-success mt-2 mt-md-0 align-self-center">
+                              {{ project.isSupported ? 'Unsupport' : 'Support' }}
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </ng-container>
+  </ng-container>
+
     <ng-container *ngSwitchCase="DataState.LOADING_STATE">
       <div class="col-md-12 single-note-item text-center">
         <div class=" spinner-border text-info"></div>

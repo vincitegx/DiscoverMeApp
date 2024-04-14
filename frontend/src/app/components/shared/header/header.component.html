@@ -3,7 +3,7 @@
     <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
     <ng-container *ngIf="isloggedIn$ | async; let loggedIn">
       <div class="dropdown" *ngIf="loggedIn">
-        <a *ngIf="user.stageName" class="dropbtn btn text-white">{{ user.stageName }}</a>
+        <a *ngIf="user?.stageName" class="dropbtn btn text-white">{{ user.stageName }}</a>
         <div id="myDropdown" class="dropdown-content text-white">
           <a class="text-white" href="">Home</a>
           <a class="text-white" href="profile">Profile</a>

@@ -33,25 +33,41 @@ public class RefreshTokenController {
     @PostMapping("refresh/token")
     @ResponseStatus(HttpStatus.OK)
     public JwtResponse refreshToken(@Valid @RequestBody UserDto user) throws RefreshFailedException {
-        Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
-                .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
-                .findFirst();
-        if(cookies.isPresent()){
-            if(refreshTokenService.existByToken(cookies.get().getValue())){
-                return refreshTokenService.refreshToken(user, cookies.get().getValue());
+//        Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+//                .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
+//                .findFirst();
+
+        System.out.println("Entered Refresh Token controller");
+        String refreshToken = null;
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName())) {
+                    refreshToken = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        if(refreshToken != null && !refreshToken.isEmpty()){
+            System.out.println("Refresh Token Cookie exists");
+            if(refreshTokenService.existByToken(refreshToken)){
+                System.out.println("This is a local refresh token");
+                return refreshTokenService.refreshToken(user, refreshToken);
             } else {
+                System.out.println("This is a google refresh token");
                 try{
+                    String finalRefreshToken = refreshToken;
                     GoogleRefreshTokenResponse refreshTokenResponse = userInfoClient.post()
                             .uri("https://oauth2.googleapis.com/", uriBuilder -> uriBuilder
                                     .path("token")
                                     .queryParam("client_id", clientId)
                                     .queryParam("client_secret", clientSecret)
-                                    .queryParam("refresh_token", cookies.get().getValue())
+                                    .queryParam("refresh_token", finalRefreshToken)
                                     .queryParam("grant_type", "refresh_token")
                                     .build())
                             .retrieve()
                             .bodyToMono(GoogleRefreshTokenResponse.class)
                             .block();
+                    System.out.println(refreshTokenResponse.id_token());
 //                    assert refreshTokenResponse != null;
                     return new JwtResponse(refreshTokenResponse.id_token(), user);
                 }catch (Exception ex){

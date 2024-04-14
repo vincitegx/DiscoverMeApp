@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
+import { contains } from 'jquery';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -38,10 +39,11 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           console.log("401")
           return this.handleAuthErrors(req, next);
         }
-        // else if (error instanceof HttpErrorResponse && error.status === 400) {
-        //   console.log("400")
-        //   return this.handleLogoutAuthErrors(req, next);
-        // }else {
+        if (error instanceof HttpErrorResponse && error.status === 403) {
+          console.log("403")
+          return this.handleLogoutAuthErrors(req, next);
+        }
+        // else {
         //   return throwError(error);
         // }
         return throwError(error);
@@ -51,7 +53,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   handleLogoutAuthErrors(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService.logout$().subscribe(() => {
       this.router.navigate(['/signin']);
-      this.notifier.notify('info', "Please sign in again");
+      this.notifier.notify('info', "Please sign in");
     });
     return next.handle(req);
   }

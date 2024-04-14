@@ -1,7 +1,40 @@
 .card {
   margin: 1em auto;
+  max-width: 100%;
 }
 
+.card .card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-info {
+  flex-grow: 1;
+}
+
+.floating-add-button {
+  z-index: 1050;
+}
+
+@media (max-width: 768px) {
+  *{
+    font-size: small;
+  }
+  /* .card-body {
+      flex-direction: column;
+      align-items: start;
+  }
+  .card-body > button {
+    align-self: flex-end;
+    width: 100%;
+  } */
+}
 .pagination {
   display: inline-block;
 }

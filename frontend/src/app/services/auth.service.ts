@@ -104,7 +104,7 @@ export class AuthService {
   }
 
   isLoggedIn$(): Observable<boolean> {
-    this.isAuthenticatedSubject.next(this.getJwtToken() != null);
+    this.isAuthenticatedSubject.next(this.getJwtToken() != null && this.getUser() != null);
     return this.isAuthenticatedSubject.asObservable();
   }
 
@@ -114,6 +114,8 @@ export class AuthService {
       if (res) {
         this.localStorageService.clear("tkn");
         this.localStorageService.clear("user");
+        this.userSubject.next(null);
+          this.isAuthenticatedSubject.next(false);
         this.loggedIn.next(false);
         this.user.next({});
       }
