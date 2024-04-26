@@ -38,10 +38,10 @@ class RegistrationMapperDiffblueTest {
     void testMapRegistrationRequestToUser() {
         // Arrange and Act
         Users actualMapRegistrationRequestToUserResult = registrationMapper
-                .mapRegistrationRequestToUser(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"));
+                .mapRegistrationRequestToUser(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"));
 
         // Assert
-        assertEquals("Stage Name", actualMapRegistrationRequestToUserResult.getStageName());
+        assertEquals("User Name", actualMapRegistrationRequestToUserResult.getUserName());
         assertEquals("USER", actualMapRegistrationRequestToUserResult.getRole());
         assertEquals("iloveyou", actualMapRegistrationRequestToUserResult.getPassword());
         assertEquals("jane.doe@example.org", actualMapRegistrationRequestToUserResult.getEmail());
@@ -60,7 +60,7 @@ class RegistrationMapperDiffblueTest {
         RegistrationRequest registrationRequest = mock(RegistrationRequest.class);
         when(registrationRequest.getEmail()).thenReturn("jane.doe@example.org");
         when(registrationRequest.getPassword()).thenReturn("iloveyou");
-        when(registrationRequest.getStageName()).thenReturn("Stage Name");
+        when(registrationRequest.getUserName()).thenReturn("User Name");
 
         // Act
         Users actualMapRegistrationRequestToUserResult = registrationMapper
@@ -69,8 +69,8 @@ class RegistrationMapperDiffblueTest {
         // Assert
         verify(registrationRequest).getEmail();
         verify(registrationRequest).getPassword();
-        verify(registrationRequest).getStageName();
-        assertEquals("Stage Name", actualMapRegistrationRequestToUserResult.getStageName());
+        verify(registrationRequest).getUserName();
+        assertEquals("User Name", actualMapRegistrationRequestToUserResult.getUserName());
         assertEquals("USER", actualMapRegistrationRequestToUserResult.getRole());
         assertEquals("iloveyou", actualMapRegistrationRequestToUserResult.getPassword());
         assertEquals("jane.doe@example.org", actualMapRegistrationRequestToUserResult.getEmail());
@@ -94,14 +94,14 @@ class RegistrationMapperDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act
         RegistrationResponse actualMapUserToRegistrationResponseResult = registrationMapper
                 .mapUserToRegistrationResponse(users);
 
         // Assert
-        assertEquals("Stage Name", actualMapUserToRegistrationResponseResult.getStageName());
+        assertEquals("User Name", actualMapUserToRegistrationResponseResult.getUserName());
         assertEquals("jane.doe@example.org", actualMapUserToRegistrationResponseResult.getEmail());
         assertEquals(1L, actualMapUserToRegistrationResponseResult.getUserId().longValue());
     }
@@ -116,7 +116,7 @@ class RegistrationMapperDiffblueTest {
         Users users = mock(Users.class);
         when(users.getId()).thenReturn(1L);
         when(users.getEmail()).thenReturn("jane.doe@example.org");
-        when(users.getStageName()).thenReturn("Stage Name");
+        when(users.getUserName()).thenReturn("User Name");
         doNothing().when(users).setCreatedAt(Mockito.<ZonedDateTime>any());
         doNothing().when(users).setEmail(Mockito.<String>any());
         doNothing().when(users).setEnabled(Mockito.<Boolean>any());
@@ -124,7 +124,7 @@ class RegistrationMapperDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -132,7 +132,7 @@ class RegistrationMapperDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act
         RegistrationResponse actualMapUserToRegistrationResponseResult = registrationMapper
@@ -141,7 +141,7 @@ class RegistrationMapperDiffblueTest {
         // Assert
         verify(users).getEmail();
         verify(users).getId();
-        verify(users).getStageName();
+        verify(users).getUserName();
         verify(users).setCreatedAt(isA(ZonedDateTime.class));
         verify(users).setEmail(eq("jane.doe@example.org"));
         verify(users).setEnabled(isA(Boolean.class));
@@ -149,8 +149,8 @@ class RegistrationMapperDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
-        assertEquals("Stage Name", actualMapUserToRegistrationResponseResult.getStageName());
+        verify(users).setUserName(eq("User Name"));
+        assertEquals("User Name", actualMapUserToRegistrationResponseResult.getUserName());
         assertEquals("jane.doe@example.org", actualMapUserToRegistrationResponseResult.getEmail());
         assertEquals(1L, actualMapUserToRegistrationResponseResult.getUserId().longValue());
     }
@@ -167,7 +167,7 @@ class RegistrationMapperDiffblueTest {
 
         // Assert
         assertEquals("ADMIN", actualMapRegistrationRequestToAdminResult.getRole());
-        assertEquals("Administrator", actualMapRegistrationRequestToAdminResult.getStageName());
+        assertEquals("Administrator", actualMapRegistrationRequestToAdminResult.getUserName());
         assertEquals("iloveyou", actualMapRegistrationRequestToAdminResult.getPassword());
         assertEquals("jane.doe@example.org", actualMapRegistrationRequestToAdminResult.getEmail());
         assertNull(actualMapRegistrationRequestToAdminResult.getId());
@@ -194,7 +194,7 @@ class RegistrationMapperDiffblueTest {
         verify(registrationRequest).getEmail();
         verify(registrationRequest).getPassword();
         assertEquals("ADMIN", actualMapRegistrationRequestToAdminResult.getRole());
-        assertEquals("Administrator", actualMapRegistrationRequestToAdminResult.getStageName());
+        assertEquals("Administrator", actualMapRegistrationRequestToAdminResult.getUserName());
         assertEquals("iloveyou", actualMapRegistrationRequestToAdminResult.getPassword());
         assertEquals("jane.doe@example.org", actualMapRegistrationRequestToAdminResult.getEmail());
         assertNull(actualMapRegistrationRequestToAdminResult.getId());

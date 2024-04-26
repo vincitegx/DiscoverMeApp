@@ -11,7 +11,7 @@ public class ProjectResponse {
     private String url;
     private String songUri;
     private String songTitle;
-    private String stageName;
+    private String userName;
     private Socials social;
     private String contentUri;
     private Double percentOfSupport;

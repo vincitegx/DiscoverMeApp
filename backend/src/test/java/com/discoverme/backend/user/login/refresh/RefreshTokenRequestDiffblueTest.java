@@ -42,7 +42,7 @@ class RefreshTokenRequestDiffblueTest {
         // Arrange
         UserDto.UserDtoBuilder userDtoBuilder = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder.email(Mockito.<String>any())).thenReturn(UserDto.builder());
-        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act
         boolean actualCanEqualResult = refreshTokenRequest.canEqual(new RefreshTokenRequest("ABC123", user));
@@ -68,7 +68,7 @@ class RefreshTokenRequestDiffblueTest {
     @Test
     void testEquals2() {
         // Arrange
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("ABC123", user);
 
         // Act and Assert
@@ -82,7 +82,7 @@ class RefreshTokenRequestDiffblueTest {
     void testEquals3() {
         // Arrange
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act and Assert
         assertNotEquals(refreshTokenRequest, new RefreshTokenRequest("ABC123", user));
@@ -95,7 +95,7 @@ class RefreshTokenRequestDiffblueTest {
     void testEquals4() {
         // Arrange
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         refreshTokenRequest.setUser(user);
 
         // Act and Assert
@@ -110,7 +110,7 @@ class RefreshTokenRequestDiffblueTest {
         // Arrange
         UserDto.UserDtoBuilder userDtoBuilder = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder.email(Mockito.<String>any())).thenReturn(UserDto.builder());
-        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("ABC123", user);
 
         // Act and Assert
@@ -125,9 +125,9 @@ class RefreshTokenRequestDiffblueTest {
         // Arrange
         UserDto.UserDtoBuilder userDtoBuilder = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder.email(Mockito.<String>any())).thenReturn(UserDto.builder());
-        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("ABC123", user);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act and Assert
         assertNotEquals(refreshTokenRequest, new RefreshTokenRequest("ABC123", user2));
@@ -185,11 +185,11 @@ class RefreshTokenRequestDiffblueTest {
         // Arrange
         UserDto.UserDtoBuilder userDtoBuilder = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder.email(Mockito.<String>any())).thenReturn(UserDto.builder());
-        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("ABC123", user);
         UserDto.UserDtoBuilder userDtoBuilder2 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder2.email(Mockito.<String>any())).thenReturn(UserDto.builder());
-        UserDto user2 = userDtoBuilder2.email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = userDtoBuilder2.email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         RefreshTokenRequest refreshTokenRequest2 = new RefreshTokenRequest("ABC123", user2);
 
         // Act and Assert
@@ -215,7 +215,7 @@ class RefreshTokenRequestDiffblueTest {
         // Arrange and Act
         RefreshTokenRequest actualRefreshTokenRequest = new RefreshTokenRequest();
         actualRefreshTokenRequest.setRefreshToken("ABC123");
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         actualRefreshTokenRequest.setUser(user);
         String actualToStringResult = actualRefreshTokenRequest.toString();
         String actualRefreshToken = actualRefreshTokenRequest.getRefreshToken();
@@ -223,7 +223,7 @@ class RefreshTokenRequestDiffblueTest {
         // Assert that nothing has changed
         assertEquals("ABC123", actualRefreshToken);
         assertEquals(
-                "RefreshTokenRequest(refreshToken=ABC123, user=UserDto(id=1, stageName=Stage Name, email=jane.doe@example.org,"
+                "RefreshTokenRequest(refreshToken=ABC123, user=UserDto(id=1, UserName=User Name, email=jane.doe@example.org,"
                         + " role=Role))",
                 actualToStringResult);
         assertSame(user, actualRefreshTokenRequest.getUser());
@@ -244,12 +244,12 @@ class RefreshTokenRequestDiffblueTest {
     @Test
     void testGettersAndSetters2() {
         // Arrange
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act
         RefreshTokenRequest actualRefreshTokenRequest = new RefreshTokenRequest("ABC123", user);
         actualRefreshTokenRequest.setRefreshToken("ABC123");
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         actualRefreshTokenRequest.setUser(user2);
         String actualToStringResult = actualRefreshTokenRequest.toString();
         String actualRefreshToken = actualRefreshTokenRequest.getRefreshToken();
@@ -258,7 +258,7 @@ class RefreshTokenRequestDiffblueTest {
         // Assert that nothing has changed
         assertEquals("ABC123", actualRefreshToken);
         assertEquals(
-                "RefreshTokenRequest(refreshToken=ABC123, user=UserDto(id=1, stageName=Stage Name, email=jane.doe@example.org,"
+                "RefreshTokenRequest(refreshToken=ABC123, user=UserDto(id=1, UserName=User Name, email=jane.doe@example.org,"
                         + " role=Role))",
                 actualToStringResult);
         assertEquals(user, actualUser);

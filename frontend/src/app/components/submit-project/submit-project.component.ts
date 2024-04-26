@@ -21,7 +21,7 @@ export class SubmitProjectComponent implements OnInit {
   public video: any = File;
   addProjectForm: FormGroup;
   projectRequest: ProjectRequest;
-  public defaultSelectedPlatform: number = 1;
+  // public defaultSelectedPlatform: number = 1;
   isProjectLimitReached:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private isLoading = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading.asObservable();
@@ -113,20 +113,15 @@ export class SubmitProjectComponent implements OnInit {
     this.video = videoFile;
   }
 
-  public getPlatforms(): Array<UserSocials> {
+  public getPlatforms(): void {
     this.socialService.getUserSocials().subscribe(
       (data) => {
-        if(data.length > 0){
-          this.socials = data;
-          return data;
-        }else{
-          return this.staticPlatformData();
-        }
-      }, (error: HttpErrorResponse) => {
+        this.socials = data;
+    },
+    (error: HttpErrorResponse) => {
         this.socials = this.staticPlatformData();
-      }
+    }
     );
-    return this.socials;
   }
 
   private staticPlatformData(): Array<UserSocials> {

@@ -81,7 +81,7 @@ class UserRepositoryDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -90,7 +90,7 @@ class UserRepositoryDiffblueTest {
         users2.setNonLocked(false);
         users2.setPassword("Password");
         users2.setRole("com.discoverme.backend.user.Users");
-        users2.setStageName("com.discoverme.backend.user.Users");
+        users2.setUserName("com.discoverme.backend.user.Users");
         userRepository.save(users);
         userRepository.save(users2);
 
@@ -99,11 +99,11 @@ class UserRepositoryDiffblueTest {
     }
 
     /**
-     * Method under test: {@link UserRepository#findByStageName(String)}
+     * Method under test: {@link UserRepository#findByUserName(String)}
      */
     @Test
     @Disabled("TODO: Complete this test")
-    void testFindByStageName() {
+    void testFindByUserName() {
         // TODO: Diffblue Cover was only able to create a partial test for this method:
         //   Reason: Failed to create Spring context.
         //   Attempt to initialize test context failed with
@@ -162,7 +162,7 @@ class UserRepositoryDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -171,12 +171,12 @@ class UserRepositoryDiffblueTest {
         users2.setNonLocked(false);
         users2.setPassword("Password");
         users2.setRole("com.discoverme.backend.user.Users");
-        users2.setStageName("com.discoverme.backend.user.Users");
+        users2.setUserName("com.discoverme.backend.user.Users");
         userRepository.save(users);
         userRepository.save(users2);
 
         // Act
-        userRepository.findByStageName("Stage Name");
+        userRepository.findByUserName("User Name");
     }
 
     /**
@@ -243,7 +243,7 @@ class UserRepositoryDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -252,7 +252,7 @@ class UserRepositoryDiffblueTest {
         users2.setNonLocked(false);
         users2.setPassword("Password");
         users2.setRole("com.discoverme.backend.user.Users");
-        users2.setStageName("com.discoverme.backend.user.Users");
+        users2.setUserName("com.discoverme.backend.user.Users");
         userRepository.save(users);
         userRepository.save(users2);
 

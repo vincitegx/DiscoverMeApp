@@ -39,6 +39,7 @@ public class QuartzConfig {
         factory.setStartDelay(0);
         return factory;
     }
+
 //    @Bean
 //    @Primary
 //    public Trigger jobTrigger(JobDetail job) {

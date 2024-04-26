@@ -59,7 +59,7 @@ class UserDetailsServiceImplDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
         when(loginAttemptService.hasExceededMaxAttempts(Mockito.<String>any())).thenReturn(true);
@@ -93,7 +93,7 @@ class UserDetailsServiceImplDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
         when(loginAttemptService.hasExceededMaxAttempts(Mockito.<String>any()))
@@ -128,7 +128,7 @@ class UserDetailsServiceImplDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
         when(loginAttemptService.hasExceededMaxAttempts(Mockito.<String>any()))
@@ -160,7 +160,7 @@ class UserDetailsServiceImplDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -168,7 +168,7 @@ class UserDetailsServiceImplDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
         doNothing().when(loginAttemptService).evictUserFromLoginAttemptCache(Mockito.<String>any());
@@ -190,7 +190,7 @@ class UserDetailsServiceImplDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(loginAttemptService).evictUserFromLoginAttemptCache(eq("jane.doe@example.org"));
         assertEquals("iloveyou", actualLoadUserByUsernameResult.getPassword());
         assertEquals("jane.doe@example.org", actualLoadUserByUsernameResult.getUsername());
@@ -232,7 +232,7 @@ class UserDetailsServiceImplDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -240,7 +240,7 @@ class UserDetailsServiceImplDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
         doThrow(new UsernameNotFoundException("Msg")).when(loginAttemptService)
@@ -259,7 +259,7 @@ class UserDetailsServiceImplDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(loginAttemptService).evictUserFromLoginAttemptCache(eq("jane.doe@example.org"));
     }
 }

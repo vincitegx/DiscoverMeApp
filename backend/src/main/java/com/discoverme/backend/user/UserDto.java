@@ -11,7 +11,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonInclude(NON_NULL)
 public class UserDto {
     private Long id;
-    private String stageName;
+    private String userName;
     private String email;
     private String role;
 }

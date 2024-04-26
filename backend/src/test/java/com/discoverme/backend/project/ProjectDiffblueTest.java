@@ -68,7 +68,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender);
@@ -112,7 +112,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender);
@@ -158,7 +158,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -198,7 +198,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -241,7 +241,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -271,7 +271,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -314,7 +314,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -344,7 +344,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -387,7 +387,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -417,7 +417,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -460,7 +460,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -490,7 +490,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -533,7 +533,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -563,7 +563,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -606,7 +606,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -636,7 +636,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -679,7 +679,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -709,7 +709,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -751,7 +751,7 @@ class ProjectDiffblueTest {
         doNothing().when(user).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(user).setPassword(Mockito.<String>any());
         doNothing().when(user).setRole(Mockito.<String>any());
-        doNothing().when(user).setStageName(Mockito.<String>any());
+        doNothing().when(user).setUserName(Mockito.<String>any());
         user.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         user.setEmail("jane.doe@example.org");
         user.setEnabled(true);
@@ -759,7 +759,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -789,7 +789,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -834,7 +834,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -881,7 +881,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -911,7 +911,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -968,7 +968,7 @@ class ProjectDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Calender calender = new Calender();
         calender.setEndDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -1005,7 +1005,7 @@ class ProjectDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
         actualProject.setUser(user2);
         actualProject.toString();
         Calender actualCalender = actualProject.getCalender();

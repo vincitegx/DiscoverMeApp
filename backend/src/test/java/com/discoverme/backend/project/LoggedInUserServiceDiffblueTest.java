@@ -68,7 +68,7 @@ class LoggedInUserServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -91,7 +91,7 @@ class LoggedInUserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         Calender calender2 = new Calender();
@@ -111,7 +111,7 @@ class LoggedInUserServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -132,7 +132,7 @@ class LoggedInUserServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -176,7 +176,7 @@ class LoggedInUserServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -199,7 +199,7 @@ class LoggedInUserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
         when(supportRepository.findTopByProjectAndUserOrderByIdDesc(Mockito.<Project>any(), Mockito.<Users>any()))
                 .thenThrow(new ProjectException("An error occurred"));
@@ -243,7 +243,7 @@ class LoggedInUserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         Users projectUser = new Users();
@@ -254,7 +254,7 @@ class LoggedInUserServiceDiffblueTest {
         projectUser.setNonLocked(true);
         projectUser.setPassword("iloveyou");
         projectUser.setRole("Role");
-        projectUser.setStageName("Stage Name");
+        projectUser.setUserName("User Name");
 
         // Act
         Double actualProjectsSupportedToLoggedInUser = loggedInUserService.getProjectsSupportedToLoggedInUser(projectUser);
@@ -282,7 +282,7 @@ class LoggedInUserServiceDiffblueTest {
         projectUser.setNonLocked(true);
         projectUser.setPassword("iloveyou");
         projectUser.setRole("Role");
-        projectUser.setStageName("Stage Name");
+        projectUser.setUserName("User Name");
 
         // Act and Assert
         assertThrows(ProjectException.class, () -> loggedInUserService.getProjectsSupportedToLoggedInUser(projectUser));
@@ -313,7 +313,7 @@ class LoggedInUserServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -338,7 +338,7 @@ class LoggedInUserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         Calender calender2 = new Calender();
@@ -358,7 +358,7 @@ class LoggedInUserServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -379,7 +379,7 @@ class LoggedInUserServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -396,7 +396,7 @@ class LoggedInUserServiceDiffblueTest {
         projectUser.setNonLocked(true);
         projectUser.setPassword("iloveyou");
         projectUser.setRole("Role");
-        projectUser.setStageName("Stage Name");
+        projectUser.setUserName("User Name");
 
         // Act
         Double actualProjectsSupportedToLoggedInUser = loggedInUserService.getProjectsSupportedToLoggedInUser(projectUser);
@@ -432,7 +432,7 @@ class LoggedInUserServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -462,7 +462,7 @@ class LoggedInUserServiceDiffblueTest {
         user2.setNonLocked(false);
         user2.setPassword("Password");
         user2.setRole("com.discoverme.backend.user.Users");
-        user2.setStageName("com.discoverme.backend.user.Users");
+        user2.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -488,7 +488,7 @@ class LoggedInUserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         Calender calender3 = new Calender();
@@ -508,7 +508,7 @@ class LoggedInUserServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender3);
@@ -529,7 +529,7 @@ class LoggedInUserServiceDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -546,7 +546,7 @@ class LoggedInUserServiceDiffblueTest {
         projectUser.setNonLocked(true);
         projectUser.setPassword("iloveyou");
         projectUser.setRole("Role");
-        projectUser.setStageName("Stage Name");
+        projectUser.setUserName("User Name");
 
         // Act
         Double actualProjectsSupportedToLoggedInUser = loggedInUserService.getProjectsSupportedToLoggedInUser(projectUser);

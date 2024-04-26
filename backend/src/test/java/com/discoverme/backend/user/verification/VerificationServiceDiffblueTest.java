@@ -39,7 +39,7 @@ class VerificationServiceDiffblueTest {
 
         // Act and Assert
         assertThrows(UsernameNotFoundException.class, () -> verificationService
-                .registerVerificationTokenToDb(new RegistrationResponse(1L, "Stage Name", "jane.doe@example.org")));
+                .registerVerificationTokenToDb(new RegistrationResponse(1L, "User Name", "jane.doe@example.org")));
         verify(userRepository).findById(isA(Long.class));
     }
 
@@ -60,7 +60,7 @@ class VerificationServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         UserRepository userRepository = mock(UserRepository.class);
         Optional<Users> emptyResult = Optional.empty();
@@ -112,7 +112,7 @@ class VerificationServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         UserService userService = mock(UserService.class);
         when(userService.findById(Mockito.<Long>any())).thenThrow(new UserException("An error occurred"));
@@ -142,7 +142,7 @@ class VerificationServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
         emailVerificationToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());

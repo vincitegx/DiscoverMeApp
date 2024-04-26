@@ -13,7 +13,7 @@ class JwtResponseDiffblueTest {
     @Test
     void testNewJwtResponse() {
         // Arrange
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act
         JwtResponse actualJwtResponse = new JwtResponse("ABC123", user);
@@ -22,7 +22,7 @@ class JwtResponseDiffblueTest {
         assertEquals("ABC123", actualJwtResponse.getAuthToken());
         UserDto user2 = actualJwtResponse.getUser();
         assertEquals("Role", user2.getRole());
-        assertEquals("Stage Name", user2.getStageName());
+        assertEquals("User Name", user2.getUserName());
         assertEquals("jane.doe@example.org", user2.getEmail());
         assertEquals(1L, user2.getId().longValue());
         assertSame(user, user2);

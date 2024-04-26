@@ -1,6 +1,6 @@
 export interface UserDto {
     id?: Number;
-    stageName?: String;
+    userName?: String;
     email?: String;
     role?: String;
     // private userSocials: any

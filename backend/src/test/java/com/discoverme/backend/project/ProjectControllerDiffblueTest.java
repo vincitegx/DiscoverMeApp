@@ -230,7 +230,7 @@ class ProjectControllerDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender2);
@@ -305,7 +305,7 @@ class ProjectControllerDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender2);
@@ -335,7 +335,7 @@ class ProjectControllerDiffblueTest {
         user2.setNonLocked(false);
         user2.setPassword("Password");
         user2.setRole("com.discoverme.backend.user.Users");
-        user2.setStageName("com.discoverme.backend.user.Users");
+        user2.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender3);
@@ -429,7 +429,7 @@ class ProjectControllerDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);

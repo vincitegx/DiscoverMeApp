@@ -41,7 +41,7 @@ class RegistrationControllerDiffblueTest {
         RegistrationService registrationService = mock(RegistrationService.class);
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         when(registrationService.registerUser(Mockito.<RegistrationRequest>any())).thenReturn(buildResult);
@@ -55,7 +55,7 @@ class RegistrationControllerDiffblueTest {
 
         // Act
         ResponseEntity<RegistrationResponse> actualRegisterUserResult = registrationController
-                .registerUser(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"));
+                .registerUser(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"));
 
         // Assert
         verify(mailService).sendHtmlEmail(isA(EventDto.class));
@@ -86,7 +86,7 @@ class RegistrationControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users);
         Optional<Users> emptyResult = Optional.empty();
@@ -113,7 +113,7 @@ class RegistrationControllerDiffblueTest {
         verify(passwordValidator).test(eq("iloveyou"));
         verify(userRepository).save(isA(Users.class));
         RegistrationResponse body = actualRegisterAdminResult.getBody();
-        assertEquals("Stage Name", body.getStageName());
+        assertEquals("User Name", body.getUserName());
         assertEquals("jane.doe@example.org", body.getEmail());
         assertEquals(1L, body.getUserId().longValue());
         assertEquals(201, actualRegisterAdminResult.getStatusCodeValue());
@@ -141,7 +141,7 @@ class RegistrationControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         UserService userService = mock(UserService.class);
         when(userService.saveUser(Mockito.<Users>any())).thenReturn(users);
         Optional<Users> emptyResult = Optional.empty();
@@ -167,7 +167,7 @@ class RegistrationControllerDiffblueTest {
         verify(userService).saveUser(isA(Users.class));
         verify(passwordValidator).test(eq("iloveyou"));
         RegistrationResponse body = actualRegisterAdminResult.getBody();
-        assertEquals("Stage Name", body.getStageName());
+        assertEquals("User Name", body.getUserName());
         assertEquals("jane.doe@example.org", body.getEmail());
         assertEquals(1L, body.getUserId().longValue());
         assertEquals(201, actualRegisterAdminResult.getStatusCodeValue());
@@ -187,7 +187,7 @@ class RegistrationControllerDiffblueTest {
         RegistrationService registrationService = mock(RegistrationService.class);
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         when(registrationService.registerAdmin(Mockito.<AdminRegistrationRequest>any())).thenReturn(buildResult);

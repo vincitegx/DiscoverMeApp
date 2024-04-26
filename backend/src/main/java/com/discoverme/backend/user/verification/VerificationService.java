@@ -42,7 +42,7 @@ public class VerificationService {
         emailVerificationTokenRepository.save(verificationToken);
         Map<String, String> data = new HashMap<>();
         data.put("subject", "Email verification");
-        data.put("name", user.getStageName());
+        data.put("name", user.getUserName());
         data.put("token", generatedToken);
         data.put("expiresAt", activationTokenExpirationTimeInHours.toString());
         return EventDto.builder().from(organizationEmail).to(registrationResponse.getEmail()).data(data).build();
@@ -50,7 +50,7 @@ public class VerificationService {
 
     public void requestNewVerificationToken(String email) {
         Users user = userService.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException("This email has not been registered. Visit the registration page to register an account..."));
-        RegistrationResponse response = new RegistrationResponse(user.getId(), user.getStageName(), user.getEmail());
+        RegistrationResponse response = new RegistrationResponse(user.getId(), user.getUserName(), user.getEmail());
         registerVerificationTokenToDb(response);
     }
 

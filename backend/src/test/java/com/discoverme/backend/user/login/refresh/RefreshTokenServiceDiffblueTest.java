@@ -65,7 +65,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -83,7 +83,7 @@ class RefreshTokenServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         // Act
         String actualGenerateRefreshTokenResult = refreshTokenService.generateRefreshToken(user2);
@@ -109,7 +109,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act and Assert
         assertThrows(UserException.class, () -> refreshTokenService.generateRefreshToken(user));
@@ -130,7 +130,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -162,7 +162,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -194,7 +194,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getToken()).thenThrow(new UserException("An error occurred"));
         when(refreshToken.getExpiresAt()).thenReturn(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -253,7 +253,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -286,7 +286,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -319,7 +319,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getToken()).thenThrow(new UserException("An error occurred"));
         when(refreshToken.getExpiresAt()).thenReturn(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -378,7 +378,7 @@ class RefreshTokenServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());

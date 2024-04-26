@@ -26,7 +26,7 @@ export class SignupComponent {
     this.signupRequest = new SignupRequest('', '', '');
     this.notifier = notifierService;
     this.form = this.formBuilder.group({
-      stageName: ['', { validators: [Validators.required], updateOn: 'blur' }],
+      userName: ['', { validators: [Validators.required], updateOn: 'blur' }],
       email: ['', { validators: [Validators.required, Validators.email], updateOn: 'blur' }],
       password: ['', {
         validators: [
@@ -80,8 +80,8 @@ export class SignupComponent {
     const control = this.form.get(controlName);
 
     if (control?.hasError('required')) {
-      if(controlName == 'stageName'){
-        controlName = 'Stage Name';
+      if(controlName == 'userName'){
+        controlName = 'User Name';
       }
       return `${controlName} is required.`;
     } else if (control?.hasError('email')) {
@@ -98,7 +98,7 @@ export class SignupComponent {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       this.isLoading.next(true); 
-      this.signupRequest.setStageName(this.form.get('stageName')?.value);
+      this.signupRequest.setUserName(this.form.get('userName')?.value);
       this.signupRequest.setEmail(this.form.get('email')?.value);
       this.signupRequest.setPassword(this.form.get('password')?.value);
 

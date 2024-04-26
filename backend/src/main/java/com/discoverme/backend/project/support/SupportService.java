@@ -3,10 +3,14 @@ package com.discoverme.backend.project.support;
 import com.discoverme.backend.project.Project;
 import com.discoverme.backend.project.ProjectException;
 import com.discoverme.backend.project.ProjectService;
+import com.discoverme.backend.social.SocialPlatform;
+import com.discoverme.backend.social.instagram.InstagramService;
 import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
-import com.discoverme.backend.user.social.FacebookService;
+import com.discoverme.backend.user.Users;
+import com.discoverme.backend.social.facebook.FacebookService;
+import com.restfb.exception.FacebookOAuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,6 +29,7 @@ public class SupportService {
     private final UserService userService;
     private final ProjectService projectService;
     private final FacebookService facebookService;
+    private final InstagramService instagramService;
     public List<UserDto> getProjectSupporters(Long projectId) {
         Project project = projectService.findById(projectId).orElseThrow(()-> new ProjectException("Project not found with ID"));
         List<Support> support = supportRepository.findByProject(project);
@@ -33,6 +39,7 @@ public class SupportService {
     }
 
     public void toggleSupport(Long projectId){
+        Users user = userService.getCurrentUser();
         Project project = projectService.findById(projectId).orElseThrow(()-> new ProjectException("No such project found with that ID"));
         Optional<Support> supportByProjectAndUser = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
         supportByProjectAndUser.ifPresentOrElse(v -> {
@@ -42,11 +49,21 @@ public class SupportService {
                 projectService.saveProject(project);
             }
         }, () -> {
-            if(project.getSocial().getName() == "FACEBOOK"){
+            if(Objects.equals(project.getSocial().getName(), SocialPlatform.FACEBOOK.name())){
                 try {
                     facebookService.postVideo(project.getContentUri());
                 } catch (MalformedURLException | FileNotFoundException e) {
                     throw new RuntimeException(e);
+                }catch (FacebookOAuthException facebookOAuthException){
+                    throw new ProjectException(facebookOAuthException.getMessage());
+                }
+            } else if (Objects.equals(project.getSocial().getName(), SocialPlatform.INSTAGRAM.name())) {
+                try {
+                    instagramService.postVideo(project.getContentUri());
+                } catch (MalformedURLException | FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }catch (FacebookOAuthException facebookOAuthException){
+                    throw new ProjectException(facebookOAuthException.getMessage());
                 }
             }
             Support support = Support.builder()

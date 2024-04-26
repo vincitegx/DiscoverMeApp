@@ -102,7 +102,7 @@ class AuthControllerDiffblueTest {
     @Test
     void testUserLogin() throws Exception {
         // Arrange
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         when(loginService.login(Mockito.<LoginRequest>any())).thenReturn(new JwtResponse("ABC123", user));
 
         Users users = new Users();
@@ -113,7 +113,7 @@ class AuthControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
         when(refreshTokenService.generateRefreshToken(Mockito.<Users>any())).thenReturn("ABC123");
 
@@ -133,7 +133,7 @@ class AuthControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "{\"authToken\":\"ABC123\",\"user\":{\"id\":1,\"stageName\":\"Stage Name\",\"email\":\"jane.doe@example.org\",\"role"
+                                "{\"authToken\":\"ABC123\",\"user\":{\"id\":1,\"UserName\":\"User Name\",\"email\":\"jane.doe@example.org\",\"role"
                                         + "\":\"Role\"}}"));
         ResultActions resultActions2 = resultActions
                 .andExpect(MockMvcResultMatchers.cookie().value("refresh-token", "ABC123"));

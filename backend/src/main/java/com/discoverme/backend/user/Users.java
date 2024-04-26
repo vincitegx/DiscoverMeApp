@@ -23,7 +23,7 @@ public class Users {
     private Long id;
 
     @Column(nullable = false)
-    private String stageName;
+    private String userName;
 
     @Column(nullable = false, unique = true)
     @Email

@@ -10,7 +10,7 @@ public class UserMapper implements Function<Users, UserDto> {
     public UserDto apply(Users user) {
         return UserDto.builder()
                 .id(user.getId())
-                .stageName(user.getStageName())
+                .userName(user.getUserName())
                 .email(user.getEmail())
                 .role(user.getRole())
 //                .userSocials(mapUserSoocialsToDto(user.getUserSocials()))

@@ -5,17 +5,51 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DefaultModule } from './layouts/default/default.module';
 import { NotifierModule } from 'angular-notifier';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpRequestInterceptor } from './helpers/auth.interceptor';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { DefaultComponent } from './layouts/default/default.component';
+import { CoverComponent } from './components/cover/cover.component';
+import { HomeComponent } from './components/home/home.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SubmitProjectComponent } from './components/submit-project/submit-project.component';
+import { AccountCreatedComponent } from './components/account-created/account-created.component';
+import { VerifyComponent } from './components/verify-account/verify-account';
+import { ProjectLinkComponent } from './components/project-link/project-link.component';
+import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
+import { VideoHoverDirective } from './video-hover.directive';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './components/shared/shared.module';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DefaultComponent,
+    CoverComponent,
+    HomeComponent,
+    SigninComponent,
+    SignupComponent,
+    ProfileComponent,
+    SubmitProjectComponent,
+    AccountCreatedComponent,
+    VerifyComponent,
+    ProjectLinkComponent,
+    GoogleBtnComponent,
+    VideoHoverDirective
   ],
   imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    HttpClientModule,
+    SharedModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    DefaultModule,
+    // DefaultModule,
     NgxWebstorageModule.forRoot(),
     NotifierModule
   ],

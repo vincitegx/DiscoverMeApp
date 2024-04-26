@@ -50,7 +50,7 @@ class CustomOAuth2UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
 
         Users users2 = new Users();
@@ -61,7 +61,7 @@ class CustomOAuth2UserServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(userRepository.saveAndFlush(Mockito.<Users>any())).thenReturn(users2);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
 
@@ -91,7 +91,7 @@ class CustomOAuth2UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userRepository.saveAndFlush(Mockito.<Users>any())).thenReturn(users);
         Optional<Users> emptyResult = Optional.empty();
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(emptyResult);

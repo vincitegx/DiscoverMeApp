@@ -32,10 +32,11 @@ public class ProjectService {
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
         Users user = userService.getCurrentUser();
-        Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
-        if(project.isPresent()){
-            throw new IllegalArgumentException("You can add only one project per week");
-        }
+//        Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
+//        List<Project> project = projectRepository.findByUserAndCalender(user, calender);
+//        if(project.isPresent()){
+//            throw new IllegalArgumentException("You can add only one project per week");
+//        }
         String contentUri = fileService.uploadFile(content);
         Project project1 = Project.builder()
                 .url(secureRandomStringGenerator.apply(10))
@@ -64,7 +65,7 @@ public class ProjectService {
     }
     public Page<ProjectResponse> getCurrentProjects(String search, PageRequest request) {
         Calender calender = calenderService.getProjectCalender();
-        Page<Project> projects = projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(calender.getId(),search, request);
+        Page<Project> projects = projectRepository.findByCalenderAndSongTitleContainingOrUserNameContaining(calender.getId(),search, request);
         return projects.map(this::mapProjectToResponse);
     }
     
@@ -75,10 +76,10 @@ public class ProjectService {
                 .songUri(project.getSongUri())
                 .songTitle(project.getSongTitle())
                 .contentUri(project.getContentUri())
-//                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId()))
+                .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId()))
 //                .percentOfSupport(loggedInUserService.getProjectsSupportedToLoggedInUser(project.getUser()))
                 .social(project.getSocial())
-                .stageName(project.getUser().getStageName())
+                .userName(project.getUser().getUserName())
                 .build();
     }
 

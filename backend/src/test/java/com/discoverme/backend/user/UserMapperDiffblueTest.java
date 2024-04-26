@@ -39,14 +39,14 @@ class UserMapperDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act
         UserDto actualApplyResult = userMapper.apply(user);
 
         // Assert
         assertEquals("Role", actualApplyResult.getRole());
-        assertEquals("Stage Name", actualApplyResult.getStageName());
+        assertEquals("User Name", actualApplyResult.getUserName());
         assertEquals("jane.doe@example.org", actualApplyResult.getEmail());
         assertEquals(1L, actualApplyResult.getId().longValue());
     }
@@ -61,7 +61,7 @@ class UserMapperDiffblueTest {
         when(user.getId()).thenReturn(1L);
         when(user.getEmail()).thenReturn("jane.doe@example.org");
         when(user.getRole()).thenReturn("Role");
-        when(user.getStageName()).thenReturn("Stage Name");
+        when(user.getUserName()).thenReturn("User Name");
         doNothing().when(user).setCreatedAt(Mockito.<ZonedDateTime>any());
         doNothing().when(user).setEmail(Mockito.<String>any());
         doNothing().when(user).setEnabled(Mockito.<Boolean>any());
@@ -69,7 +69,7 @@ class UserMapperDiffblueTest {
         doNothing().when(user).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(user).setPassword(Mockito.<String>any());
         doNothing().when(user).setRole(Mockito.<String>any());
-        doNothing().when(user).setStageName(Mockito.<String>any());
+        doNothing().when(user).setUserName(Mockito.<String>any());
         user.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         user.setEmail("jane.doe@example.org");
         user.setEnabled(true);
@@ -77,7 +77,7 @@ class UserMapperDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act
         UserDto actualApplyResult = userMapper.apply(user);
@@ -86,7 +86,7 @@ class UserMapperDiffblueTest {
         verify(user).getEmail();
         verify(user).getId();
         verify(user).getRole();
-        verify(user).getStageName();
+        verify(user).getUserName();
         verify(user).setCreatedAt(isA(ZonedDateTime.class));
         verify(user).setEmail(eq("jane.doe@example.org"));
         verify(user).setEnabled(isA(Boolean.class));
@@ -94,9 +94,9 @@ class UserMapperDiffblueTest {
         verify(user).setNonLocked(isA(Boolean.class));
         verify(user).setPassword(eq("iloveyou"));
         verify(user).setRole(eq("Role"));
-        verify(user).setStageName(eq("Stage Name"));
+        verify(user).setUserName(eq("User Name"));
         assertEquals("Role", actualApplyResult.getRole());
-        assertEquals("Stage Name", actualApplyResult.getStageName());
+        assertEquals("User Name", actualApplyResult.getUserName());
         assertEquals("jane.doe@example.org", actualApplyResult.getEmail());
         assertEquals(1L, actualApplyResult.getId().longValue());
     }

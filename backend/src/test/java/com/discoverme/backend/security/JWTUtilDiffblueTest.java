@@ -53,7 +53,7 @@ class JWTUtilDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Users users = new Users();
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -63,7 +63,7 @@ class JWTUtilDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getUser()).thenReturn(users);
         doNothing().when(refreshToken).setCreatedAt(Mockito.<LocalDateTime>any());
@@ -103,7 +103,7 @@ class JWTUtilDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Users users = mock(Users.class);
         when(users.getEnabled()).thenThrow(new TokenExpiredException("An error occurred",
                 LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -117,7 +117,7 @@ class JWTUtilDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -125,7 +125,7 @@ class JWTUtilDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getUser()).thenReturn(users);
         doNothing().when(refreshToken).setCreatedAt(Mockito.<LocalDateTime>any());
@@ -152,7 +152,7 @@ class JWTUtilDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(refreshToken, atLeast(1)).getUser();
         verify(refreshToken).setCreatedAt(isA(LocalDateTime.class));
         verify(refreshToken).setExpiresAt(isA(LocalDateTime.class));
@@ -175,7 +175,7 @@ class JWTUtilDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Users users = mock(Users.class);
         when(users.getEnabled()).thenReturn(false);
         when(users.getNonLocked()).thenReturn(true);
@@ -189,7 +189,7 @@ class JWTUtilDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -197,7 +197,7 @@ class JWTUtilDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getUser()).thenReturn(users);
         doNothing().when(refreshToken).setCreatedAt(Mockito.<LocalDateTime>any());
@@ -227,7 +227,7 @@ class JWTUtilDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(refreshToken, atLeast(1)).getUser();
         verify(refreshToken).setCreatedAt(isA(LocalDateTime.class));
         verify(refreshToken).setExpiresAt(isA(LocalDateTime.class));
@@ -250,7 +250,7 @@ class JWTUtilDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Users users = mock(Users.class);
         when(users.getEnabled()).thenReturn(true);
         when(users.getNonLocked()).thenReturn(false);
@@ -264,7 +264,7 @@ class JWTUtilDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -272,7 +272,7 @@ class JWTUtilDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getUser()).thenReturn(users);
         doNothing().when(refreshToken).setCreatedAt(Mockito.<LocalDateTime>any());
@@ -302,7 +302,7 @@ class JWTUtilDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(refreshToken, atLeast(1)).getUser();
         verify(refreshToken).setCreatedAt(isA(LocalDateTime.class));
         verify(refreshToken).setExpiresAt(isA(LocalDateTime.class));
@@ -325,7 +325,7 @@ class JWTUtilDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Users users = mock(Users.class);
         when(users.getRole()).thenReturn("");
         when(users.getEmail()).thenReturn("jane.doe@example.org");
@@ -336,7 +336,7 @@ class JWTUtilDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -344,7 +344,7 @@ class JWTUtilDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getUser()).thenReturn(users);
         doNothing().when(refreshToken).setCreatedAt(Mockito.<LocalDateTime>any());
@@ -369,7 +369,7 @@ class JWTUtilDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(refreshToken, atLeast(1)).getUser();
         verify(refreshToken).setCreatedAt(isA(LocalDateTime.class));
         verify(refreshToken).setExpiresAt(isA(LocalDateTime.class));
@@ -392,7 +392,7 @@ class JWTUtilDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Users users = mock(Users.class);
         when(users.getEnabled()).thenReturn(true);
         when(users.getNonLocked()).thenReturn(true);
@@ -406,7 +406,7 @@ class JWTUtilDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -414,7 +414,7 @@ class JWTUtilDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         RefreshToken refreshToken = mock(RefreshToken.class);
         when(refreshToken.getUser()).thenReturn(users);
         doNothing().when(refreshToken).setCreatedAt(Mockito.<LocalDateTime>any());
@@ -442,7 +442,7 @@ class JWTUtilDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(refreshToken, atLeast(1)).getUser();
         verify(refreshToken).setCreatedAt(isA(LocalDateTime.class));
         verify(refreshToken).setExpiresAt(isA(LocalDateTime.class));

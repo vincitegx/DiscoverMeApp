@@ -5,9 +5,9 @@ export class Project {
     url?: string;
     songUri?:string;
     songTitle?:string;
-    stageName?:string;
+    userName?:string;
     social?:Socials;
     contentUri?: string;
     percentOfSupport?:number;
-    isSupported?:boolean;
+    supported?:boolean;
 }

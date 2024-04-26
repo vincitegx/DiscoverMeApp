@@ -3,6 +3,7 @@ package com.discoverme.backend.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public Optional<Users> findUserByEmail(String email){
         return userRepository.findByEmail(email);
@@ -23,8 +25,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<Users> findByStageName(String stageName) {
-        return userRepository.findByStageName(stageName);
+    public Optional<Users> findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 
     public Optional<Users> findById(Long id) {
@@ -76,5 +78,12 @@ public class UserService {
             throw new UserException("Error !!! This account doesn't have an admin role");
         }
         userRepository.delete(user);
+    }
+
+    public UserDto updateProfile(String userName) {
+        Users user = getCurrentUser();
+        user.setUserName(userName);
+        user = saveUser(user);
+        return this.userMapper.apply(user);
     }
 }

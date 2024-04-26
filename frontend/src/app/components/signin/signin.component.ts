@@ -72,7 +72,7 @@ export class SigninComponent implements OnInit {
           }else{
             this.router.navigateByUrl('');
           }
-          this.notifier.notify('success', 'Welcome, '+ response.user.stageName);
+          this.notifier.notify('success', 'Welcome, '+ response.user.userName);
           this.form.reset();
         },
         error: (error: HttpErrorResponse) => {

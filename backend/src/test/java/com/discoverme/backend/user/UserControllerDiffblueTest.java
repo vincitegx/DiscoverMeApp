@@ -55,7 +55,7 @@ class UserControllerDiffblueTest {
         // Arrange
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findAll(Mockito.<Pageable>any())).thenReturn(new PageImpl<>(new ArrayList<>()));
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, new UserMapper());
 
         // Act
         ResponseEntity<Page<UserDto>> actualAllResult = (new UserController(userService, new UserMapper())).all(null);
@@ -84,13 +84,13 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         ArrayList<Users> content = new ArrayList<>();
         content.add(users);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findAll(Mockito.<Pageable>any())).thenReturn(new PageImpl<>(content));
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, new UserMapper());
 
         // Act
         ResponseEntity<Page<UserDto>> actualAllResult = (new UserController(userService, new UserMapper())).all(null);
@@ -101,7 +101,7 @@ class UserControllerDiffblueTest {
         assertEquals(1, toListResult.size());
         UserDto getResult = toListResult.get(0);
         assertEquals("Role", getResult.getRole());
-        assertEquals("Stage Name", getResult.getStageName());
+        assertEquals("User Name", getResult.getUserName());
         assertEquals("jane.doe@example.org", getResult.getEmail());
         assertEquals(1L, getResult.getId().longValue());
         assertEquals(200, actualAllResult.getStatusCodeValue());
@@ -125,7 +125,7 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -135,14 +135,14 @@ class UserControllerDiffblueTest {
         users2.setNonLocked(false);
         users2.setPassword("Password");
         users2.setRole("com.discoverme.backend.user.Users");
-        users2.setStageName("com.discoverme.backend.user.Users");
+        users2.setUserName("com.discoverme.backend.user.Users");
 
         ArrayList<Users> content = new ArrayList<>();
         content.add(users2);
         content.add(users);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findAll(Mockito.<Pageable>any())).thenReturn(new PageImpl<>(content));
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository,new UserMapper());
 
         // Act
         ResponseEntity<Page<UserDto>> actualAllResult = (new UserController(userService, new UserMapper())).all(null);
@@ -153,10 +153,10 @@ class UserControllerDiffblueTest {
         assertEquals(2, toListResult.size());
         UserDto getResult = toListResult.get(1);
         assertEquals("Role", getResult.getRole());
-        assertEquals("Stage Name", getResult.getStageName());
+        assertEquals("User Name", getResult.getUserName());
         UserDto getResult2 = toListResult.get(0);
         assertEquals("com.discoverme.backend.user.Users", getResult2.getRole());
-        assertEquals("com.discoverme.backend.user.Users", getResult2.getStageName());
+        assertEquals("com.discoverme.backend.user.Users", getResult2.getUserName());
         assertEquals("jane.doe@example.org", getResult.getEmail());
         assertEquals("john.smith@example.org", getResult2.getEmail());
         assertEquals(1L, getResult.getId().longValue());
@@ -204,7 +204,7 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         ArrayList<Users> content = new ArrayList<>();
         content.add(users);
@@ -215,7 +215,7 @@ class UserControllerDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .userName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
 
@@ -242,7 +242,7 @@ class UserControllerDiffblueTest {
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findByRole(Mockito.<String>any(), Mockito.<Pageable>any()))
                 .thenReturn(new PageImpl<>(new ArrayList<>()));
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, new UserMapper());
 
         // Act
         ResponseEntity<Page<UserDto>> actualAllUsersResult = (new UserController(userService, new UserMapper()))
@@ -272,13 +272,13 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         ArrayList<Users> content = new ArrayList<>();
         content.add(users);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findByRole(Mockito.<String>any(), Mockito.<Pageable>any())).thenReturn(new PageImpl<>(content));
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, new UserMapper());
 
         // Act
         ResponseEntity<Page<UserDto>> actualAllUsersResult = (new UserController(userService, new UserMapper()))
@@ -290,7 +290,7 @@ class UserControllerDiffblueTest {
         assertEquals(1, toListResult.size());
         UserDto getResult = toListResult.get(0);
         assertEquals("Role", getResult.getRole());
-        assertEquals("Stage Name", getResult.getStageName());
+        assertEquals("User Name", getResult.getUserName());
         assertEquals("jane.doe@example.org", getResult.getEmail());
         assertEquals(1L, getResult.getId().longValue());
         assertEquals(200, actualAllUsersResult.getStatusCodeValue());
@@ -314,7 +314,7 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -324,14 +324,14 @@ class UserControllerDiffblueTest {
         users2.setNonLocked(false);
         users2.setPassword("Password");
         users2.setRole("com.discoverme.backend.user.Users");
-        users2.setStageName("com.discoverme.backend.user.Users");
+        users2.setUserName("com.discoverme.backend.user.Users");
 
         ArrayList<Users> content = new ArrayList<>();
         content.add(users2);
         content.add(users);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findByRole(Mockito.<String>any(), Mockito.<Pageable>any())).thenReturn(new PageImpl<>(content));
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, new UserMapper());
 
         // Act
         ResponseEntity<Page<UserDto>> actualAllUsersResult = (new UserController(userService, new UserMapper()))
@@ -343,10 +343,10 @@ class UserControllerDiffblueTest {
         assertEquals(2, toListResult.size());
         UserDto getResult = toListResult.get(1);
         assertEquals("Role", getResult.getRole());
-        assertEquals("Stage Name", getResult.getStageName());
+        assertEquals("User Name", getResult.getUserName());
         UserDto getResult2 = toListResult.get(0);
         assertEquals("com.discoverme.backend.user.Users", getResult2.getRole());
-        assertEquals("com.discoverme.backend.user.Users", getResult2.getStageName());
+        assertEquals("com.discoverme.backend.user.Users", getResult2.getUserName());
         assertEquals("jane.doe@example.org", getResult.getEmail());
         assertEquals("john.smith@example.org", getResult2.getEmail());
         assertEquals(1L, getResult.getId().longValue());
@@ -395,7 +395,7 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         ArrayList<Users> content = new ArrayList<>();
         content.add(users);
@@ -406,7 +406,7 @@ class UserControllerDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .userName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
 
@@ -436,14 +436,14 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userService.findById(Mockito.<Long>any())).thenReturn(ofResult);
         UserDto buildResult = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .userName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/users/42").param("id", "42");
@@ -455,7 +455,7 @@ class UserControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
-                        .string("{\"id\":1,\"stageName\":\"Stage Name\",\"email\":\"jane.doe@example.org\",\"role\":\"Role\"}"));
+                        .string("{\"id\":1,\"UserName\":\"User Name\",\"email\":\"jane.doe@example.org\",\"role\":\"Role\"}"));
     }
 
     /**
@@ -507,13 +507,13 @@ class UserControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
         UserDto buildResult = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .userName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/users/me");
@@ -525,6 +525,6 @@ class UserControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
-                        .string("{\"id\":1,\"stageName\":\"Stage Name\",\"email\":\"jane.doe@example.org\",\"role\":\"Role\"}"));
+                        .string("{\"id\":1,\"UserName\":\"User Name\",\"email\":\"jane.doe@example.org\",\"role\":\"Role\"}"));
     }
 }

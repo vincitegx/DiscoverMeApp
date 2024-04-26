@@ -58,13 +58,13 @@ class RegistrationServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userService.findUserByEmail(Mockito.<String>any())).thenReturn(ofResult);
 
         // Act and Assert
         assertThrows(RegistrationException.class, () -> registrationService
-                .registerUser(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou")));
+                .registerUser(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou")));
         verify(userService).findUserByEmail(eq("jane.doe@example.org"));
         verify(passwordValidator).test(eq("iloveyou"));
     }
@@ -81,7 +81,7 @@ class RegistrationServiceDiffblueTest {
 
         // Act and Assert
         assertThrows(RegistrationException.class, () -> registrationService
-                .registerUser(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou")));
+                .registerUser(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou")));
         verify(userService).findUserByEmail(eq("jane.doe@example.org"));
         verify(passwordValidator).test(eq("iloveyou"));
     }
@@ -97,7 +97,7 @@ class RegistrationServiceDiffblueTest {
 
         // Act and Assert
         assertThrows(RegistrationException.class, () -> registrationService
-                .registerUser(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou")));
+                .registerUser(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou")));
         verify(passwordValidator).test(eq("iloveyou"));
     }
 
@@ -119,7 +119,7 @@ class RegistrationServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.saveUser(Mockito.<Users>any())).thenReturn(users);
         Optional<Users> emptyResult = Optional.empty();
         when(userService.findUserByEmail(Mockito.<String>any())).thenReturn(emptyResult);
@@ -132,15 +132,15 @@ class RegistrationServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(registrationMapper.mapRegistrationRequestToUser(Mockito.<RegistrationRequest>any())).thenReturn(users2);
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         when(registrationMapper.mapUserToRegistrationResponse(Mockito.<Users>any())).thenReturn(buildResult);
-        RegistrationRequest registerRequest = new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou");
+        RegistrationRequest registerRequest = new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou");
 
         // Act
         registrationService.registerUser(registerRequest);
@@ -172,7 +172,7 @@ class RegistrationServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userService.findUserByEmail(Mockito.<String>any())).thenReturn(ofResult);
 
@@ -233,7 +233,7 @@ class RegistrationServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.saveUser(Mockito.<Users>any())).thenReturn(users);
         Optional<Users> emptyResult = Optional.empty();
         when(userService.findUserByEmail(Mockito.<String>any())).thenReturn(emptyResult);
@@ -246,11 +246,11 @@ class RegistrationServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(registrationMapper.mapRegistrationRequestToAdmin(Mockito.<AdminRegistrationRequest>any())).thenReturn(users2);
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         when(registrationMapper.mapUserToRegistrationResponse(Mockito.<Users>any())).thenReturn(buildResult);

@@ -97,7 +97,7 @@ class SupportRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -118,7 +118,7 @@ class SupportRepositoryDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setProject(project);
@@ -141,7 +141,7 @@ class SupportRepositoryDiffblueTest {
         user3.setNonLocked(false);
         user3.setPassword("Password");
         user3.setRole("com.discoverme.backend.user.Users");
-        user3.setStageName("com.discoverme.backend.user.Users");
+        user3.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -162,7 +162,7 @@ class SupportRepositoryDiffblueTest {
         user4.setNonLocked(false);
         user4.setPassword("Password");
         user4.setRole("com.discoverme.backend.user.Users");
-        user4.setStageName("com.discoverme.backend.user.Users");
+        user4.setUserName("com.discoverme.backend.user.Users");
 
         Support support2 = new Support();
         support2.setProject(project2);
@@ -187,7 +187,7 @@ class SupportRepositoryDiffblueTest {
         user5.setNonLocked(true);
         user5.setPassword("iloveyou");
         user5.setRole("Role");
-        user5.setStageName("Stage Name");
+        user5.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender3);
@@ -206,7 +206,7 @@ class SupportRepositoryDiffblueTest {
         user6.setNonLocked(true);
         user6.setPassword("iloveyou");
         user6.setRole("Role");
-        user6.setStageName("Stage Name");
+        user6.setUserName("User Name");
 
         // Act
         supportRepository.findByProjectAndUser(project3, user6);
@@ -286,7 +286,7 @@ class SupportRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -307,7 +307,7 @@ class SupportRepositoryDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setProject(project);
@@ -330,7 +330,7 @@ class SupportRepositoryDiffblueTest {
         user3.setNonLocked(false);
         user3.setPassword("Password");
         user3.setRole("com.discoverme.backend.user.Users");
-        user3.setStageName("com.discoverme.backend.user.Users");
+        user3.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -351,7 +351,7 @@ class SupportRepositoryDiffblueTest {
         user4.setNonLocked(false);
         user4.setPassword("Password");
         user4.setRole("com.discoverme.backend.user.Users");
-        user4.setStageName("com.discoverme.backend.user.Users");
+        user4.setUserName("com.discoverme.backend.user.Users");
 
         Support support2 = new Support();
         support2.setProject(project2);
@@ -376,7 +376,7 @@ class SupportRepositoryDiffblueTest {
         user5.setNonLocked(true);
         user5.setPassword("iloveyou");
         user5.setRole("Role");
-        user5.setStageName("Stage Name");
+        user5.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender3);
@@ -466,7 +466,7 @@ class SupportRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -487,7 +487,7 @@ class SupportRepositoryDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setProject(project);
@@ -510,7 +510,7 @@ class SupportRepositoryDiffblueTest {
         user3.setNonLocked(false);
         user3.setPassword("Password");
         user3.setRole("com.discoverme.backend.user.Users");
-        user3.setStageName("com.discoverme.backend.user.Users");
+        user3.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -531,7 +531,7 @@ class SupportRepositoryDiffblueTest {
         user4.setNonLocked(false);
         user4.setPassword("Password");
         user4.setRole("com.discoverme.backend.user.Users");
-        user4.setStageName("com.discoverme.backend.user.Users");
+        user4.setUserName("com.discoverme.backend.user.Users");
 
         Support support2 = new Support();
         support2.setProject(project2);
@@ -546,7 +546,7 @@ class SupportRepositoryDiffblueTest {
         user5.setNonLocked(true);
         user5.setPassword("iloveyou");
         user5.setRole("Role");
-        user5.setStageName("Stage Name");
+        user5.setUserName("User Name");
 
         // Act
         supportRepository.findByUser(user5);
@@ -627,7 +627,7 @@ class SupportRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -648,7 +648,7 @@ class SupportRepositoryDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setProject(project);
@@ -671,7 +671,7 @@ class SupportRepositoryDiffblueTest {
         user3.setNonLocked(false);
         user3.setPassword("Password");
         user3.setRole("com.discoverme.backend.user.Users");
-        user3.setStageName("com.discoverme.backend.user.Users");
+        user3.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -692,7 +692,7 @@ class SupportRepositoryDiffblueTest {
         user4.setNonLocked(false);
         user4.setPassword("Password");
         user4.setRole("com.discoverme.backend.user.Users");
-        user4.setStageName("com.discoverme.backend.user.Users");
+        user4.setUserName("com.discoverme.backend.user.Users");
 
         Support support2 = new Support();
         support2.setProject(project2);
@@ -717,7 +717,7 @@ class SupportRepositoryDiffblueTest {
         user5.setNonLocked(true);
         user5.setPassword("iloveyou");
         user5.setRole("Role");
-        user5.setStageName("Stage Name");
+        user5.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender3);
@@ -736,7 +736,7 @@ class SupportRepositoryDiffblueTest {
         currentUser.setNonLocked(true);
         currentUser.setPassword("iloveyou");
         currentUser.setRole("Role");
-        currentUser.setStageName("Stage Name");
+        currentUser.setUserName("User Name");
 
         // Act
         supportRepository.findTopByProjectAndUserOrderByIdDesc(project3, currentUser);

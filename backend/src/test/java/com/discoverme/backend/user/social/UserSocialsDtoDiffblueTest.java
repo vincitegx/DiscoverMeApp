@@ -38,7 +38,7 @@ class UserSocialsDtoDiffblueTest {
         //   Diffblue Cover was unable to create a Spring-specific test for this Spring method.
 
         // Arrange
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act and Assert
         assertFalse((new UserSocialsDto(1L, user, SocialPlatform.FACEBOOK, "janedoe")).canEqual("Other"));
@@ -53,12 +53,12 @@ class UserSocialsDtoDiffblueTest {
 
         // Arrange
         UserSocialsDto.UserSocialsDtoBuilder socialResult = UserSocialsDto.builder().id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = UserSocialsDto.builder()
                 .id(1L)
                 .social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -75,7 +75,7 @@ class UserSocialsDtoDiffblueTest {
         // Arrange
         UserDto.UserDtoBuilder userDtoBuilder = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder.email(Mockito.<String>any())).thenReturn(UserDto.builder());
-        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = userDtoBuilder.email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act
         boolean actualCanEqualResult = (new UserSocialsDto(1L, user, SocialPlatform.FACEBOOK, "janedoe")).canEqual("Other");
@@ -109,7 +109,7 @@ class UserSocialsDtoDiffblueTest {
     void testEquals() {
         // Arrange
         UserSocialsDto.UserSocialsDtoBuilder socialResult = UserSocialsDto.builder().id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
 
         // Act and Assert
@@ -123,7 +123,7 @@ class UserSocialsDtoDiffblueTest {
     void testEquals2() {
         // Arrange
         UserSocialsDto.UserSocialsDtoBuilder socialResult = UserSocialsDto.builder().id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
 
         // Act and Assert
@@ -139,12 +139,12 @@ class UserSocialsDtoDiffblueTest {
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder.id(Mockito.<Long>any())).thenReturn(UserSocialsDto.builder());
         UserSocialsDto.UserSocialsDtoBuilder socialResult = userSocialsDtoBuilder.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = UserSocialsDto.builder()
                 .id(1L)
                 .social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -162,12 +162,12 @@ class UserSocialsDtoDiffblueTest {
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder2 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder2.id(Mockito.<Long>any())).thenReturn(userSocialsDtoBuilder);
         UserSocialsDto.UserSocialsDtoBuilder socialResult = userSocialsDtoBuilder2.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder3 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder3.id(Mockito.<Long>any())).thenReturn(UserSocialsDto.builder());
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = userSocialsDtoBuilder3.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -187,12 +187,12 @@ class UserSocialsDtoDiffblueTest {
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder3 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder3.id(Mockito.<Long>any())).thenReturn(userSocialsDtoBuilder2);
         UserSocialsDto.UserSocialsDtoBuilder socialResult = userSocialsDtoBuilder3.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder4 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder4.id(Mockito.<Long>any())).thenReturn(UserSocialsDto.builder());
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = userSocialsDtoBuilder4.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -214,12 +214,12 @@ class UserSocialsDtoDiffblueTest {
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder3 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder3.id(Mockito.<Long>any())).thenReturn(userSocialsDtoBuilder2);
         UserSocialsDto.UserSocialsDtoBuilder socialResult = userSocialsDtoBuilder3.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder4 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder4.id(Mockito.<Long>any())).thenReturn(UserSocialsDto.builder());
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = userSocialsDtoBuilder4.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -238,7 +238,7 @@ class UserSocialsDtoDiffblueTest {
     void testEqualsAndHashCode() {
         // Arrange
         UserSocialsDto.UserSocialsDtoBuilder socialResult = UserSocialsDto.builder().id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
 
         // Act and Assert
@@ -259,12 +259,12 @@ class UserSocialsDtoDiffblueTest {
     void testEqualsAndHashCode2() {
         // Arrange
         UserSocialsDto.UserSocialsDtoBuilder socialResult = UserSocialsDto.builder().id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = UserSocialsDto.builder()
                 .id(1L)
                 .social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -287,12 +287,12 @@ class UserSocialsDtoDiffblueTest {
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder.id(Mockito.<Long>any())).thenReturn(UserSocialsDto.builder());
         UserSocialsDto.UserSocialsDtoBuilder socialResult = userSocialsDtoBuilder.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         UserSocialsDto.UserSocialsDtoBuilder userSocialsDtoBuilder2 = mock(UserSocialsDto.UserSocialsDtoBuilder.class);
         when(userSocialsDtoBuilder2.id(Mockito.<Long>any())).thenReturn(UserSocialsDto.builder());
         UserSocialsDto.UserSocialsDtoBuilder socialResult2 = userSocialsDtoBuilder2.id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult2 = socialResult2.user(user2).userName("janedoe").build();
 
         // Act and Assert
@@ -321,13 +321,13 @@ class UserSocialsDtoDiffblueTest {
     @Test
     void testGettersAndSetters() {
         // Arrange
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
 
         // Act
         UserSocialsDto actualUserSocialsDto = new UserSocialsDto(1L, user, SocialPlatform.FACEBOOK, "janedoe");
         actualUserSocialsDto.setId(1L);
         actualUserSocialsDto.setSocial(SocialPlatform.FACEBOOK);
-        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user2 = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         actualUserSocialsDto.setUser(user2);
         actualUserSocialsDto.setUserName("janedoe");
         String actualToStringResult = actualUserSocialsDto.toString();
@@ -336,7 +336,7 @@ class UserSocialsDtoDiffblueTest {
         UserDto actualUser = actualUserSocialsDto.getUser();
 
         // Assert that nothing has changed
-        assertEquals("UserSocialsDto(id=1, user=UserDto(id=1, stageName=Stage Name, email=jane.doe@example.org, role=Role),"
+        assertEquals("UserSocialsDto(id=1, user=UserDto(id=1, UserName=User Name, email=jane.doe@example.org, role=Role),"
                 + " social=FACEBOOK, userName=janedoe)", actualToStringResult);
         assertEquals("janedoe", actualUserSocialsDto.getUserName());
         assertEquals(1L, actualId.longValue());

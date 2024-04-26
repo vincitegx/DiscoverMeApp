@@ -19,7 +19,7 @@ public class FileController {
     private final FileService fileService;
     private final HttpServletRequest request;
     @GetMapping("{fileName:.+}")
-    public ResponseEntity<Resource> displayFile(@PathVariable String fileName) throws IOException{
+    public ResponseEntity<Resource> displayFile(@PathVariable String fileName) {
         Resource resource = fileService.downloadFile(fileName);
         String mimeType;
         try {

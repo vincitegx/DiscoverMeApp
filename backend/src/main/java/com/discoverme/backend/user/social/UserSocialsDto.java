@@ -15,5 +15,5 @@ public class UserSocialsDto {
     private Long id;
     private UserDto user;
     private SocialPlatform social;
-    private String userName;
+    private String socialUserName;
 }

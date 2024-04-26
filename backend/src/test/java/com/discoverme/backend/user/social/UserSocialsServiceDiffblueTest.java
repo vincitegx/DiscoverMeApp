@@ -53,7 +53,7 @@ class UserSocialsServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         // Act

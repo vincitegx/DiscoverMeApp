@@ -88,7 +88,7 @@ class UserSocialsRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -108,7 +108,7 @@ class UserSocialsRepositoryDiffblueTest {
         user2.setNonLocked(false);
         user2.setPassword("Password");
         user2.setRole("com.discoverme.backend.user.Users");
-        user2.setStageName("com.discoverme.backend.user.Users");
+        user2.setUserName("com.discoverme.backend.user.Users");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ExampleToken");
@@ -125,7 +125,7 @@ class UserSocialsRepositoryDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         // Act
         userSocialsRepository.findByUser(user3);

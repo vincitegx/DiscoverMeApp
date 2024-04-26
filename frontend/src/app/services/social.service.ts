@@ -6,6 +6,7 @@ import { Socials } from '../dtos/socials';
 import { FBUserResponse } from '../components/profile/fb-user-response';
 import { LocalStorageService } from 'ngx-webstorage';
 import { UserSocials } from '../dtos/usersocial';
+import { IGUserResponse } from '../components/profile/ig-user-response';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +36,21 @@ export class SocialService {
       }));
   }
 
+  getIGToken(code: string): Observable<IGUserResponse> {
+    return this.httpClient.post<IGUserResponse>(`${this.apiServerUrl}auth/ig/callback?code=${code}`, {observe: "response"})
+      .pipe(map((response: IGUserResponse) => {
+        this.localStorageService.store("ig-user", response.name);
+          return response;
+      }));
+  }
+
   disconnectFacebook(): Observable<boolean> {
     this.localStorageService.clear("fb-user");
+    return of(true);
+  }
+
+  disconnectInstagram(): Observable<boolean> {
+    this.localStorageService.clear("ig-user");
     return of(true);
   }
 }

@@ -129,13 +129,6 @@ public class AltGMailService implements MailService{
             helper.setFrom(fromEmail);
             helper.setTo(eventDto.to);
             helper.setText(text, true);
-            //Add attachments (Optional)
-            /*FileSystemResource fort = new FileSystemResource(new File(System.getProperty("user.home") + "/Downloads/images/fort.jpg"));
-            FileSystemResource dog = new FileSystemResource(new File(System.getProperty("user.home") + "/Downloads/images/dog.jpg"));
-            FileSystemResource homework = new FileSystemResource(new File(System.getProperty("user.home") + "/Downloads/images/homework.docx"));
-            helper.addAttachment(fort.getFilename(), fort);
-            helper.addAttachment(dog.getFilename(), dog);
-            helper.addAttachment(homework.getFilename(), homework);*/
             emailSender.send(message);
         } catch (Exception exception) {
             System.out.println(exception.getMessage());

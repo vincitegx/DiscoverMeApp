@@ -12,7 +12,7 @@ public class CalendarJob extends QuartzJobBean {
     private CalenderRepository calendarRepository;
 
     @Override
-    protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    protected void executeInternal(@NotNull JobExecutionContext jobExecutionContext) {
         Calender calendarEntity = new Calender();
         calendarRepository.save(calendarEntity);
     }

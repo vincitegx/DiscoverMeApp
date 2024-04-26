@@ -18,7 +18,7 @@ import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
-import com.discoverme.backend.user.social.FacebookService;
+import com.discoverme.backend.social.facebook.FacebookService;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -81,7 +81,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -130,7 +130,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -174,7 +174,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -195,7 +195,7 @@ class SupportServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -209,7 +209,7 @@ class SupportServiceDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
 
@@ -230,7 +230,7 @@ class SupportServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -278,7 +278,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -299,7 +299,7 @@ class SupportServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -323,7 +323,7 @@ class SupportServiceDiffblueTest {
         user3.setNonLocked(false);
         user3.setPassword("Password");
         user3.setRole("com.discoverme.backend.user.Users");
-        user3.setStageName("com.discoverme.backend.user.Users");
+        user3.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -344,7 +344,7 @@ class SupportServiceDiffblueTest {
         user4.setNonLocked(false);
         user4.setPassword("Password");
         user4.setRole("com.discoverme.backend.user.Users");
-        user4.setStageName("com.discoverme.backend.user.Users");
+        user4.setUserName("com.discoverme.backend.user.Users");
 
         Support support2 = new Support();
         support2.setId(2L);
@@ -359,7 +359,7 @@ class SupportServiceDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
 
@@ -380,7 +380,7 @@ class SupportServiceDiffblueTest {
         user5.setNonLocked(true);
         user5.setPassword("iloveyou");
         user5.setRole("Role");
-        user5.setStageName("Stage Name");
+        user5.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender3);
@@ -428,7 +428,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -449,7 +449,7 @@ class SupportServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Users users = new Users();
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -459,7 +459,7 @@ class SupportServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Support support = mock(Support.class);
         when(support.getUser()).thenReturn(users);
         doNothing().when(support).setId(Mockito.<Long>any());
@@ -476,7 +476,7 @@ class SupportServiceDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
 
@@ -497,7 +497,7 @@ class SupportServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -549,7 +549,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -570,7 +570,7 @@ class SupportServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -589,7 +589,7 @@ class SupportServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         Calender calender2 = new Calender();
@@ -609,7 +609,7 @@ class SupportServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -640,7 +640,7 @@ class SupportServiceDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
 
         Project project3 = new Project();
         project3.setCalender(calender3);
@@ -689,7 +689,7 @@ class SupportServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -710,7 +710,7 @@ class SupportServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -729,7 +729,7 @@ class SupportServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         Calender calender2 = new Calender();
@@ -749,7 +749,7 @@ class SupportServiceDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);

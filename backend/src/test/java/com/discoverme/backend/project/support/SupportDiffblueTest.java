@@ -69,7 +69,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -90,7 +90,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support3 = new Support();
         support3.setId(1L);
@@ -126,7 +126,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Project project = mock(Project.class);
         doNothing().when(project).setCalender(Mockito.<Calender>any());
         doNothing().when(project).setContentUri(Mockito.<String>any());
@@ -155,7 +155,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support3 = new Support();
         support3.setId(1L);
@@ -201,7 +201,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -222,7 +222,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -256,7 +256,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -277,7 +277,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -311,7 +311,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -332,7 +332,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(2L);
@@ -356,7 +356,7 @@ class SupportDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -377,7 +377,7 @@ class SupportDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
 
         Support support2 = new Support();
         support2.setId(1L);
@@ -411,7 +411,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -432,7 +432,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(null);
@@ -456,7 +456,7 @@ class SupportDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -477,7 +477,7 @@ class SupportDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
 
         Support support2 = new Support();
         support2.setId(1L);
@@ -511,7 +511,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Project project = mock(Project.class);
         doNothing().when(project).setCalender(Mockito.<Calender>any());
         doNothing().when(project).setContentUri(Mockito.<String>any());
@@ -540,7 +540,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -564,7 +564,7 @@ class SupportDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -585,7 +585,7 @@ class SupportDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
 
         Support support2 = new Support();
         support2.setId(1L);
@@ -624,7 +624,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -645,7 +645,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -686,7 +686,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -707,7 +707,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Support support = new Support();
         support.setId(1L);
@@ -731,7 +731,7 @@ class SupportDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -752,7 +752,7 @@ class SupportDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
 
         Support support2 = new Support();
         support2.setId(1L);
@@ -799,7 +799,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         Project project = new Project();
         project.setCalender(calender);
         project.setContentUri("Not all who wander are lost");
@@ -819,7 +819,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
         actualSupport.setUser(user2);
         actualSupport.toString();
         Long actualId = actualSupport.getId();
@@ -866,7 +866,7 @@ class SupportDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -887,7 +887,7 @@ class SupportDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         // Act
         Support actualSupport = new Support(1L, project, user2);
@@ -907,7 +907,7 @@ class SupportDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
         Project project2 = new Project();
         project2.setCalender(calender2);
         project2.setContentUri("Not all who wander are lost");
@@ -927,7 +927,7 @@ class SupportDiffblueTest {
         user4.setNonLocked(true);
         user4.setPassword("iloveyou");
         user4.setRole("Role");
-        user4.setStageName("Stage Name");
+        user4.setUserName("User Name");
         actualSupport.setUser(user4);
         actualSupport.toString();
         Long actualId = actualSupport.getId();

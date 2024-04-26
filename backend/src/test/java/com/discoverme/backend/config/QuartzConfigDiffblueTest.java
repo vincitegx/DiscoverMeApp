@@ -15,9 +15,11 @@ import org.quartz.impl.triggers.CalendarIntervalTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean$$SpringCGLIB$$0;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean$$SpringCGLIB$$0;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean$$SpringCGLIB$$0;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -40,7 +42,7 @@ class QuartzConfigDiffblueTest {
     @Test
     void testJobDetailFactoryBean() {
         // Arrange, Act and Assert
-        assertTrue(quartzConfig.jobDetailFactoryBean() instanceof JobDetailFactoryBean$$SpringCGLIB$$0);
+        assertTrue(quartzConfig.jobDetailFactoryBean() instanceof JobDetailFactoryBean);
     }
 
     /**
@@ -50,9 +52,9 @@ class QuartzConfigDiffblueTest {
     void testCronTriggerFactoryBean() {
         // Arrange, Act and Assert
         assertTrue(
-                quartzConfig.cronTriggerFactoryBean(new JobDetailImpl()) instanceof CronTriggerFactoryBean$$SpringCGLIB$$0);
+                quartzConfig.cronTriggerFactoryBean(new JobDetailImpl()) instanceof CronTriggerFactoryBean);
         assertTrue(
-                quartzConfig.cronTriggerFactoryBean(mock(JobDetail.class)) instanceof CronTriggerFactoryBean$$SpringCGLIB$$0);
+                quartzConfig.cronTriggerFactoryBean(mock(JobDetail.class)) instanceof CronTriggerFactoryBean);
     }
 
     /**
@@ -66,7 +68,7 @@ class QuartzConfigDiffblueTest {
 
         // Act and Assert
         assertTrue(quartzConfig.schedulerFactoryBean(cronTrigger, new JobDetailImpl(),
-                mock(DataSource.class)) instanceof SchedulerFactoryBean$$SpringCGLIB$$0);
+                mock(DataSource.class)) instanceof SchedulerFactoryBean);
     }
 
     /**

@@ -53,7 +53,7 @@ class UserSocialsControllerDiffblueTest {
         // Arrange
         ArrayList<UserSocialsDto> userSocialsDtoList = new ArrayList<>();
         UserSocialsDto.UserSocialsDtoBuilder socialResult = UserSocialsDto.builder().id(1L).social(SocialPlatform.FACEBOOK);
-        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").stageName("Stage Name").build();
+        UserDto user = UserDto.builder().email("jane.doe@example.org").id(1L).role("Role").UserName("User Name").build();
         UserSocialsDto buildResult = socialResult.user(user).userName("janedoe").build();
         userSocialsDtoList.add(buildResult);
         when(userSocialsService.findAllUserSocials()).thenReturn(userSocialsDtoList);
@@ -67,7 +67,7 @@ class UserSocialsControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "[{\"id\":1,\"user\":{\"id\":1,\"stageName\":\"Stage Name\",\"email\":\"jane.doe@example.org\",\"role\":\"Role\"},\"social"
+                                "[{\"id\":1,\"user\":{\"id\":1,\"UserName\":\"User Name\",\"email\":\"jane.doe@example.org\",\"role\":\"Role\"},\"social"
                                         + "\":\"FACEBOOK\",\"userName\":\"janedoe\"}]"));
     }
 }

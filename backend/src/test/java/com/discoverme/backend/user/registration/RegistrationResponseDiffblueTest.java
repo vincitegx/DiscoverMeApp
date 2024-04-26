@@ -31,7 +31,7 @@ class RegistrationResponseDiffblueTest {
         //   Diffblue Cover was unable to create a Spring-specific test for this Spring method.
 
         // Arrange, Act and Assert
-        assertFalse((new RegistrationResponse(1L, "Stage Name", "jane.doe@example.org")).canEqual("Other"));
+        assertFalse((new RegistrationResponse(1L, "User Name", "jane.doe@example.org")).canEqual("Other"));
     }
 
     /**
@@ -44,12 +44,12 @@ class RegistrationResponseDiffblueTest {
         // Arrange
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -69,12 +69,12 @@ class RegistrationResponseDiffblueTest {
                 RegistrationResponse.RegistrationResponseBuilder.class);
         when(registrationResponseBuilder.email(Mockito.<String>any())).thenReturn(RegistrationResponse.builder());
         RegistrationResponse buildResult = registrationResponseBuilder.email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -111,7 +111,7 @@ class RegistrationResponseDiffblueTest {
         // Arrange
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -127,7 +127,7 @@ class RegistrationResponseDiffblueTest {
         // Arrange
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -145,12 +145,12 @@ class RegistrationResponseDiffblueTest {
                 RegistrationResponse.RegistrationResponseBuilder.class);
         when(registrationResponseBuilder.email(Mockito.<String>any())).thenReturn(RegistrationResponse.builder());
         RegistrationResponse buildResult = registrationResponseBuilder.email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -166,17 +166,17 @@ class RegistrationResponseDiffblueTest {
         // Arrange
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
-        when(registrationResponseBuilder.stageName(Mockito.<String>any())).thenReturn(RegistrationResponse.builder());
+        when(registrationResponseBuilder.UserName(Mockito.<String>any())).thenReturn(RegistrationResponse.builder());
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder2 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
         when(registrationResponseBuilder2.email(Mockito.<String>any())).thenReturn(registrationResponseBuilder);
         RegistrationResponse buildResult = registrationResponseBuilder2.email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -195,17 +195,17 @@ class RegistrationResponseDiffblueTest {
         when(registrationResponseBuilder.userId(Mockito.<Long>any())).thenReturn(RegistrationResponse.builder());
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder2 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
-        when(registrationResponseBuilder2.stageName(Mockito.<String>any())).thenReturn(registrationResponseBuilder);
+        when(registrationResponseBuilder2.UserName(Mockito.<String>any())).thenReturn(registrationResponseBuilder);
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder3 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
         when(registrationResponseBuilder3.email(Mockito.<String>any())).thenReturn(registrationResponseBuilder2);
         RegistrationResponse buildResult = registrationResponseBuilder3.email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -224,17 +224,17 @@ class RegistrationResponseDiffblueTest {
         when(registrationResponseBuilder.userId(Mockito.<Long>any())).thenReturn(RegistrationResponse.builder());
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder2 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
-        when(registrationResponseBuilder2.stageName(Mockito.<String>any())).thenReturn(registrationResponseBuilder);
+        when(registrationResponseBuilder2.UserName(Mockito.<String>any())).thenReturn(registrationResponseBuilder);
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder3 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
         when(registrationResponseBuilder3.email(Mockito.<String>any())).thenReturn(registrationResponseBuilder2);
         RegistrationResponse buildResult = registrationResponseBuilder3.email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(null)
                 .build();
 
@@ -252,7 +252,7 @@ class RegistrationResponseDiffblueTest {
                 RegistrationResponse.RegistrationResponseBuilder.class);
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         when(registrationResponseBuilder.build()).thenReturn(buildResult);
@@ -261,17 +261,17 @@ class RegistrationResponseDiffblueTest {
         when(registrationResponseBuilder2.userId(Mockito.<Long>any())).thenReturn(registrationResponseBuilder);
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder3 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
-        when(registrationResponseBuilder3.stageName(Mockito.<String>any())).thenReturn(registrationResponseBuilder2);
+        when(registrationResponseBuilder3.UserName(Mockito.<String>any())).thenReturn(registrationResponseBuilder2);
         RegistrationResponse.RegistrationResponseBuilder registrationResponseBuilder4 = mock(
                 RegistrationResponse.RegistrationResponseBuilder.class);
         when(registrationResponseBuilder4.email(Mockito.<String>any())).thenReturn(registrationResponseBuilder3);
         RegistrationResponse buildResult2 = registrationResponseBuilder4.email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult3 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(null)
                 .build();
 
@@ -292,7 +292,7 @@ class RegistrationResponseDiffblueTest {
         // Arrange
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -315,12 +315,12 @@ class RegistrationResponseDiffblueTest {
         // Arrange
         RegistrationResponse buildResult = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
         RegistrationResponse buildResult2 = RegistrationResponse.builder()
                 .email("jane.doe@example.org")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .userId(1L)
                 .build();
 
@@ -336,30 +336,30 @@ class RegistrationResponseDiffblueTest {
      * <ul>
      *   <li>{@link RegistrationResponse#RegistrationResponse(Long, String, String)}
      *   <li>{@link RegistrationResponse#setEmail(String)}
-     *   <li>{@link RegistrationResponse#setStageName(String)}
+     *   <li>{@link RegistrationResponse#setUserName(String)}
      *   <li>{@link RegistrationResponse#setUserId(Long)}
      *   <li>{@link RegistrationResponse#toString()}
      *   <li>{@link RegistrationResponse#getEmail()}
-     *   <li>{@link RegistrationResponse#getStageName()}
+     *   <li>{@link RegistrationResponse#getUserName()}
      *   <li>{@link RegistrationResponse#getUserId()}
      * </ul>
      */
     @Test
     void testGettersAndSetters() {
         // Arrange and Act
-        RegistrationResponse actualRegistrationResponse = new RegistrationResponse(1L, "Stage Name",
+        RegistrationResponse actualRegistrationResponse = new RegistrationResponse(1L, "User Name",
                 "jane.doe@example.org");
         actualRegistrationResponse.setEmail("jane.doe@example.org");
-        actualRegistrationResponse.setStageName("Stage Name");
+        actualRegistrationResponse.setUserName("User Name");
         actualRegistrationResponse.setUserId(1L);
         String actualToStringResult = actualRegistrationResponse.toString();
         String actualEmail = actualRegistrationResponse.getEmail();
-        String actualStageName = actualRegistrationResponse.getStageName();
+        String actualUserName = actualRegistrationResponse.getUserName();
 
         // Assert that nothing has changed
-        assertEquals("RegistrationResponse(userId=1, stageName=Stage Name, email=jane.doe@example.org)",
+        assertEquals("RegistrationResponse(userId=1, UserName=User Name, email=jane.doe@example.org)",
                 actualToStringResult);
-        assertEquals("Stage Name", actualStageName);
+        assertEquals("User Name", actualUserName);
         assertEquals("jane.doe@example.org", actualEmail);
         assertEquals(1L, actualRegistrationResponse.getUserId().longValue());
     }

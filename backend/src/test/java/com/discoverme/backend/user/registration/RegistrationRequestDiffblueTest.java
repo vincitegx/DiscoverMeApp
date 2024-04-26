@@ -35,8 +35,8 @@ class RegistrationRequestDiffblueTest {
     @Test
     void testEquals() {
         // Arrange, Act and Assert
-        assertNotEquals(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"), null);
-        assertNotEquals(new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"),
+        assertNotEquals(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"), null);
+        assertNotEquals(new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"),
                 "Different type to RegistrationRequest");
     }
 
@@ -50,7 +50,7 @@ class RegistrationRequestDiffblueTest {
                 "iloveyou");
 
         // Act and Assert
-        assertNotEquals(registrationRequest, new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"));
+        assertNotEquals(registrationRequest, new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"));
     }
 
     /**
@@ -59,11 +59,11 @@ class RegistrationRequestDiffblueTest {
     @Test
     void testEquals3() {
         // Arrange
-        RegistrationRequest registrationRequest = new RegistrationRequest("Stage Name", "john.smith@example.org",
+        RegistrationRequest registrationRequest = new RegistrationRequest("User Name", "john.smith@example.org",
                 "iloveyou");
 
         // Act and Assert
-        assertNotEquals(registrationRequest, new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"));
+        assertNotEquals(registrationRequest, new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"));
     }
 
     /**
@@ -72,11 +72,11 @@ class RegistrationRequestDiffblueTest {
     @Test
     void testEquals4() {
         // Arrange
-        RegistrationRequest registrationRequest = new RegistrationRequest("Stage Name", "jane.doe@example.org",
-                "Stage Name");
+        RegistrationRequest registrationRequest = new RegistrationRequest("User Name", "jane.doe@example.org",
+                "User Name");
 
         // Act and Assert
-        assertNotEquals(registrationRequest, new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou"));
+        assertNotEquals(registrationRequest, new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou"));
     }
 
     /**
@@ -90,7 +90,7 @@ class RegistrationRequestDiffblueTest {
     @Test
     void testEqualsAndHashCode() {
         // Arrange
-        RegistrationRequest registrationRequest = new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou");
+        RegistrationRequest registrationRequest = new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou");
 
         // Act and Assert
         assertEquals(registrationRequest, registrationRequest);
@@ -109,8 +109,8 @@ class RegistrationRequestDiffblueTest {
     @Test
     void testEqualsAndHashCode2() {
         // Arrange
-        RegistrationRequest registrationRequest = new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou");
-        RegistrationRequest registrationRequest2 = new RegistrationRequest("Stage Name", "jane.doe@example.org",
+        RegistrationRequest registrationRequest = new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou");
+        RegistrationRequest registrationRequest2 = new RegistrationRequest("User Name", "jane.doe@example.org",
                 "iloveyou");
 
         // Act and Assert
@@ -126,13 +126,13 @@ class RegistrationRequestDiffblueTest {
      *   <li>{@link RegistrationRequest#toString()}
      *   <li>{@link RegistrationRequest#getEmail()}
      *   <li>{@link RegistrationRequest#getPassword()}
-     *   <li>{@link RegistrationRequest#getStageName()}
+     *   <li>{@link RegistrationRequest#getUserName()}
      * </ul>
      */
     @Test
     void testGettersAndSetters() {
         // Arrange
-        RegistrationRequest registrationRequest = new RegistrationRequest("Stage Name", "jane.doe@example.org", "iloveyou");
+        RegistrationRequest registrationRequest = new RegistrationRequest("User Name", "jane.doe@example.org", "iloveyou");
 
         // Act
         String actualToStringResult = registrationRequest.toString();
@@ -140,9 +140,9 @@ class RegistrationRequestDiffblueTest {
         String actualPassword = registrationRequest.getPassword();
 
         // Assert
-        assertEquals("RegistrationRequest(stageName=Stage Name, email=jane.doe@example.org, password=iloveyou)",
+        assertEquals("RegistrationRequest(UserName=User Name, email=jane.doe@example.org, password=iloveyou)",
                 actualToStringResult);
-        assertEquals("Stage Name", registrationRequest.getStageName());
+        assertEquals("User Name", registrationRequest.getUserName());
         assertEquals("iloveyou", actualPassword);
         assertEquals("jane.doe@example.org", actualEmail);
     }
@@ -154,11 +154,11 @@ class RegistrationRequestDiffblueTest {
     @Test
     void testNewRegistrationRequest() {
         // Arrange and Act
-        RegistrationRequest actualRegistrationRequest = new RegistrationRequest("Stage Name", "jane.doe@example.org",
+        RegistrationRequest actualRegistrationRequest = new RegistrationRequest("User Name", "jane.doe@example.org",
                 "iloveyou");
 
         // Assert
-        assertEquals("Stage Name", actualRegistrationRequest.getStageName());
+        assertEquals("User Name", actualRegistrationRequest.getUserName());
         assertEquals("iloveyou", actualRegistrationRequest.getPassword());
         assertEquals("jane.doe@example.org", actualRegistrationRequest.getEmail());
     }
@@ -188,14 +188,14 @@ class RegistrationRequestDiffblueTest {
     }
 
     /**
-     * Method under test: {@link RegistrationRequest#setStageName(String)}
+     * Method under test: {@link RegistrationRequest#setUserName(String)}
      */
     @Test
-    void testSetStageName() {
+    void testSetUserName() {
         // Arrange and Act
-        registrationRequest.setStageName("Stage Name");
+        registrationRequest.setUserName("User Name");
 
         // Assert
-        assertEquals("Stage Name", registrationRequest.getStageName());
+        assertEquals("User Name", registrationRequest.getUserName());
     }
 }

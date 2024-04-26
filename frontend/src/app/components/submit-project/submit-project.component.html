@@ -12,7 +12,8 @@
         </div>
         <div class="mb-3">
             <label for="exampleFormControlSelect1">Select Platform</label>
-            <select class="form-select" [formControlName]="'social'" [(ngModel)]="defaultSelectedPlatform" name="social" aria-label="Default select example">
+            <select class="form-select" [formControlName]="'social'" name="social" aria-label="Default select example">
+                <option value="" disabled selected>{{ socials.length === 0 ? 'Link an account in your profile page' : 'Select Platform' }}</option>
                 <option [value]="s.id" *ngFor="let s of socials;" id="exampleFormControlSelect1">{{s.social}}</option>
               </select>
         </div>

@@ -9,6 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class RegistrationResponse {
     private Long userId;
-    private String stageName;
+    private String userName;
     private String email;
 }

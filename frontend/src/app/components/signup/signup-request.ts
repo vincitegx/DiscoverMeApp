@@ -1,19 +1,19 @@
 export class SignupRequest{
-    private stageName:String;
+    private userName:String;
     private email: String;
     private password: String;
 
-    public constructor(stageName:String, email:String, password:String){
-        this.stageName = stageName;
+    public constructor(userName:String, email:String, password:String){
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
 
-    public getStageName():String{
-        return this.stageName;
+    public getUserName():String{
+        return this.userName;
     }
-    public setStageName(stageName:String):void{
-        this.stageName = stageName;
+    public setUserName(userName:String):void{
+        this.userName = userName;
     }
 
     public getEmail():String{

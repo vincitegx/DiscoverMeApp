@@ -54,7 +54,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
 
@@ -93,7 +93,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users);
 
         Users user = new Users();
@@ -104,7 +104,7 @@ class UserServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act
         Users actualSaveUserResult = userService.saveUser(user);
@@ -130,7 +130,7 @@ class UserServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act and Assert
         assertThrows(UserException.class, () -> userService.saveUser(user));
@@ -138,10 +138,10 @@ class UserServiceDiffblueTest {
     }
 
     /**
-     * Method under test: {@link UserService#findByStageName(String)}
+     * Method under test: {@link UserService#findByUserName(String)}
      */
     @Test
-    void testFindByStageName() {
+    void testFindByUserName() {
         // Arrange
         Users users = new Users();
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -151,29 +151,29 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
-        when(userRepository.findByStageName(Mockito.<String>any())).thenReturn(ofResult);
+        when(userRepository.findByUserName(Mockito.<String>any())).thenReturn(ofResult);
 
         // Act
-        Optional<Users> actualFindByStageNameResult = userService.findByStageName("Stage Name");
+        Optional<Users> actualFindByUserNameResult = userService.findByUserName("User Name");
 
         // Assert
-        verify(userRepository).findByStageName(eq("Stage Name"));
-        assertSame(ofResult, actualFindByStageNameResult);
+        verify(userRepository).findByUserName(eq("User Name"));
+        assertSame(ofResult, actualFindByUserNameResult);
     }
 
     /**
-     * Method under test: {@link UserService#findByStageName(String)}
+     * Method under test: {@link UserService#findByUserName (String)}
      */
     @Test
-    void testFindByStageName2() {
+    void testFindByUserName2() {
         // Arrange
-        when(userRepository.findByStageName(Mockito.<String>any())).thenThrow(new UserException("An error occurred"));
+        when(userRepository.findByEmail(Mockito.<String>any())).thenThrow(new UserException("An error occurred"));
 
         // Act and Assert
-        assertThrows(UserException.class, () -> userService.findByStageName("Stage Name"));
-        verify(userRepository).findByStageName(eq("Stage Name"));
+        assertThrows(UserException.class, () -> userService.findByUserName("User Name"));
+        verify(userRepository).findByUserName(eq("User Name"));
     }
 
     /**
@@ -190,7 +190,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
@@ -310,7 +310,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
 
         Users users2 = new Users();
@@ -321,7 +321,7 @@ class UserServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users2);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
@@ -348,7 +348,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.save(Mockito.<Users>any())).thenThrow(new UserException("An error occurred"));
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
@@ -373,7 +373,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         Users users2 = mock(Users.class);
         when(users2.getNonLocked()).thenThrow(new UserException("An error occurred"));
@@ -385,7 +385,7 @@ class UserServiceDiffblueTest {
         doNothing().when(users2).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users2).setPassword(Mockito.<String>any());
         doNothing().when(users2).setRole(Mockito.<String>any());
-        doNothing().when(users2).setStageName(Mockito.<String>any());
+        doNothing().when(users2).setUserName(Mockito.<String>any());
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users2.setEmail("jane.doe@example.org");
         users2.setEnabled(true);
@@ -393,7 +393,7 @@ class UserServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users2);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
@@ -408,7 +408,7 @@ class UserServiceDiffblueTest {
         verify(users2).setNonLocked(isA(Boolean.class));
         verify(users2).setPassword(eq("iloveyou"));
         verify(users2).setRole(eq("Role"));
-        verify(users2).setStageName(eq("Stage Name"));
+        verify(users2).setUserName(eq("User Name"));
         verify(userRepository).findById(isA(Long.class));
         verify(userRepository).save(isA(Users.class));
     }
@@ -427,7 +427,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         Users users2 = mock(Users.class);
         when(users2.getNonLocked()).thenReturn(false);
@@ -439,7 +439,7 @@ class UserServiceDiffblueTest {
         doNothing().when(users2).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users2).setPassword(Mockito.<String>any());
         doNothing().when(users2).setRole(Mockito.<String>any());
-        doNothing().when(users2).setStageName(Mockito.<String>any());
+        doNothing().when(users2).setUserName(Mockito.<String>any());
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users2.setEmail("jane.doe@example.org");
         users2.setEnabled(true);
@@ -447,7 +447,7 @@ class UserServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users2);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
@@ -464,7 +464,7 @@ class UserServiceDiffblueTest {
         verify(users2).setNonLocked(isA(Boolean.class));
         verify(users2).setPassword(eq("iloveyou"));
         verify(users2).setRole(eq("Role"));
-        verify(users2).setStageName(eq("Stage Name"));
+        verify(users2).setUserName(eq("User Name"));
         verify(userRepository).findById(isA(Long.class));
         verify(userRepository).save(isA(Users.class));
         assertEquals("Sorry user account could not be activated, Please try again later :(",
@@ -485,7 +485,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         Users users2 = mock(Users.class);
         when(users2.getEnabled()).thenReturn(false);
@@ -496,7 +496,7 @@ class UserServiceDiffblueTest {
         doNothing().when(users2).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users2).setPassword(Mockito.<String>any());
         doNothing().when(users2).setRole(Mockito.<String>any());
-        doNothing().when(users2).setStageName(Mockito.<String>any());
+        doNothing().when(users2).setUserName(Mockito.<String>any());
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users2.setEmail("jane.doe@example.org");
         users2.setEnabled(true);
@@ -504,7 +504,7 @@ class UserServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users2);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
@@ -520,7 +520,7 @@ class UserServiceDiffblueTest {
         verify(users2).setNonLocked(isA(Boolean.class));
         verify(users2).setPassword(eq("iloveyou"));
         verify(users2).setRole(eq("Role"));
-        verify(users2).setStageName(eq("Stage Name"));
+        verify(users2).setUserName(eq("User Name"));
         verify(userRepository).findById(isA(Long.class));
         verify(userRepository).save(isA(Users.class));
         assertEquals("Sorry user account could not be activated, Please try again later :(",
@@ -543,7 +543,7 @@ class UserServiceDiffblueTest {
         doNothing().when(users).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(users).setPassword(Mockito.<String>any());
         doNothing().when(users).setRole(Mockito.<String>any());
-        doNothing().when(users).setStageName(Mockito.<String>any());
+        doNothing().when(users).setUserName(Mockito.<String>any());
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         users.setEmail("jane.doe@example.org");
         users.setEnabled(true);
@@ -551,7 +551,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act and Assert
         assertThrows(UsernameNotFoundException.class, () -> userService.fetchAndEnableUser(1L));
@@ -562,7 +562,7 @@ class UserServiceDiffblueTest {
         verify(users).setNonLocked(isA(Boolean.class));
         verify(users).setPassword(eq("iloveyou"));
         verify(users).setRole(eq("Role"));
-        verify(users).setStageName(eq("Stage Name"));
+        verify(users).setUserName(eq("User Name"));
         verify(userRepository).findById(isA(Long.class));
     }
 
@@ -580,7 +580,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
 
         Users users2 = new Users();
@@ -591,7 +591,7 @@ class UserServiceDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
         when(userRepository.save(Mockito.<Users>any())).thenReturn(users2);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
@@ -618,7 +618,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.save(Mockito.<Users>any())).thenThrow(new UserException("An error occurred"));
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
@@ -657,7 +657,7 @@ class UserServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Optional<Users> ofResult = Optional.of(users);
         when(userRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
 

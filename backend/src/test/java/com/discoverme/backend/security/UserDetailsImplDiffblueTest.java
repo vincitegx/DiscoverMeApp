@@ -162,7 +162,7 @@ class UserDetailsImplDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         UserDetailsImpl userDetailsImpl = new UserDetailsImpl(user);
 
         // Act

@@ -62,7 +62,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials3 = new UserSocials();
         userSocials3.setAccessToken("ABC123");
@@ -96,7 +96,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials3 = new UserSocials();
         userSocials3.setAccessToken("ABC123");
@@ -132,7 +132,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -163,7 +163,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -194,7 +194,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ExampleToken");
@@ -215,7 +215,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -246,7 +246,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken(null);
@@ -267,7 +267,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -298,7 +298,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -319,7 +319,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -350,7 +350,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -371,7 +371,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -404,7 +404,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -425,7 +425,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -457,7 +457,7 @@ class UserSocialsDiffblueTest {
         doNothing().when(user).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(user).setPassword(Mockito.<String>any());
         doNothing().when(user).setRole(Mockito.<String>any());
-        doNothing().when(user).setStageName(Mockito.<String>any());
+        doNothing().when(user).setUserName(Mockito.<String>any());
         user.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         user.setEmail("jane.doe@example.org");
         user.setEnabled(true);
@@ -465,7 +465,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -486,7 +486,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -522,7 +522,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -560,7 +560,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         UserSocials userSocials = new UserSocials();
         userSocials.setAccessToken("ABC123");
@@ -581,7 +581,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         UserSocials userSocials2 = new UserSocials();
         userSocials2.setAccessToken("ABC123");
@@ -632,7 +632,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
         actualUserSocials.setUser(user);
         actualUserSocials.setUserName("janedoe");
         String actualToStringResult = actualUserSocials.toString();
@@ -644,7 +644,7 @@ class UserSocialsDiffblueTest {
         // Assert that nothing has changed
         assertEquals("ABC123", actualAccessToken);
         assertEquals(
-                "UserSocials(id=1, user=Users(id=1, stageName=Stage Name, email=jane.doe@example.org, password=iloveyou,"
+                "UserSocials(id=1, user=Users(id=1, UserName=User Name, email=jane.doe@example.org, password=iloveyou,"
                         + " role=Role, createdAt=1970-01-01T00:00Z, nonLocked=true, enabled=true), social=Socials(id=1, name=Name),"
                         + " userName=janedoe, accessToken=ABC123)",
                 actualToStringResult);
@@ -683,7 +683,7 @@ class UserSocialsDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Socials social = new Socials();
         social.setId(1L);
@@ -705,7 +705,7 @@ class UserSocialsDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
         actualUserSocials.setUser(user2);
         actualUserSocials.setUserName("janedoe");
         String actualToStringResult = actualUserSocials.toString();
@@ -717,7 +717,7 @@ class UserSocialsDiffblueTest {
         // Assert that nothing has changed
         assertEquals("ABC123", actualAccessToken);
         assertEquals(
-                "UserSocials(id=1, user=Users(id=1, stageName=Stage Name, email=jane.doe@example.org, password=iloveyou,"
+                "UserSocials(id=1, user=Users(id=1, UserName=User Name, email=jane.doe@example.org, password=iloveyou,"
                         + " role=Role, createdAt=1970-01-01T00:00Z, nonLocked=true, enabled=true), social=Socials(id=1, name=Name),"
                         + " userName=janedoe, accessToken=ABC123)",
                 actualToStringResult);

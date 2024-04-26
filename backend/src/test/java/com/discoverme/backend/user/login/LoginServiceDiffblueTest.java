@@ -62,7 +62,7 @@ class LoginServiceDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         when(userMapper.apply(Mockito.<Users>any())).thenReturn(buildResult);
         when(jWTUtil.generateJwtToken(Mockito.<Authentication>any())).thenReturn("ABC123");
@@ -75,7 +75,7 @@ class LoginServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(userService.getCurrentUser()).thenReturn(users);
 
         LoginRequest request = new LoginRequest();

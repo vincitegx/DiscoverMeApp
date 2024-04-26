@@ -84,7 +84,7 @@ class EmailVerificationTokenRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
         emailVerificationToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -100,7 +100,7 @@ class EmailVerificationTokenRepositoryDiffblueTest {
         user2.setNonLocked(false);
         user2.setPassword("Password");
         user2.setRole("com.discoverme.backend.user.Users");
-        user2.setStageName("com.discoverme.backend.user.Users");
+        user2.setUserName("com.discoverme.backend.user.Users");
 
         EmailVerificationToken emailVerificationToken2 = new EmailVerificationToken();
         emailVerificationToken2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -179,7 +179,7 @@ class EmailVerificationTokenRepositoryDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
         emailVerificationToken.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -195,7 +195,7 @@ class EmailVerificationTokenRepositoryDiffblueTest {
         user2.setNonLocked(false);
         user2.setPassword("Password");
         user2.setRole("com.discoverme.backend.user.Users");
-        user2.setStageName("com.discoverme.backend.user.Users");
+        user2.setUserName("com.discoverme.backend.user.Users");
 
         EmailVerificationToken emailVerificationToken2 = new EmailVerificationToken();
         emailVerificationToken2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay());
@@ -212,7 +212,7 @@ class EmailVerificationTokenRepositoryDiffblueTest {
         user3.setNonLocked(true);
         user3.setPassword("iloveyou");
         user3.setRole("Role");
-        user3.setStageName("Stage Name");
+        user3.setUserName("User Name");
 
         // Act
         emailVerificationTokenRepository.findByUser(user3);

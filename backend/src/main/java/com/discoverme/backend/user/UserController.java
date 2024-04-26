@@ -38,6 +38,13 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("profile")
+    public ResponseEntity<UserDto> updateProfile(@RequestParam @NonNull String userName){
+        System.out.println("Entered edit profile controller");
+        UserDto user = userService.updateProfile(userName);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @GetMapping
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<Page<UserDto>> all(Pageable pageable) {

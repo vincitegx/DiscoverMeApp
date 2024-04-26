@@ -13,6 +13,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.HashSet;
@@ -28,6 +29,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
@@ -45,13 +49,13 @@ class CustomExceptionHandlerDiffblueTest {
     private CustomExceptionHandler customExceptionHandler;
 
     /**
-     * Method under test: {@link CustomExceptionHandler#accountDisabledException()}
+     * Method under test:
      */
     @Test
     void testAccountDisabledException() {
         // Arrange and Act
         ResponseEntity<ErrorResponse> actualAccountDisabledExceptionResult = customExceptionHandler
-                .accountDisabledException();
+                .accountDisabledException(new DisabledException("foo"));
 
         // Assert
         HttpStatusCode expectedStatus = actualAccountDisabledExceptionResult.getStatusCode();
@@ -59,13 +63,13 @@ class CustomExceptionHandlerDiffblueTest {
     }
 
     /**
-     * Method under test: {@link CustomExceptionHandler#badCredentialsException()}
+     * Method under test: {@link CustomExceptionHandler#badCredentialsException(BadCredentialsException)}
      */
     @Test
     void testBadCredentialsException() {
         // Arrange and Act
         ResponseEntity<ErrorResponse> actualBadCredentialsExceptionResult = customExceptionHandler
-                .badCredentialsException();
+                .badCredentialsException(new BadCredentialsException("foo"));
 
         // Assert
         HttpStatusCode expectedStatus = actualBadCredentialsExceptionResult.getStatusCode();
@@ -73,12 +77,12 @@ class CustomExceptionHandlerDiffblueTest {
     }
 
     /**
-     * Method under test: {@link CustomExceptionHandler#accessDeniedException()}
+     * Method under test:
      */
     @Test
     void testAccessDeniedException() {
         // Arrange and Act
-        ResponseEntity<ErrorResponse> actualAccessDeniedExceptionResult = customExceptionHandler.accessDeniedException();
+        ResponseEntity<ErrorResponse> actualAccessDeniedExceptionResult = customExceptionHandler.accessDeniedException(new AccessDeniedException("foo"));
 
         // Assert
         HttpStatusCode expectedStatus = actualAccessDeniedExceptionResult.getStatusCode();
@@ -86,16 +90,16 @@ class CustomExceptionHandlerDiffblueTest {
     }
 
     /**
-     * Method under test: {@link CustomExceptionHandler#lockedException()}
+     * Method under test:
      */
     @Test
     void testLockedException() {
         // Arrange and Act
-        ResponseEntity<ErrorResponse> actualLockedExceptionResult = customExceptionHandler.lockedException();
+        ResponseEntity<ErrorResponse> actualLockedExceptionResult = customExceptionHandler.lockedException(new LockedException("foo"));
 
         // Assert
-        HttpStatusCode expectedStatus = actualLockedExceptionResult.getStatusCode();
-        assertSame(expectedStatus, actualLockedExceptionResult.getBody().getStatus());
+        HttpStatusCode expectedStatus = HttpStatus.LOCKED;
+        assertSame(expectedStatus, actualLockedExceptionResult.getStatusCode());
     }
 
     /**

@@ -9,14 +9,15 @@
     <form class="form-inline my-2 my-md-0" [formGroup]="searchForm" (ngSubmit)="setSearch($event)">
       <div class="input-group">
         <input class="form-control" type="text" name="search" [formControlName]="'search'"
-          placeholder="Search Stage Or Song Name..." aria-label="Search">
+          placeholder="Search User Or Song Name..." aria-label="Search">
         <div class="input-group-append">
-          <button type="submit" class="btn btn-secondary">
+          <button type="submit" class="btn btn-secondary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
         </div>
       </div>
     </form>
+    <div style="margin-right: 8px;"></div>
     <form class="text-left">  
       <select class="form-control" name="sort">
         <option value="id" selected>Default Sorting (All Projects)</option>
@@ -45,7 +46,7 @@
               <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <h5 class="card-title">{{ project.songTitle }}</h5>
-                  <h6 class="font-weight-bold">{{ project.stageName }}</h6>
+                  <h6 class="font-weight-bold">{{ project.userName }}</h6>
                   <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
                   <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{
                       project.percentOfSupport ?? 0 }}%</span></h6>
@@ -69,12 +70,14 @@
                       <div class="card-body d-flex justify-content-between">
                           <div class="content-info">
                               <h5 class="card-title">{{ project.songTitle }}</h5>
-                              <h6 class="font-weight-bold">{{ project.stageName }}</h6>
+                              <h6 class="font-weight-bold">{{ project.userName }}</h6>
                               <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
                               <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{ project.percentOfSupport ?? 0 }}%</span></h6>
                           </div>
-                          <button class="btn btn-success mt-2 mt-md-0 align-self-center">
-                              {{ project.isSupported ? 'Unsupport' : 'Support' }}
+                          <button class="btn btn-success mt-2 mt-md-0 align-self-center"
+                                  (click)="onSupportButtonClick(project)"
+                                  [disabled]="project.supported">
+                              {{ project.supported ? 'Supported' : 'Support' }}
                           </button>
                       </div>
                   </div>

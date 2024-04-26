@@ -46,9 +46,6 @@ public class AuthController {
         servletResponse.addCookie(refreshTokenCookie);
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, response.getAuthToken())
-//                .header("X-Content-Type-Options", "nosniff")
-//                .header("X-Frame-Options", "SAME-ORIGIN")
-//                .header("Content-Security-Policy", "default-src 'self' https://localhost:4200")
                 .body(response);
     }
 

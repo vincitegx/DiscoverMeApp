@@ -38,7 +38,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -48,7 +48,7 @@ class UsersDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
 
         // Act and Assert
         assertThrows(NullPointerException.class, () -> users.equals(users2));
@@ -68,7 +68,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act and Assert
         assertNotEquals(users, null);
@@ -88,7 +88,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -98,7 +98,7 @@ class UsersDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
 
         // Act and Assert
         assertNotEquals(users, users2);
@@ -123,7 +123,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act and Assert
         assertEquals(users, users);
@@ -150,7 +150,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         Users users2 = new Users();
         users2.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -160,7 +160,7 @@ class UsersDiffblueTest {
         users2.setNonLocked(true);
         users2.setPassword("iloveyou");
         users2.setRole("Role");
-        users2.setStageName("Stage Name");
+        users2.setUserName("User Name");
 
         // Act and Assert
         assertEquals(users, users2);
@@ -188,7 +188,7 @@ class UsersDiffblueTest {
                 .nonLocked(true)
                 .password("iloveyou")
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         buildResult.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         buildResult.setEmail("jane.doe@example.org");
@@ -197,7 +197,7 @@ class UsersDiffblueTest {
         buildResult.setNonLocked(true);
         buildResult.setPassword("iloveyou");
         buildResult.setRole("Role");
-        buildResult.setStageName("Stage Name");
+        buildResult.setUserName("User Name");
 
         Users users = new Users();
         users.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
@@ -207,7 +207,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act and Assert
         assertEquals(buildResult, users);
@@ -229,7 +229,7 @@ class UsersDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
 
         // Act and Assert
         assertNotEquals(users, "Different type to Users");

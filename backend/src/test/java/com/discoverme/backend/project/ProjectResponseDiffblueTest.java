@@ -35,9 +35,9 @@ class ProjectResponseDiffblueTest {
         //   Diffblue Cover was unable to create a Spring-specific test for this Spring method.
 
         // Arrange, Act and Assert
-        assertFalse((new ProjectResponse(1L, "https://example.org/example", "Song Uri", "Dr", "Stage Name", new Socials(),
+        assertFalse((new ProjectResponse(1L, "https://example.org/example", "Song Uri", "Dr", "User Name", new Socials(),
                 "Not all who wander are lost", 10.0d, true)).canEqual("Other"));
-        assertFalse((new ProjectResponse(1L, "https://example.org/example", "Song Uri", "Dr", "Stage Name",
+        assertFalse((new ProjectResponse(1L, "https://example.org/example", "Song Uri", "Dr", "User Name",
                 mock(Socials.class), "Not all who wander are lost", 10.0d, true)).canEqual("Other"));
     }
 
@@ -59,7 +59,7 @@ class ProjectResponseDiffblueTest {
                 .social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -73,7 +73,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -114,7 +114,7 @@ class ProjectResponseDiffblueTest {
                 .social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -138,7 +138,7 @@ class ProjectResponseDiffblueTest {
                 .social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -165,7 +165,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -179,7 +179,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -208,7 +208,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -222,7 +222,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -251,7 +251,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -265,7 +265,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -296,7 +296,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -310,7 +310,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -341,7 +341,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -355,7 +355,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -388,7 +388,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -402,7 +402,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -435,7 +435,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -449,7 +449,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -484,7 +484,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -498,7 +498,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -535,7 +535,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -549,7 +549,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -586,7 +586,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("Url")
                 .build();
 
@@ -600,7 +600,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -637,7 +637,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url(null)
                 .build();
 
@@ -651,7 +651,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -688,7 +688,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -702,7 +702,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri(null)
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -741,7 +741,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -755,7 +755,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -794,7 +794,7 @@ class ProjectResponseDiffblueTest {
         ProjectResponse buildResult = percentOfSupportResult.social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -808,7 +808,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -837,7 +837,7 @@ class ProjectResponseDiffblueTest {
                 .social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -868,7 +868,7 @@ class ProjectResponseDiffblueTest {
                 .social(social)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -882,7 +882,7 @@ class ProjectResponseDiffblueTest {
                 .social(social2)
                 .songTitle("Dr")
                 .songUri("Song Uri")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .url("https://example.org/example")
                 .build();
 
@@ -904,7 +904,7 @@ class ProjectResponseDiffblueTest {
      *   <li>{@link ProjectResponse#setSocial(Socials)}
      *   <li>{@link ProjectResponse#setSongTitle(String)}
      *   <li>{@link ProjectResponse#setSongUri(String)}
-     *   <li>{@link ProjectResponse#setStageName(String)}
+     *   <li>{@link ProjectResponse#setUserName(String)}
      *   <li>{@link ProjectResponse#setSupported(boolean)}
      *   <li>{@link ProjectResponse#setUrl(String)}
      *   <li>{@link ProjectResponse#toString()}
@@ -914,7 +914,7 @@ class ProjectResponseDiffblueTest {
      *   <li>{@link ProjectResponse#getSocial()}
      *   <li>{@link ProjectResponse#getSongTitle()}
      *   <li>{@link ProjectResponse#getSongUri()}
-     *   <li>{@link ProjectResponse#getStageName()}
+     *   <li>{@link ProjectResponse#getUserName()}
      *   <li>{@link ProjectResponse#getUrl()}
      *   <li>{@link ProjectResponse#isSupported()}
      * </ul>
@@ -928,7 +928,7 @@ class ProjectResponseDiffblueTest {
 
         // Act
         ProjectResponse actualProjectResponse = new ProjectResponse(1L, "https://example.org/example", "Song Uri", "Dr",
-                "Stage Name", social, "Not all who wander are lost", 10.0d, true);
+                "User Name", social, "Not all who wander are lost", 10.0d, true);
         actualProjectResponse.setContentUri("Not all who wander are lost");
         actualProjectResponse.setId(1L);
         actualProjectResponse.setPercentOfSupport(10.0d);
@@ -938,7 +938,7 @@ class ProjectResponseDiffblueTest {
         actualProjectResponse.setSocial(social2);
         actualProjectResponse.setSongTitle("Dr");
         actualProjectResponse.setSongUri("Song Uri");
-        actualProjectResponse.setStageName("Stage Name");
+        actualProjectResponse.setUserName("User Name");
         actualProjectResponse.setSupported(true);
         actualProjectResponse.setUrl("https://example.org/example");
         String actualToStringResult = actualProjectResponse.toString();
@@ -948,7 +948,7 @@ class ProjectResponseDiffblueTest {
         Socials actualSocial = actualProjectResponse.getSocial();
         String actualSongTitle = actualProjectResponse.getSongTitle();
         String actualSongUri = actualProjectResponse.getSongUri();
-        String actualStageName = actualProjectResponse.getStageName();
+        String actualUserName = actualProjectResponse.getUserName();
         String actualUrl = actualProjectResponse.getUrl();
         boolean actualIsSupportedResult = actualProjectResponse.isSupported();
 
@@ -956,12 +956,12 @@ class ProjectResponseDiffblueTest {
         assertEquals("Dr", actualSongTitle);
         assertEquals("Not all who wander are lost", actualContentUri);
         assertEquals(
-                "ProjectResponse(id=1, url=https://example.org/example, songUri=Song Uri, songTitle=Dr, stageName=Stage"
+                "ProjectResponse(id=1, url=https://example.org/example, songUri=Song Uri, songTitle=Dr, UserName=User"
                         + " Name, social=Socials(id=1, name=Name), contentUri=Not all who wander are lost, percentOfSupport=10.0,"
                         + " isSupported=true)",
                 actualToStringResult);
         assertEquals("Song Uri", actualSongUri);
-        assertEquals("Stage Name", actualStageName);
+        assertEquals("User Name", actualUserName);
         assertEquals("https://example.org/example", actualUrl);
         assertEquals(10.0d, actualPercentOfSupport.doubleValue());
         assertEquals(1L, actualId.longValue());

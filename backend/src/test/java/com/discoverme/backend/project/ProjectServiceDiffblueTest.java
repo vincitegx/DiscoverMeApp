@@ -67,7 +67,7 @@ class ProjectServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         UserService userService = mock(UserService.class);
         when(userService.getCurrentUser()).thenReturn(users);
 
@@ -88,7 +88,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender2);
@@ -152,7 +152,7 @@ class ProjectServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         UserService userService = mock(UserService.class);
         when(userService.getCurrentUser()).thenReturn(users);
         ProjectRepository projectRepository = mock(ProjectRepository.class);
@@ -208,7 +208,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -290,7 +290,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -331,7 +331,7 @@ class ProjectServiceDiffblueTest {
         user2.setNonLocked(true);
         user2.setPassword("iloveyou");
         user2.setRole("Role");
-        user2.setStageName("Stage Name");
+        user2.setUserName("User Name");
 
         Project project2 = new Project();
         project2.setCalender(calender2);
@@ -389,7 +389,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -432,7 +432,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -490,7 +490,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -565,7 +565,7 @@ class ProjectServiceDiffblueTest {
         when(calenderRepository.findFirstByOrderByIdDesc()).thenReturn(ofResult);
         CalenderService calenderService = new CalenderService(calenderRepository);
         ProjectRepository projectRepository = mock(ProjectRepository.class);
-        when(projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(Mockito.<Long>any(),
+        when(projectRepository.findByCalenderAndSongTitleContainingOrUserNameContaining(Mockito.<Long>any(),
                 Mockito.<String>any(), Mockito.<PageRequest>any())).thenReturn(new PageImpl<>(new ArrayList<>()));
         UserService userService = new UserService(mock(UserRepository.class));
         ProjectRepository projectRepository2 = mock(ProjectRepository.class);
@@ -580,7 +580,7 @@ class ProjectServiceDiffblueTest {
                 .getCurrentProjects("Search", null);
 
         // Assert
-        verify(projectRepository).findByCalenderAndSongTitleContainingOrStageNameContaining(isA(Long.class), eq("Search"),
+        verify(projectRepository).findByCalenderAndSongTitleContainingOrUserNameContaining(isA(Long.class), eq("Search"),
                 isNull());
         verify(calenderRepository).findFirstByOrderByIdDesc();
         assertTrue(actualCurrentProjects.toList().isEmpty());
@@ -604,7 +604,7 @@ class ProjectServiceDiffblueTest {
         when(calenderRepository.findFirstByOrderByIdDesc()).thenReturn(ofResult);
         CalenderService calenderService = new CalenderService(calenderRepository);
         ProjectRepository projectRepository = mock(ProjectRepository.class);
-        when(projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(Mockito.<Long>any(),
+        when(projectRepository.findByCalenderAndSongTitleContainingOrUserNameContaining(Mockito.<Long>any(),
                 Mockito.<String>any(), Mockito.<PageRequest>any())).thenThrow(new IllegalArgumentException("foo"));
         UserService userService = new UserService(mock(UserRepository.class));
         ProjectRepository projectRepository2 = mock(ProjectRepository.class);
@@ -617,7 +617,7 @@ class ProjectServiceDiffblueTest {
         assertThrows(IllegalArgumentException.class,
                 () -> (new ProjectService(calenderService, userService, projectRepository, null, loggedInUserService,
                         secureRandomStringGenerator, new ApplicationProperties())).getCurrentProjects("Search", null));
-        verify(projectRepository).findByCalenderAndSongTitleContainingOrStageNameContaining(isA(Long.class), eq("Search"),
+        verify(projectRepository).findByCalenderAndSongTitleContainingOrUserNameContaining(isA(Long.class), eq("Search"),
                 isNull());
         verify(calenderRepository).findFirstByOrderByIdDesc();
     }
@@ -638,7 +638,7 @@ class ProjectServiceDiffblueTest {
         CalenderService calenderService = mock(CalenderService.class);
         when(calenderService.getProjectCalender()).thenReturn(calender);
         ProjectRepository projectRepository = mock(ProjectRepository.class);
-        when(projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(Mockito.<Long>any(),
+        when(projectRepository.findByCalenderAndSongTitleContainingOrUserNameContaining(Mockito.<Long>any(),
                 Mockito.<String>any(), Mockito.<PageRequest>any())).thenReturn(new PageImpl<>(new ArrayList<>()));
         UserService userService = new UserService(mock(UserRepository.class));
         ProjectRepository projectRepository2 = mock(ProjectRepository.class);
@@ -653,7 +653,7 @@ class ProjectServiceDiffblueTest {
                 .getCurrentProjects("Search", null);
 
         // Assert
-        verify(projectRepository).findByCalenderAndSongTitleContainingOrStageNameContaining(isA(Long.class), eq("Search"),
+        verify(projectRepository).findByCalenderAndSongTitleContainingOrUserNameContaining(isA(Long.class), eq("Search"),
                 isNull());
         verify(calenderService).getProjectCalender();
         assertTrue(actualCurrentProjects.toList().isEmpty());
@@ -692,7 +692,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender2);
@@ -708,7 +708,7 @@ class ProjectServiceDiffblueTest {
         ArrayList<Project> content = new ArrayList<>();
         content.add(project);
         ProjectRepository projectRepository = mock(ProjectRepository.class);
-        when(projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(Mockito.<Long>any(),
+        when(projectRepository.findByCalenderAndSongTitleContainingOrUserNameContaining(Mockito.<Long>any(),
                 Mockito.<String>any(), Mockito.<PageRequest>any())).thenReturn(new PageImpl<>(content));
         UserService userService = new UserService(mock(UserRepository.class));
         ProjectRepository projectRepository2 = mock(ProjectRepository.class);
@@ -723,7 +723,7 @@ class ProjectServiceDiffblueTest {
                 .getCurrentProjects("Search", null);
 
         // Assert
-        verify(projectRepository).findByCalenderAndSongTitleContainingOrStageNameContaining(isA(Long.class), eq("Search"),
+        verify(projectRepository).findByCalenderAndSongTitleContainingOrUserNameContaining(isA(Long.class), eq("Search"),
                 isNull());
         verify(calenderService).getProjectCalender();
         assertEquals(1, actualCurrentProjects.toList().size());
@@ -762,7 +762,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Socials socials = new Socials();
         socials.setId(1L);
@@ -776,7 +776,7 @@ class ProjectServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Project project = mock(Project.class);
         when(project.getSocial()).thenReturn(socials);
         when(project.getUser()).thenReturn(users);
@@ -807,7 +807,7 @@ class ProjectServiceDiffblueTest {
         ArrayList<Project> content = new ArrayList<>();
         content.add(project);
         ProjectRepository projectRepository = mock(ProjectRepository.class);
-        when(projectRepository.findByCalenderAndSongTitleContainingOrStageNameContaining(Mockito.<Long>any(),
+        when(projectRepository.findByCalenderAndSongTitleContainingOrUserNameContaining(Mockito.<Long>any(),
                 Mockito.<String>any(), Mockito.<PageRequest>any())).thenReturn(new PageImpl<>(content));
         UserService userService = new UserService(mock(UserRepository.class));
         ProjectRepository projectRepository2 = mock(ProjectRepository.class);
@@ -838,7 +838,7 @@ class ProjectServiceDiffblueTest {
         verify(project).setSupportCount(isA(Integer.class));
         verify(project).setUrl(eq("https://example.org/example"));
         verify(project).setUser(isA(Users.class));
-        verify(projectRepository).findByCalenderAndSongTitleContainingOrStageNameContaining(isA(Long.class), eq("Search"),
+        verify(projectRepository).findByCalenderAndSongTitleContainingOrUserNameContaining(isA(Long.class), eq("Search"),
                 isNull());
         verify(calenderService).getProjectCalender();
         assertEquals(1, actualCurrentProjects.toList().size());
@@ -880,7 +880,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender);
@@ -900,7 +900,7 @@ class ProjectServiceDiffblueTest {
         assertEquals("Dr", actualMapProjectToResponseResult.getSongTitle());
         assertEquals("Not all who wander are lost", actualMapProjectToResponseResult.getContentUri());
         assertEquals("Song Uri", actualMapProjectToResponseResult.getSongUri());
-        assertEquals("Stage Name", actualMapProjectToResponseResult.getStageName());
+        assertEquals("User Name", actualMapProjectToResponseResult.getUserName());
         assertEquals("https://example.org/example", actualMapProjectToResponseResult.getUrl());
         assertNull(actualMapProjectToResponseResult.getPercentOfSupport());
         assertEquals(1L, actualMapProjectToResponseResult.getId().longValue());
@@ -944,7 +944,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Socials socials = new Socials();
         socials.setId(1L);
@@ -958,7 +958,7 @@ class ProjectServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Project project = mock(Project.class);
         when(project.getSocial()).thenReturn(socials);
         when(project.getUser()).thenReturn(users);
@@ -1009,7 +1009,7 @@ class ProjectServiceDiffblueTest {
         assertEquals("Dr", actualMapProjectToResponseResult.getSongTitle());
         assertEquals("Not all who wander are lost", actualMapProjectToResponseResult.getContentUri());
         assertEquals("Song Uri", actualMapProjectToResponseResult.getSongUri());
-        assertEquals("Stage Name", actualMapProjectToResponseResult.getStageName());
+        assertEquals("User Name", actualMapProjectToResponseResult.getUserName());
         assertEquals("https://example.org/example", actualMapProjectToResponseResult.getUrl());
         assertNull(actualMapProjectToResponseResult.getPercentOfSupport());
         assertEquals(1L, actualMapProjectToResponseResult.getId().longValue());
@@ -1159,7 +1159,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender2);
@@ -1228,7 +1228,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Project project = new Project();
         project.setCalender(calender2);
@@ -1258,7 +1258,7 @@ class ProjectServiceDiffblueTest {
         user2.setNonLocked(false);
         user2.setPassword("Password");
         user2.setRole("com.discoverme.backend.user.Users");
-        user2.setStageName("com.discoverme.backend.user.Users");
+        user2.setUserName("com.discoverme.backend.user.Users");
 
         Project project2 = new Project();
         project2.setCalender(calender3);
@@ -1328,7 +1328,7 @@ class ProjectServiceDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         Socials socials = new Socials();
         socials.setId(1L);
@@ -1342,7 +1342,7 @@ class ProjectServiceDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         Project project = mock(Project.class);
         when(project.getSocial()).thenReturn(socials);
         when(project.getUser()).thenReturn(users);

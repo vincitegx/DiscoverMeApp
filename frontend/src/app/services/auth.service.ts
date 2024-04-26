@@ -102,6 +102,23 @@ export class AuthService {
   getFBUser(): string {
     return this.localStorageService.retrieve('fb-user');
   }
+  getIGUser(): string {
+    return this.localStorageService.retrieve('ig-user');
+  }
+
+  updateProfile(userName: string):Observable<UserDto>{
+    return this.httpClient
+      .put<UserDto>(`${this.apiServerUrl}api/v1/users/profile?userName=${userName}`, {})
+      .pipe(
+        map((response: UserDto) => {
+          if (response) {
+            this.localStorageService.store("user", response);
+            this.userSubject.next(response);
+          }
+          return response;
+      })
+      );
+  }
 
   isLoggedIn$(): Observable<boolean> {
     this.isAuthenticatedSubject.next(this.getJwtToken() != null && this.getUser() != null);

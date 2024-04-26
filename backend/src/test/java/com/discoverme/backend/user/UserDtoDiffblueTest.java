@@ -31,7 +31,7 @@ class UserDtoDiffblueTest {
         //   Diffblue Cover was unable to create a Spring-specific test for this Spring method.
 
         // Arrange, Act and Assert
-        assertFalse((new UserDto(1L, "Stage Name", "jane.doe@example.org", "Role")).canEqual("Other"));
+        assertFalse((new UserDto(1L, "User Name", "jane.doe@example.org", "Role")).canEqual("Other"));
     }
 
     /**
@@ -46,13 +46,13 @@ class UserDtoDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -72,13 +72,13 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act
@@ -116,7 +116,7 @@ class UserDtoDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -133,7 +133,7 @@ class UserDtoDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -151,13 +151,13 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -177,13 +177,13 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -203,13 +203,13 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -226,12 +226,12 @@ class UserDtoDiffblueTest {
         when(userDtoBuilder.id(Mockito.<Long>any())).thenReturn(UserDto.builder());
         UserDto.UserDtoBuilder userDtoBuilder2 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder2.email(Mockito.<String>any())).thenReturn(userDtoBuilder);
-        UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org").id(1L).role("Role").stageName(null).build();
+        UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org").id(1L).role("Role").UserName(null).build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -248,12 +248,12 @@ class UserDtoDiffblueTest {
         when(userDtoBuilder.id(Mockito.<Long>any())).thenReturn(UserDto.builder());
         UserDto.UserDtoBuilder userDtoBuilder2 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder2.email(Mockito.<String>any())).thenReturn(userDtoBuilder);
-        UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org").id(1L).role("Role").stageName("42").build();
+        UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org").id(1L).role("Role").UserName("42").build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -275,14 +275,14 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder3.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto.UserDtoBuilder userDtoBuilder4 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder4.email(Mockito.<String>any())).thenReturn(UserDto.builder());
         UserDto buildResult2 = userDtoBuilder4.email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -306,14 +306,14 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder3.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto.UserDtoBuilder userDtoBuilder4 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder4.email(Mockito.<String>any())).thenReturn(UserDto.builder());
         UserDto buildResult2 = userDtoBuilder4.email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -337,14 +337,14 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder3.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto.UserDtoBuilder userDtoBuilder4 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder4.email(Mockito.<String>any())).thenReturn(UserDto.builder());
         UserDto buildResult2 = userDtoBuilder4.email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -358,7 +358,7 @@ class UserDtoDiffblueTest {
     void testEquals11() {
         // Arrange
         UserDto.UserDtoBuilder builderResult = UserDto.builder();
-        builderResult.role("Stage Name");
+        builderResult.role("User Name");
         UserDto.UserDtoBuilder userDtoBuilder = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder.role(Mockito.<String>any())).thenReturn(builderResult);
         UserDto.UserDtoBuilder userDtoBuilder2 = mock(UserDto.UserDtoBuilder.class);
@@ -368,14 +368,14 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder3.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto.UserDtoBuilder userDtoBuilder4 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder4.email(Mockito.<String>any())).thenReturn(UserDto.builder());
         UserDto buildResult2 = userDtoBuilder4.email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -397,7 +397,7 @@ class UserDtoDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -421,13 +421,13 @@ class UserDtoDiffblueTest {
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto buildResult2 = UserDto.builder()
                 .email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -454,14 +454,14 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder2.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto.UserDtoBuilder userDtoBuilder3 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder3.email(Mockito.<String>any())).thenReturn(UserDto.builder());
         UserDto buildResult2 = userDtoBuilder3.email("jane.doe@example.org")
                 .id(null)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -490,14 +490,14 @@ class UserDtoDiffblueTest {
         UserDto buildResult = userDtoBuilder3.email("jane.doe@example.org")
                 .id(1L)
                 .role("Role")
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
         UserDto.UserDtoBuilder userDtoBuilder4 = mock(UserDto.UserDtoBuilder.class);
         when(userDtoBuilder4.email(Mockito.<String>any())).thenReturn(UserDto.builder());
         UserDto buildResult2 = userDtoBuilder4.email("jane.doe@example.org")
                 .id(null)
                 .role(null)
-                .stageName("Stage Name")
+                .UserName("User Name")
                 .build();
 
         // Act and Assert
@@ -514,22 +514,22 @@ class UserDtoDiffblueTest {
      *   <li>{@link UserDto#setEmail(String)}
      *   <li>{@link UserDto#setId(Long)}
      *   <li>{@link UserDto#setRole(String)}
-     *   <li>{@link UserDto#setStageName(String)}
+     *   <li>{@link UserDto#setUserName(String)}
      *   <li>{@link UserDto#toString()}
      *   <li>{@link UserDto#getEmail()}
      *   <li>{@link UserDto#getId()}
      *   <li>{@link UserDto#getRole()}
-     *   <li>{@link UserDto#getStageName()}
+     *   <li>{@link UserDto#getUserName()}
      * </ul>
      */
     @Test
     void testGettersAndSetters() {
         // Arrange and Act
-        UserDto actualUserDto = new UserDto(1L, "Stage Name", "jane.doe@example.org", "Role");
+        UserDto actualUserDto = new UserDto(1L, "User Name", "jane.doe@example.org", "Role");
         actualUserDto.setEmail("jane.doe@example.org");
         actualUserDto.setId(1L);
         actualUserDto.setRole("Role");
-        actualUserDto.setStageName("Stage Name");
+        actualUserDto.setUserName("User Name");
         String actualToStringResult = actualUserDto.toString();
         String actualEmail = actualUserDto.getEmail();
         Long actualId = actualUserDto.getId();
@@ -537,8 +537,8 @@ class UserDtoDiffblueTest {
 
         // Assert that nothing has changed
         assertEquals("Role", actualRole);
-        assertEquals("Stage Name", actualUserDto.getStageName());
-        assertEquals("UserDto(id=1, stageName=Stage Name, email=jane.doe@example.org, role=Role)", actualToStringResult);
+        assertEquals("User Name", actualUserDto.getUserName());
+        assertEquals("UserDto(id=1, UserName=User Name, email=jane.doe@example.org, role=Role)", actualToStringResult);
         assertEquals("jane.doe@example.org", actualEmail);
         assertEquals(1L, actualId.longValue());
     }

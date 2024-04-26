@@ -21,26 +21,26 @@ import { ProjectLinkComponent } from 'src/app/components/project-link/project-li
 
 @NgModule({
   declarations: [
-    DefaultComponent,
-    CoverComponent,
-    HomeComponent,
-    SigninComponent,
-    SignupComponent,
-    ProfileComponent,
-    SubmitProjectComponent,
-    AccountCreatedComponent,
-    VerifyComponent,
-    ProjectLinkComponent,
-    GoogleBtnComponent,
-    VideoHoverDirective
+    // DefaultComponent,
+    // CoverComponent,
+    // HomeComponent,
+    // SigninComponent,
+    // SignupComponent,
+    // ProfileComponent,
+    // SubmitProjectComponent,
+    // AccountCreatedComponent,
+    // VerifyComponent,
+    // ProjectLinkComponent,
+    // GoogleBtnComponent,
+    // VideoHoverDirective
   ],
   imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    HttpClientModule,
-    SharedModule,
-    ReactiveFormsModule
+    // CommonModule,
+    // RouterModule,
+    // FormsModule,
+    // HttpClientModule,
+    // SharedModule,
+    // ReactiveFormsModule
   ],
   providers: [
     {

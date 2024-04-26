@@ -1,6 +1,5 @@
 package com.discoverme.backend.project.file;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
@@ -25,15 +24,14 @@ import java.util.logging.Logger;
 @Primary
 public class FileService {
 
-    private Path fileStoragePath;
-    private String fileStorageLocation;
+    private final String fileStorageLocation;
 
     public FileService(@Value("${file.upload-dir:temp}") String fileStorageLocation) throws IOException {
         this.fileStorageLocation = fileStorageLocation;
-        this.fileStoragePath = Paths.get(fileStorageLocation)
+        Path fileStoragePath = Paths.get(fileStorageLocation)
                 .toAbsolutePath().normalize();
         try {
-            Files.createDirectories(this.fileStoragePath);
+            Files.createDirectories(fileStoragePath);
         } catch (IOException ex) {
             throw new IOException("Could not create the directory where the uploaded files will be stored.", ex);
         }
@@ -87,6 +85,6 @@ public class FileService {
     }
 
     public void deleteFiles(List<String> files) {
-        files.forEach(file -> deleteFile(file));
+        files.forEach(this::deleteFile);
     }
 }

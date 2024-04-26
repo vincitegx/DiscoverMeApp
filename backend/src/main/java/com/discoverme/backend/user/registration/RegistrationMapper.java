@@ -12,7 +12,7 @@ public class RegistrationMapper {
         ZonedDateTime createdAt = ZonedDateTime.now();
         return Users.builder()
                 .email(registrationRequest.getEmail())
-                .stageName(registrationRequest.getStageName())
+                .userName(registrationRequest.getUserName())
                 .password(registrationRequest.getPassword())
                 .enabled(false)
                 .nonLocked(false)
@@ -24,7 +24,7 @@ public class RegistrationMapper {
     public RegistrationResponse mapUserToRegistrationResponse(Users users) {
         return RegistrationResponse.builder()
                 .userId(users.getId())
-                .stageName(users.getStageName())
+                .userName(users.getUserName())
                 .email(users.getEmail())
                 .build();
     }
@@ -33,7 +33,7 @@ public class RegistrationMapper {
         ZonedDateTime createdAt = ZonedDateTime.now();
         return Users.builder()
                 .email(registrationRequest.getEmail())
-                .stageName("Administrator")
+                .userName("Administrator")
                 .password(registrationRequest.getPassword())
                 .enabled(true)
                 .nonLocked(true)

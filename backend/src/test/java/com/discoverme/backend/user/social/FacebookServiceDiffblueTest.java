@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.discoverme.backend.social.facebook.FacebookService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -69,7 +70,7 @@ class FacebookServiceDiffblueTest {
     }
 
     /**
-     * Method under test: {@link FacebookService#publishVideoToStory()}
+     * Method under test:
      */
     @Test
     void testPublishVideoToStory() {
@@ -85,7 +86,7 @@ class FacebookServiceDiffblueTest {
         when(webClient.post()).thenReturn(requestBodyUriSpec);
 
         // Act
-        facebookService.publishVideoToStory();
+        facebookService.publishVideoToStory("https://example.org/example");
 
         // Assert
         verify(webClient, atLeast(1)).post();

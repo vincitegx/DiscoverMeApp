@@ -21,7 +21,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.security.auth.RefreshFailedException;
-import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -50,89 +49,89 @@ public class CustomExceptionHandler {
 //    }
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<ErrorResponse> accountDisabledException() {
-        return createErrorResponse(BAD_REQUEST, ACCOUNT_DISABLED);
+    public ResponseEntity<ErrorResponse> accountDisabledException(DisabledException exception) {
+        return createErrorResponse(BAD_REQUEST, ACCOUNT_DISABLED, exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> badCredentialsException() {
-        return createErrorResponse(BAD_REQUEST, INCORRECT_CREDENTIALS);
+    public ResponseEntity<ErrorResponse> badCredentialsException(BadCredentialsException exception) {
+        return createErrorResponse(BAD_REQUEST, INCORRECT_CREDENTIALS, exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> accessDeniedException() {
-        return createErrorResponse(FORBIDDEN, NOT_ENOUGH_PERMISSION);
+    public ResponseEntity<ErrorResponse> accessDeniedException(AccessDeniedException exception) {
+        return createErrorResponse(FORBIDDEN, NOT_ENOUGH_PERMISSION, exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(LockedException.class)
-    public ResponseEntity<ErrorResponse> lockedException() {
-        return createErrorResponse(UNAUTHORIZED, ACCOUNT_LOCKED);
+    public ResponseEntity<ErrorResponse> lockedException(LockedException exception) {
+        return createErrorResponse(UNAUTHORIZED, ACCOUNT_LOCKED, exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<ErrorResponse> tokenExpiredException(TokenExpiredException ex) {
-        return createErrorResponse(UNAUTHORIZED, ex.getMessage());
+        return createErrorResponse(UNAUTHORIZED, ex.getMessage(), ex.getLocalizedMessage());
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> authenticationException(AuthenticationException ex) {
-        return createErrorResponse(UNAUTHORIZED, ex.getMessage());
+        return createErrorResponse(UNAUTHORIZED, ex.getMessage(), ex.getLocalizedMessage());
     }
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ErrorResponse> userException(UserException exception) {
-        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+        return createErrorResponse(BAD_REQUEST, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(ExecutionException.class)
     public ResponseEntity<ErrorResponse> executionException(ExecutionException exception) {
-        return createErrorResponse(INTERNAL_SERVER_ERROR, exception.getMessage());
+        return createErrorResponse(INTERNAL_SERVER_ERROR, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> constraintException(ConstraintViolationException exception) {
-        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+        return createErrorResponse(BAD_REQUEST, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorResponse> usernameNotFoundException(UsernameNotFoundException exception) {
-        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+        return createErrorResponse(BAD_REQUEST, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(RestClientException.class)
     public ResponseEntity<ErrorResponse> restClientException(RestClientException exception) {
-        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+        return createErrorResponse(BAD_REQUEST, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ErrorResponse> noHandlerFoundException(NoHandlerFoundException e) {
-        return createErrorResponse(BAD_REQUEST, "There is no mapping for this URL");
+        return createErrorResponse(BAD_REQUEST, "There is no mapping for this URL", e.getLocalizedMessage());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> methodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
         HttpMethod supportedMethod = Objects.requireNonNull(exception.getSupportedHttpMethods()).iterator().next();
-        return createErrorResponse(METHOD_NOT_ALLOWED, String.format(METHOD_IS_NOT_ALLOWED, supportedMethod));
+        return createErrorResponse(METHOD_NOT_ALLOWED, String.format(METHOD_IS_NOT_ALLOWED, supportedMethod), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(NoResultException.class)
     public ResponseEntity<ErrorResponse> notFoundException(NoResultException exception) {
-        return createErrorResponse(NOT_FOUND, exception.getMessage());
+        return createErrorResponse(NOT_FOUND, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(ProjectException.class)
     public ResponseEntity<ErrorResponse> projectException(ProjectException exception) {
-        return createErrorResponse(EXPECTATION_FAILED, exception.getMessage());
+        return createErrorResponse(EXPECTATION_FAILED, exception.getMessage(), exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException exception) {
-        return createErrorResponse(BAD_REQUEST, exception.getMessage());
+        return createErrorResponse(BAD_REQUEST, exception.getMessage(), exception.getLocalizedMessage());
     }
 
 //    @ExceptionHandler(IOException.class)
@@ -142,13 +141,13 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(RefreshFailedException.class)
     public ResponseEntity<ErrorResponse> refreshFailedException(RefreshFailedException exception) {
-        return createErrorResponse(FORBIDDEN, exception.getMessage());
+        return createErrorResponse(FORBIDDEN, exception.getMessage(), exception.getLocalizedMessage());
     }
 
 
-    private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus httpStatus, String message) {
+    private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus httpStatus,String message, String developerMessage) {
         return new ResponseEntity<>(
-                new ErrorResponse(LocalDateTime.now(),httpStatus,httpStatus.getReasonPhrase().toUpperCase(), message,null),
+                new ErrorResponse(LocalDateTime.now(),httpStatus,message, developerMessage,null),
                 httpStatus);
     }
 }

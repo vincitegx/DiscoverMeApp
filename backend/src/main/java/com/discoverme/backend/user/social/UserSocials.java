@@ -27,7 +27,10 @@ public class UserSocials {
     private Socials social;
 
     @Column(nullable = false)
-    private String userName;
+    private String socialUserName;
+
+    @Column(nullable = false)
+    private String socialUserId;
 
     @Column(nullable = false)
     private String accessToken;

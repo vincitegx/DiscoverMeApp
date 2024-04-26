@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
   onSupportButtonClick(project: Project): void {
     if(this.socialService.isSocialConnected(project.social?.name ?? "")){
       // Toggle the 'voted' property
-    project.isSupported = !project.isSupported;
+    project.supported = !project.supported;
 
     // Send the updated value to the backend
     this.projectService.updateSupportStatus(project.id ?? 0).subscribe(
@@ -96,12 +96,12 @@ export class HomeComponent implements OnInit {
       error => {
         console.error('Error updating support status:', error);
         // Revert the 'voted' property if the update fails
-        project.isSupported = !project.isSupported;
+        project.supported = !project.supported;
       }
     );
     }else{
-      this.notifier.notify('error', 'You have to connect your '+project.social?.name+" account first");
       this.router.navigateByUrl('profile');
+      this.notifier.notify('info', 'Please connect your '+project.social?.name+" account first");
     }
   }
 

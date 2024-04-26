@@ -48,7 +48,7 @@ class VerificationControllerDiffblueTest {
         users.setNonLocked(true);
         users.setPassword("iloveyou");
         users.setRole("Role");
-        users.setStageName("Stage Name");
+        users.setUserName("User Name");
         when(verificationService.verifyEmail(Mockito.<String>any())).thenReturn(users);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/auth/verify")
                 .param("token", "foo");

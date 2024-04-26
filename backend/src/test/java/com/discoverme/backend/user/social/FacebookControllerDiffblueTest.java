@@ -1,5 +1,8 @@
 package com.discoverme.backend.user.social;
 
+import com.discoverme.backend.social.SocialsService;
+import com.discoverme.backend.social.facebook.FacebookController;
+import com.discoverme.backend.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.catalina.connector.Response;
 import org.junit.jupiter.api.Disabled;
@@ -15,6 +18,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @ContextConfiguration(classes = {FacebookController.class})
 @ExtendWith(SpringExtension.class)
@@ -48,28 +54,24 @@ class FacebookControllerDiffblueTest {
                                         + "_profile%2Cpages_manage_posts\"}"));
     }
 
-    /**
-     * Method under test: {@link FacebookController#callback(String)}
-     */
     @Test
-    @Disabled("TODO: Complete this test")
-    void testCallback() {
-        // TODO: Diffblue Cover was only able to create a partial test for this method:
-        //   Reason: No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   jakarta.servlet.ServletException: Request processing failed: java.lang.NullPointerException: Cannot invoke "com.restfb.DefaultFacebookClient.obtainUserAccessToken(String, String, String, String)" because "this.facebookClient" is null
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   java.lang.NullPointerException: Cannot invoke "com.restfb.DefaultFacebookClient.obtainUserAccessToken(String, String, String, String)" because "this.facebookClient" is null
-        //       at com.discoverme.backend.user.social.FacebookController.callback(FacebookController.java:59)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   See https://diff.blue/R013 to resolve this issue.
+@Disabled("TODO: Complete this test")
+void testCallback() {
+    // Arrange
+    // Create mock instances of the required services
+    UserService userService = mock(UserService.class);
+    SocialsService socialsService = mock(SocialsService.class);
+    UserSocialsService userSocialsService = mock(UserSocialsService.class);
 
-        // Arrange and Act
-        (new FacebookController(new Response())).callback("Code");
-    }
+    // Act and Assert
+    // Call the method under test with the mock instances
+    FacebookController facebookController = new FacebookController(userService, socialsService, userSocialsService);
+    String result = String.valueOf(facebookController.callback("Code"));
+
+    // Add assertions to verify the expected behavior
+    // For example, you can verify that the callback method returns the expected result
+    assertEquals("Expected result", result);
+}
 
     /**
      * Method under test: {@link FacebookController#auth()}

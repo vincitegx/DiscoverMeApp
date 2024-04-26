@@ -45,7 +45,7 @@ class EmailVerificationTokenDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act
         EmailVerificationToken actualEmailVerificationToken = new EmailVerificationToken("ABC123", user,
@@ -72,7 +72,7 @@ class EmailVerificationTokenDiffblueTest {
         doNothing().when(user).setNonLocked(Mockito.<Boolean>any());
         doNothing().when(user).setPassword(Mockito.<String>any());
         doNothing().when(user).setRole(Mockito.<String>any());
-        doNothing().when(user).setStageName(Mockito.<String>any());
+        doNothing().when(user).setUserName(Mockito.<String>any());
         user.setCreatedAt(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC));
         user.setEmail("jane.doe@example.org");
         user.setEnabled(true);
@@ -80,7 +80,7 @@ class EmailVerificationTokenDiffblueTest {
         user.setNonLocked(true);
         user.setPassword("iloveyou");
         user.setRole("Role");
-        user.setStageName("Stage Name");
+        user.setUserName("User Name");
 
         // Act
         EmailVerificationToken actualEmailVerificationToken = new EmailVerificationToken("ABC123", user,
@@ -94,7 +94,7 @@ class EmailVerificationTokenDiffblueTest {
         verify(user).setNonLocked(isA(Boolean.class));
         verify(user).setPassword(eq("iloveyou"));
         verify(user).setRole(eq("Role"));
-        verify(user).setStageName(eq("Stage Name"));
+        verify(user).setUserName(eq("User Name"));
         assertEquals("1970-01-01", actualEmailVerificationToken.getExpiresAt().toLocalDate().toString());
         assertEquals("ABC123", actualEmailVerificationToken.getToken());
         assertSame(user, actualEmailVerificationToken.getUser());

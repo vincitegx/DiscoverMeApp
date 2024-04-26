@@ -12,11 +12,12 @@ import { AuthGuard } from './services/auth.guard';
 import { ProjectSubmissionGuard } from './services/project-submission.guard';
 import { AuthRedirectGuard } from './services/auth-redirect.guard';
 import { ProjectLinkComponent } from './components/project-link/project-link.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DefaultComponent,
+    component: AppComponent,
     children: [
       {
         path: '',
