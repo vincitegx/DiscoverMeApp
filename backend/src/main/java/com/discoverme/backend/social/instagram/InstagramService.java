@@ -39,24 +39,30 @@ public class InstagramService {
         Users loggedInUser = userService.getCurrentUser();
         Socials social = socialsService.getSocialByPlatform(SocialPlatform.INSTAGRAM);
         UserSocials userSocial= userSocialsService.findUserSocial(loggedInUser, social).orElseThrow(()-> new UserException("User social not found"));
-        InstagramUploadID instagramUploadID = webClient.post()
-                .uri("https://graph.facebook.com/v18.0/"+userSocial.getSocialUserId()+"/media", uriBuilder -> uriBuilder
-                        .queryParam("video_url", "")
-                        .queryParam("media_type", "STORIES")
-                        .queryParam("caption", "Hello World")
-                        .queryParam("access_token", userSocial.getAccessToken())
-                        .build())
-                .retrieve()
-                .bodyToMono(InstagramUploadID.class)
-                .block();
-        InstagramPublishResponse instagramPublishResponse = webClient.post()
-                .uri("https://graph.facebook.com/v18.0/"+userSocial.getSocialUserId()+"/media_publish", uriBuilder -> uriBuilder
-                        .queryParam("creation_id", instagramUploadID.id())
-                        .queryParam("access_token", userSocial.getAccessToken())
-                        .build())
-                .retrieve()
-                .bodyToMono(InstagramPublishResponse.class)
-                .block();
+        try{
+            InstagramUploadID instagramUploadID = webClient.post()
+                    .uri("https://graph.facebook.com/v19.0/"+userSocial.getSocialUserId()+"/media", uriBuilder -> uriBuilder
+                            .queryParam("video_url", "https://drive.google.com/file/d/1ObfqbqcgwDrNmVMjZvgZ4n2haH33P-NK/view?usp=sharing")
+                            .queryParam("media_type", "STORIES")
+                            .queryParam("caption", "Hello World")
+                            .queryParam("access_token", userSocial.getAccessToken())
+                            .build())
+                    .retrieve()
+                    .bodyToMono(InstagramUploadID.class)
+                    .block();
+            System.out.println("Upload ID: "+ instagramUploadID.id());
+            InstagramPublishResponse instagramPublishResponse = webClient.post()
+                    .uri("https://graph.facebook.com/v18.0/"+userSocial.getSocialUserId()+"/media_publish", uriBuilder -> uriBuilder
+                            .queryParam("creation_id", instagramUploadID.id())
+                            .queryParam("access_token", userSocial.getAccessToken())
+                            .build())
+                    .retrieve()
+                    .bodyToMono(InstagramPublishResponse.class)
+                    .block();
+            System.out.println(instagramPublishResponse.id());
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void postVideo(String contentUrl) throws MalformedURLException, FileNotFoundException, FacebookOAuthException {

@@ -1,5 +1,6 @@
 package com.discoverme.backend.project.file;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
@@ -37,6 +38,16 @@ public class FileService {
         }
     }
 
+    @PostConstruct
+    public void init() {
+        Path outputPath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(outputPath);
+        } catch (IOException ex) {
+            throw new RuntimeException("Could not create the directory for output files.", ex);
+        }
+    }
+
     public String uploadFile(MultipartFile file) {
         String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         var key = UUID.randomUUID() + "." + extension;
@@ -49,6 +60,55 @@ public class FileService {
             Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return key;
+    }
+
+//    public String uploadFile(MultipartFile file) {
+//        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+//        var key = UUID.randomUUID() + "." + extension;
+//        String directory = this.fileStorageLocation;
+//        Path newPath = Paths.get(directory).toAbsolutePath().normalize();
+//        try {
+//            Files.createDirectories(newPath);
+//            Path inputFilePath = newPath.resolve(StringUtils.cleanPath(key));
+//            Path outputFilePath = newPath.resolve("output.mp4");
+//            Files.copy(file.getInputStream(), inputFilePath, StandardCopyOption.REPLACE_EXISTING);
+//            executeFFmpegCommand(inputFilePath.toString(), outputFilePath.toString());
+//
+//        } catch (IOException ex) {
+//            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return key;
+//    }
+
+    private void executeFFmpegCommand(String inputFilePath, String outputFilePath) throws IOException {
+        String ffmpegPath = "C:\\ffmpeg\\bin\\ffmpeg.exe"; // Example path, replace with actual path
+        String[] ffmpegCommand = {
+                ffmpegPath,
+                "-i", inputFilePath,
+                "-c:v", "libx264",
+                "-aspect", "16:9",
+                "-crf", "18",
+                "-vf", "scale=iw*min(1280/iw\\,720/ih):ih*min(1280/iw\\,720/ih),pad=1280:720:(1280-iw)/2:(720-ih)/2",
+                "-fpsmax", "60",
+                "-preset", "ultrafast",
+                "-c:a", "aac",
+                "-b:a", "128k",
+                "-ac", "1",
+                "-pix_fmt", "yuv420p",
+                "-movflags", "+faststart",
+                "-t", "59",
+                "-y", outputFilePath
+        };
+
+        ProcessBuilder processBuilder = new ProcessBuilder(ffmpegCommand);
+        processBuilder.inheritIO();
+        Process process = processBuilder.start();
+        try {
+            process.waitFor();
+            System.out.println("FFmpeg command executed successfully.");
+        } catch (InterruptedException e) {
+            throw new IOException("Error executing FFmpeg command: " + e.getMessage(), e);
+        }
     }
 
     public List<String> uploadFiles(List<MultipartFile> files) {

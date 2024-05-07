@@ -60,8 +60,26 @@ export class ProfileComponent implements OnInit {
     const socialPlatformProp: keyof ProfileComponent = platform.toLowerCase() + 'Username' as keyof ProfileComponent;
     if (username) {
       disconnectFunction().subscribe(() => {
-        this.notifier.notify('success', `${platform} Account has been disconnected`);
-        this[socialPlatformProp] = '';
+        if(username === 'Facebook'){
+          this.socialService.disconnectFacebook().subscribe(res=>{
+            if(res){
+              this.notifier.notify('success', `${platform} Account has been disconnected`);
+              this[socialPlatformProp] = '';
+            }else{
+              this.notifier.notify('error', `${platform} Account was not disconnected`);
+            }
+          })  
+        }else{
+          this.socialService.disconnectInstagram().subscribe(res=>{
+            if(res){
+              this.notifier.notify('success', `${platform} Account has been disconnected`);
+              this[socialPlatformProp] = '';
+            }else{
+              this.notifier.notify('error', `${platform} Account was not disconnected`);
+            }
+          })
+        }
+        
       });
     } else {
       sessionStorage.setItem('currentPlatform', platform);

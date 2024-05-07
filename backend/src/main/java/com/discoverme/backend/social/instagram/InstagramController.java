@@ -9,14 +9,12 @@ import com.discoverme.backend.social.facebook.FBUserResponse;
 import com.discoverme.backend.user.Users;
 import com.discoverme.backend.user.social.UserSocials;
 import com.discoverme.backend.user.social.UserSocialsService;
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.Version;
+import com.restfb.*;
 import com.restfb.scope.FacebookPermissions;
 import com.restfb.scope.ScopeBuilder;
 import com.restfb.types.Page;
 import com.restfb.types.User;
+import com.restfb.types.instagram.IgUser;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("auth")
@@ -45,16 +45,15 @@ public class InstagramController {
     public ResponseEntity<UrlDto> auth() {
         facebookClient = new DefaultFacebookClient(Version.LATEST);
         ScopeBuilder scopeBuilder = new ScopeBuilder();
-//        scopeBuilder.addPermission(FacebookPermissions.BUSINESS_MANAGEMENT);
+        scopeBuilder.addPermission(FacebookPermissions.BUSINESS_MANAGEMENT);
         scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_CONTENT_PUBLISH);
         scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_BASIC);
-//        scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_GRAPH_USER_MEDIA);
-//        scopeBuilder.addPermission(FacebookPermissions.PUBLISH_VIDEO);
-//        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_ENGAGEMENT);
-        scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_MANAGE_COMMENTS);
+        scopeBuilder.addPermission(FacebookPermissions.ADS_MANAGEMENT);
         scopeBuilder.addPermission(FacebookPermissions.PAGES_READ_ENGAGEMENT);
         scopeBuilder.addPermission(FacebookPermissions.PAGES_SHOW_LIST);
-//        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
+        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_CTA);
+        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_METADATA);
+        scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
         String url = facebookClient.getLoginDialogUrl(appId, "https://localhost:4200/profile", scopeBuilder);
         return ResponseEntity.ok(new UrlDto(url));
     }
@@ -66,32 +65,35 @@ public class InstagramController {
         FacebookClient.AccessToken facebookTokenResponseExtended = facebookClient.obtainExtendedAccessToken(
                 appId, appSecret, facebookTokenResponse.getAccessToken());
         FacebookClient defaultFacebookClient = new DefaultFacebookClient(facebookTokenResponseExtended.getAccessToken(), Version.LATEST);
-        Connection<Page> pageConnection = defaultFacebookClient.fetchConnection("/me/accounts", Page.class);
-        List<Page> userPages = new ArrayList<>();
-        for (List<Page> pageList : pageConnection) {
-            userPages.addAll(pageList);
-        }
-        Page selectedPage = userPages.get(0);
-        String pageAccessToken = selectedPage.getAccessToken();
-        System.out.println("page token: "+pageAccessToken);
-        User user = defaultFacebookClient.fetchObject("me", User.class);
+        Connection<Page> pageConnection = defaultFacebookClient.fetchConnection("/me/accounts/", Page.class, Parameter.with("fields","id,name,access_token,instagram_business_account"));
+        List<Page> instaPageList = StreamSupport.stream(pageConnection.spliterator(), false)
+                .flatMap(List::stream)
+                .filter((p) -> p.getInstagramBusinessAccount() != null)
+                .toList();
+        Page selectedPage = instaPageList.get(0);
+        FacebookClient client = new DefaultFacebookClient(selectedPage.getAccessToken(), Version.LATEST);
+
+        String profileFields = "biography,id,ig_id,followers_count,follows_count,media_count,name,profile_picture_url,username,website";
+        IgUser user =
+                client.fetchObject(selectedPage.getInstagramBusinessAccount().getId(), IgUser.class,
+                        Parameter.withFields(profileFields));
         Socials social = socialsService.getSocialByPlatform(SocialPlatform.INSTAGRAM);
         Users loggedInUser = userService.getCurrentUser();
         UserSocials userSocials;
         if (userSocialsService.findUserSocial(loggedInUser, social).isPresent()) {
             userSocials = userSocialsService.findUserSocial(loggedInUser, social).get();
-            userSocials.setSocialUserName(selectedPage.getName());
-            userSocials.setSocialUserId(selectedPage.getId());
-            userSocials.setAccessToken(pageAccessToken);
+            userSocials.setSocialUserName(user.getUsername());
+            userSocials.setSocialUserId(user.getId());
+            userSocials.setAccessToken(selectedPage.getAccessToken());
         } else {
             userSocials = new UserSocials();
-            userSocials.setSocialUserName(selectedPage.getName());
+            userSocials.setSocialUserName(user.getUsername());
             userSocials.setSocial(socialsService.getSocialByPlatform(SocialPlatform.INSTAGRAM));
             userSocials.setUser(userService.getCurrentUser());
-            userSocials.setAccessToken(pageAccessToken);
-            userSocials.setSocialUserId(selectedPage.getId());
+            userSocials.setAccessToken(selectedPage.getAccessToken());
+            userSocials.setSocialUserId(user.getId());
         }
         userSocialsService.saveUserSocial(userSocials);
-        return new ResponseEntity<>(new FBUserResponse(user.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(new FBUserResponse(user.getUsername()), HttpStatus.OK);
     }
 }

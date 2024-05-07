@@ -8,10 +8,7 @@ import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import com.discoverme.backend.user.social.UserSocials;
 import com.discoverme.backend.user.social.UserSocialsService;
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.Version;
+import com.restfb.*;
 import com.restfb.scope.FacebookPermissions;
 import com.restfb.scope.ScopeBuilder;
 import com.restfb.types.Page;
@@ -58,12 +55,15 @@ public class FacebookController {
 //        scopeBuilder.addPermission(FacebookPermissions.USER_HOMETOWN);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_GENDER);
 //        scopeBuilder.addPermission(FacebookPermissions.USER_FRIENDS);
+        scopeBuilder.addPermission(FacebookPermissions.BUSINESS_MANAGEMENT);
+        scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_CONTENT_PUBLISH);
+        scopeBuilder.addPermission(FacebookPermissions.INSTAGRAM_BASIC);
+        scopeBuilder.addPermission(FacebookPermissions.ADS_MANAGEMENT);
         scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_ENGAGEMENT);
         scopeBuilder.addPermission(FacebookPermissions.PAGES_READ_ENGAGEMENT);
         scopeBuilder.addPermission(FacebookPermissions.PAGES_SHOW_LIST);
         scopeBuilder.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
         scopeBuilder.addPermission(FacebookPermissions.PUBLISH_VIDEO);
-//        scopeBuilder.addPermission(FacebookPermissions.WHATSAPP_BUSINESS_MANAGEMENT);
         String url = facebookClient.getLoginDialogUrl(appId, "https://localhost:4200/profile", scopeBuilder);
         return ResponseEntity.ok(new UrlDto(url));
     }
@@ -75,32 +75,31 @@ public class FacebookController {
         FacebookClient.AccessToken facebookTokenResponseExtended = facebookClient.obtainExtendedAccessToken(
                 appId, appSecret, facebookTokenResponse.getAccessToken());
         FacebookClient defaultFacebookClient = new DefaultFacebookClient(facebookTokenResponseExtended.getAccessToken(), Version.LATEST);
-        Connection<Page> pageConnection = defaultFacebookClient.fetchConnection("/me/accounts", Page.class);
+        Connection<Page> pageConnection = defaultFacebookClient.fetchConnection("/me/accounts", Page.class, Parameter.with("fields","id,name,access_token,username"));
         List<Page> userPages = new ArrayList<>();
         for (List<Page> pageList : pageConnection) {
             userPages.addAll(pageList);
         }
         Page selectedPage = userPages.get(0);
-        String pageAccessToken = selectedPage.getAccessToken();
-        System.out.println(pageAccessToken);
-        User user = defaultFacebookClient.fetchObject("me", User.class);
+//        User user = defaultFacebookClient.fetchObject("me", User.class);
+//        System.out.println(user);
         Socials social = socialsService.getSocialByPlatform(SocialPlatform.FACEBOOK);
         Users loggedInUser = userService.getCurrentUser();
         UserSocials userSocials;
         if (userSocialsService.findUserSocial(loggedInUser, social).isPresent()) {
             userSocials = userSocialsService.findUserSocial(loggedInUser, social).get();
-            userSocials.setSocialUserName(selectedPage.getName());
+            userSocials.setSocialUserName(selectedPage.getUsername());
             userSocials.setSocialUserId(selectedPage.getId());
-            userSocials.setAccessToken(pageAccessToken);
+            userSocials.setAccessToken(selectedPage.getAccessToken());
         } else {
             userSocials = new UserSocials();
-            userSocials.setSocialUserName(selectedPage.getName());
+            userSocials.setSocialUserName(selectedPage.getUsername());
             userSocials.setSocial(socialsService.getSocialByPlatform(SocialPlatform.FACEBOOK));
             userSocials.setUser(userService.getCurrentUser());
-            userSocials.setAccessToken(pageAccessToken);
+            userSocials.setAccessToken(selectedPage.getAccessToken());
             userSocials.setSocialUserId(selectedPage.getId());
         }
         userSocialsService.saveUserSocial(userSocials);
-        return new ResponseEntity<>(new FBUserResponse(user.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(new FBUserResponse(selectedPage.getUsername()), HttpStatus.OK);
     }
 }

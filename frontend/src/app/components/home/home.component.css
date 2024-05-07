@@ -5,8 +5,9 @@
 
 .card .card-img-top {
   width: 100%;
-  height: auto;
-  /* max-height: 100px; */
+  height: 100%;
+  max-height: 220px;
+  max-width: 400px;
 }
 
 .card-body {

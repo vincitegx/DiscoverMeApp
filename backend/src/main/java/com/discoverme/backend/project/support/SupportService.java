@@ -59,10 +59,8 @@ public class SupportService {
                 }
             } else if (Objects.equals(project.getSocial().getName(), SocialPlatform.INSTAGRAM.name())) {
                 try {
-                    instagramService.postVideo(project.getContentUri());
-                } catch (MalformedURLException | FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }catch (FacebookOAuthException facebookOAuthException){
+                    instagramService.publishVideoToStory();
+                } catch (Exception facebookOAuthException){
                     throw new ProjectException(facebookOAuthException.getMessage());
                 }
             }

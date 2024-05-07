@@ -4,6 +4,6 @@
  */
 INSERT INTO socials (name) VALUES
     ('FACEBOOK'),
-    ('X'),
-    ('TIKTOK'),
+    ('SNAPCHAT'),
+    ('TELEGRAM'),
     ('INSTAGRAM')
