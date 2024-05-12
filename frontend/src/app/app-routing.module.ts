@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { DefaultComponent } from './layouts/default/default.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -13,6 +12,7 @@ import { ProjectSubmissionGuard } from './services/project-submission.guard';
 import { AuthRedirectGuard } from './services/auth-redirect.guard';
 import { ProjectLinkComponent } from './components/project-link/project-link.component';
 import { AppComponent } from './app.component';
+import { RedirectComponent } from './components/auth/auth-redirect';
 
 const routes: Routes = [
   {
@@ -21,12 +21,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent
-      },
-      {
-        path: 'signin',
         component: SigninComponent,
         canActivate: [AuthRedirectGuard]
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'signup',
@@ -37,6 +38,11 @@ const routes: Routes = [
         path: 'regsucces',
         component: AccountCreatedComponent,
         canActivate: [AuthRedirectGuard]
+      },
+      {
+        path: 'auth/redirect',
+        component: RedirectComponent,
+        canActivate: [AuthRedirectGuard],
       },
       {
         path: 'verify',

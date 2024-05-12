@@ -68,9 +68,9 @@ export class SigninComponent implements OnInit {
         next: (response: JwtResponse) => {
           this.isLoading.next(false);
           if(response.user.role == "ADMIN"){
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('home');
           }else{
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('home');
           }
           this.notifier.notify('success', 'Welcome, '+ response.user.userName);
           this.form.reset();

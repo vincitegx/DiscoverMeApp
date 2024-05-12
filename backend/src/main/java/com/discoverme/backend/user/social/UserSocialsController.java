@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,4 +28,11 @@ public class UserSocialsController {
         List<UserSocialsDto> userSocials = userSocialsService.findAllUserSocials();
         return new ResponseEntity<>(userSocials, HttpStatus.OK);
     }
+
+    @PutMapping("socials")
+    public ResponseEntity<List<UserSocialsDto>> disconnectUserSocials() {
+        List<UserSocialsDto> userSocials = userSocialsService.findAllUserSocials();
+        return new ResponseEntity<>(userSocials, HttpStatus.OK);
+    }
+
 }

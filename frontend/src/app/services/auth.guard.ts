@@ -23,7 +23,7 @@ export class AuthGuard {
         if (isAuthenticated) {
           return true;
         } else {
-          return this.router.createUrlTree(['/signin']);
+          return this.router.createUrlTree(['/']);
         }
       })
     );

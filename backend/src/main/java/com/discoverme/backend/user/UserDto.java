@@ -1,8 +1,12 @@
 package com.discoverme.backend.user;
 
+import com.discoverme.backend.user.social.UserSocialsDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -14,4 +18,5 @@ public class UserDto {
     private String userName;
     private String email;
     private String role;
+    private List<UserSocialsDto> socials;
 }

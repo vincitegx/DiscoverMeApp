@@ -26,11 +26,17 @@ public class UserSocialsService {
                 .collect(Collectors.toList());
     }
 
+    public List<UserSocialsDto> findAllUserSocialsByUser(Users user) {
+        List<UserSocials> userSocials = userSocialsRepository.findByUser(user);
+        return userSocials.stream().map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     private UserSocialsDto convertToDto(UserSocials userSocials) {
         UserDto userDto = convertUserToDto(userSocials.getUser());
         return UserSocialsDto.builder()
                 .id(userSocials.getSocial().getId())
-                .user(userDto)
+//                .user(userDto)
                 .social(SocialPlatform.valueOf(userSocials.getSocial().getName()))
                 .socialUserName(userSocials.getSocialUserName())
                 .build();

@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './components/shared/shared.module';
+import { RedirectComponent } from './components/auth/auth-redirect';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ import { SharedModule } from './components/shared/shared.module';
     SubmitProjectComponent,
     AccountCreatedComponent,
     VerifyComponent,
+    RedirectComponent,
     ProjectLinkComponent,
     GoogleBtnComponent,
     VideoHoverDirective

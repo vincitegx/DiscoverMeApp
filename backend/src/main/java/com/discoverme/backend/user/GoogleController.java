@@ -38,7 +38,7 @@ public class GoogleController {
     @GetMapping("url")
     public ResponseEntity<UrlDto> auth() {
         String url = new GoogleAuthorizationCodeRequestUrl(clientId,
-                "https://localhost:4200",
+                "https://localhost:4200/auth/redirect",
                 Arrays.asList(
                         "email",
                         "profile",
@@ -60,7 +60,7 @@ public class GoogleController {
                     clientId,
                     clientSecret,
                     code,
-                    "https://localhost:4200"
+                    "https://localhost:4200/auth/redirect"
             ).execute();
             GoogleIdToken idToken = verifier.verify(googleTokenResponse.getIdToken());
             if (idToken != null) {

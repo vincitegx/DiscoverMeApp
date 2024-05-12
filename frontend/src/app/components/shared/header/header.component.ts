@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isloggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoggedInSub$: Subscription = new Subscription();
   logout$: Subscription = new Subscription();
-  // user$: BehaviorSubject<UserDto> = new BehaviorSubject<UserDto>({});
   user: UserDto = {}; 
   isLoggedIn$: Observable<boolean>;
   user$: Observable<UserDto | null>;

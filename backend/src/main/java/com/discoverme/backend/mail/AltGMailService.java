@@ -8,12 +8,9 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
-import java.io.File;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,6 +20,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.io.File;
+import java.util.Map;
 
 /**
  *
@@ -38,7 +38,7 @@ public class AltGMailService implements MailService{
     public static final String TEXT_HTML_ENCONDING = "text/html";
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
-    @Value("${FRONTEND_DOMAIN}")
+    @Value("${frontend.domain}")
     private String host;
     @Value("${organization.properties.mail}")
     private String fromEmail;

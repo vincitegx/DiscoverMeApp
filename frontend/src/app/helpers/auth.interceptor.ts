@@ -52,7 +52,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   }
   handleLogoutAuthErrors(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService.logout$().subscribe(() => {
-      this.router.navigate(['/signin']);
+      this.router.navigate(['/']);
       this.notifier.notify('info', "Please sign in");
     });
     return next.handle(req);

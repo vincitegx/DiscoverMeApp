@@ -18,17 +18,13 @@ public class LoggedInUserService {
 
     public boolean checkSupportStateForLoggedInUser(Long projectId) {
         boolean supportState = false;
-        try{
-            Project project = projectRepository.findById(projectId)
-                    .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + projectId));
-            if(userService.getCurrentUser() != null){
-                Optional<Support> support = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
-                if(support.isPresent()){
-                    supportState = true;
-                }
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + projectId));
+        if(userService.getCurrentUser() != null){
+            Optional<Support> support = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
+            if(support.isPresent()){
+                supportState = true;
             }
-        }catch (Exception ex){
-            return false;
         }
 
         return supportState;

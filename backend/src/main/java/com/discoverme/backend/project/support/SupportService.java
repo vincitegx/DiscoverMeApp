@@ -12,6 +12,7 @@ import com.discoverme.backend.user.Users;
 import com.discoverme.backend.social.facebook.FacebookService;
 import com.restfb.exception.FacebookOAuthException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -37,7 +38,7 @@ public class SupportService {
         support.forEach(s-> users.add(userMapper.apply(s.getUser())));
         return users;
     }
-
+    @Async
     public void toggleSupport(Long projectId){
         Users user = userService.getCurrentUser();
         Project project = projectService.findById(projectId).orElseThrow(()-> new ProjectException("No such project found with that ID"));

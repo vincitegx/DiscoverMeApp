@@ -48,20 +48,6 @@ public class FileService {
         }
     }
 
-    public String uploadFile(MultipartFile file) {
-        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        var key = UUID.randomUUID() + "." + extension;
-        String directory = this.fileStorageLocation;
-        Path newPath = Paths.get(directory).toAbsolutePath().normalize();
-        try {
-            Files.createDirectories(newPath);
-            Files.copy(file.getInputStream(), newPath.resolve(StringUtils.cleanPath(key)), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return key;
-    }
-
 //    public String uploadFile(MultipartFile file) {
 //        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
 //        var key = UUID.randomUUID() + "." + extension;
@@ -69,16 +55,27 @@ public class FileService {
 //        Path newPath = Paths.get(directory).toAbsolutePath().normalize();
 //        try {
 //            Files.createDirectories(newPath);
-//            Path inputFilePath = newPath.resolve(StringUtils.cleanPath(key));
-//            Path outputFilePath = newPath.resolve("output.mp4");
-//            Files.copy(file.getInputStream(), inputFilePath, StandardCopyOption.REPLACE_EXISTING);
-//            executeFFmpegCommand(inputFilePath.toString(), outputFilePath.toString());
-//
+//            Files.copy(file.getInputStream(), newPath.resolve(StringUtils.cleanPath(key)), StandardCopyOption.REPLACE_EXISTING);
 //        } catch (IOException ex) {
 //            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        return key;
 //    }
+
+    public String uploadFile(MultipartFile file) {
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+        var key = UUID.randomUUID() + "." + extension;
+        Path newPath = Paths.get(this.fileStorageLocation).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(newPath);
+            Path inputFilePath = newPath.resolve(StringUtils.cleanPath(key));
+            executeFFmpegCommand(file.getInputStream().toString(), inputFilePath.toString());
+            return key;
+        } catch (IOException ex) {
+            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 
     private void executeFFmpegCommand(String inputFilePath, String outputFilePath) throws IOException {
         String ffmpegPath = "C:\\ffmpeg\\bin\\ffmpeg.exe"; // Example path, replace with actual path
@@ -86,17 +83,16 @@ public class FileService {
                 ffmpegPath,
                 "-i", inputFilePath,
                 "-c:v", "libx264",
-                "-aspect", "16:9",
-                "-crf", "18",
-                "-vf", "scale=iw*min(1280/iw\\,720/ih):ih*min(1280/iw\\,720/ih),pad=1280:720:(1280-iw)/2:(720-ih)/2",
-                "-fpsmax", "60",
-                "-preset", "ultrafast",
+                "-aspect", "9:16", // Aspect ratio: 9:16
+                "-crf", "18", // Quality (CRF): 18 (adjust as needed)
+                "-vf", "scale=1080:1920,crop=1080:1920:0:0", // Frame size: 1080x1920, crop to fit aspect ratio
+                "-r", "50", // Frame rate: 50 frames/second
                 "-c:a", "aac",
                 "-b:a", "128k",
-                "-ac", "1",
-                "-pix_fmt", "yuv420p",
+                "-ar", "44100", // Audio sample rate: 44.1kHz
+                "-ac", "2", // Audio channels: 2 (stereo)
                 "-movflags", "+faststart",
-                "-t", "59",
+                "-t", "60", // Length: 60 seconds or less
                 "-y", outputFilePath
         };
 

@@ -1,11 +1,20 @@
 package com.discoverme.backend.user;
 
+import com.discoverme.backend.user.social.UserSocialsDto;
+import com.discoverme.backend.user.social.UserSocialsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class UserMapper implements Function<Users, UserDto> {
+
+    private final UserSocialsService userSocialsService;
     @Override
     public UserDto apply(Users user) {
         return UserDto.builder()
@@ -13,22 +22,13 @@ public class UserMapper implements Function<Users, UserDto> {
                 .userName(user.getUserName())
                 .email(user.getEmail())
                 .role(user.getRole())
-//                .userSocials(mapUserSoocialsToDto(user.getUserSocials()))
+                .socials(mapUserSocialsToDto(user))
                 .build();
     }
 
-//    private Set<UserSocialsDto> mapUserSoocialsToDto(Set<UserSocials> userSocials) {
-//        Set<UserSocialsDto> userSocialsDtos = new HashSet<>();
-//        userSocials.forEach(userSocial -> {
-//            UserSocialsDto userSocialsDto = UserSocialsDto.builder()
-//                    .uri(userSocial.getUri())
-//                    .socialPlatform(getSocialPlatform(userSocial.getSocials().getName()))
-//                    .id(userSocial.getId())
-//                    .build();
-//            userSocialsDtos.add(userSocialsDto);
-//        });
-//        return  userSocialsDtos;
-//    }
+    private List<UserSocialsDto> mapUserSocialsToDto(Users user) {
+        return userSocialsService.findAllUserSocialsByUser(user);
+    }
 //
 //    private SocialPlatform getSocialPlatform(String name) {
 //        return switch (name) {

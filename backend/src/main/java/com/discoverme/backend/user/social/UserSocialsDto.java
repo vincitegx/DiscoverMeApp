@@ -13,7 +13,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonInclude(NON_NULL)
 public class UserSocialsDto {
     private Long id;
-    private UserDto user;
+//    private UserDto user;
     private SocialPlatform social;
     private String socialUserName;
 }

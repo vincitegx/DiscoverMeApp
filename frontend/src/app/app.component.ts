@@ -11,11 +11,12 @@ export class AppComponent implements OnInit{
   title = 'frontend';
   constructor(private authService: AuthService, private router: Router) {} 
   ngOnInit() {
-    const queryParams = this.router.parseUrl(this.router.url).queryParams;
-    if (queryParams['code'] && queryParams['authuser']) {
-      this.authService.getToken(queryParams['code']).subscribe(() => {
-        this.router.navigate(['/']);
-      });
-    }
+    // const queryParams = this.router.parseUrl(this.router.url).queryParams;
+    // if (queryParams['code'] && queryParams['authuser']) {
+    //   console.log("entered");
+    //   this.authService.getToken(queryParams['code']).subscribe(() => {
+    //     this.router.navigate(['/home']);
+    //   });
+    // }
   }
 }

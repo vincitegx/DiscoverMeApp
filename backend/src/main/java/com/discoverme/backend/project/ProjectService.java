@@ -32,11 +32,11 @@ public class ProjectService {
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
         Users user = userService.getCurrentUser();
-//        Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
+        Optional<Project> project = projectRepository.findByUserAndCalender(user, calender);
 //        List<Project> project = projectRepository.findByUserAndCalender(user, calender);
-//        if(project.isPresent()){
-//            throw new IllegalArgumentException("You can add only one project per week");
-//        }
+        if(project.isPresent()){
+            throw new IllegalArgumentException("You can add only one project per week");
+        }
         String contentUri = fileService.uploadFile(content);
         Project project1 = Project.builder()
                 .url(secureRandomStringGenerator.apply(10))

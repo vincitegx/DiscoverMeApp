@@ -99,13 +99,6 @@ export class AuthService {
     return this.localStorageService.retrieve('user');
   }
 
-  getFBUser(): string {
-    return this.localStorageService.retrieve('fb-user');
-  }
-  getIGUser(): string {
-    return this.localStorageService.retrieve('ig-user');
-  }
-
   updateProfile(userName: string):Observable<UserDto>{
     return this.httpClient
       .put<UserDto>(`${this.apiServerUrl}api/v1/users/profile?userName=${userName}`, {})

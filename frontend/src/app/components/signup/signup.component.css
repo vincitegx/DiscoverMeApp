@@ -1,4 +1,4 @@
-.align {
+/* .align {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -106,26 +106,9 @@ button[type='submit'] {
     border-top-left-radius: 0;
 }
 
-/* .login input[type='password']:focus,
-.login input[type='password']:hover,
-.login input[type='text']:focus,
-.login input[type='text']:hover {
-    background-color: rgba(23, 44, 241, 0.486);
-    border-color: rgba(90, 134, 195, 0.486);
-    color: white;
-    padding: 1.25rem 2.25rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    border-radius: 10rem;
-} */
-
 .login button[type='submit'] {
     background: linear-gradient(to left, rgba(0, 0, 0, 0.753) 0%, rgba(26, 59, 242, 0.486) 100%);
     color: #080710;
-    /* background-color: rgba(23, 44, 241, 0.486);
-    border-color: rgba(90, 134, 195, 0.486);
-    color: white; */
     padding: 1.25rem 2.25rem;
     font-size: 0.85rem;
     font-weight: 700;
@@ -140,6 +123,53 @@ button[type='submit'] {
 }
 .text--center {
     text-align: center;
+} */
+
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    /* background: #fccb90; */
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    /* background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593); */
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593); */
+
+    background: linear-gradient(to right, #590ea0, #330fb460, #1743e0, #4288d7);
+}
+
+section.gradient-form {
+    height: 100vh !important;
+    background-color: #eee;
+    margin-top: 72px;
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
+@media (max-width: 320px) {
+    section.gradient-form {
+        height: 100vh !important;
+        margin-top: auto;
+    }
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
 }
 
 .hidden {

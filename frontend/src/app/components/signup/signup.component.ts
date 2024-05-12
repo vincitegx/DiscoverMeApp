@@ -23,10 +23,9 @@ export class SignupComponent {
 
   constructor(private auth: AuthService, private router: Router, private formBuilder: FormBuilder,
     notifierService: NotifierService) {
-    this.signupRequest = new SignupRequest('', '', '');
+    this.signupRequest = new SignupRequest('', '');
     this.notifier = notifierService;
     this.form = this.formBuilder.group({
-      userName: ['', { validators: [Validators.required], updateOn: 'blur' }],
       email: ['', { validators: [Validators.required, Validators.email], updateOn: 'blur' }],
       password: ['', {
         validators: [
@@ -97,8 +96,7 @@ export class SignupComponent {
   signup() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      this.isLoading.next(true); 
-      this.signupRequest.setUserName(this.form.get('userName')?.value);
+      this.isLoading.next(true);
       this.signupRequest.setEmail(this.form.get('email')?.value);
       this.signupRequest.setPassword(this.form.get('password')?.value);
 
@@ -111,7 +109,7 @@ export class SignupComponent {
         },
         error: (error: HttpErrorResponse) => {
           this.isLoading.next(false); 
-          this.notifier.notify('error', 'Registration Failed!');
+          this.notifier.notify('error', error.message);
           this.form.reset();
         }
       });  

@@ -7,9 +7,6 @@ import lombok.NonNull;
 public class RegistrationRequest {
     @NonNull
     @NotEmpty
-    private String userName;
-    @NonNull
-    @NotEmpty
     private String email;
     @NonNull
     @NotEmpty

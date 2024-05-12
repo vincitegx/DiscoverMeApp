@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SocialService } from 'src/app/services/social.service';
 import { Observable } from 'rxjs';
 import { SessionStorageService } from 'ngx-webstorage';
+import { UserSocials } from 'src/app/dtos/usersocial';
 declare const FB: any;
 @Component({
   selector: 'app-profile',
@@ -20,17 +21,18 @@ export class ProfileComponent implements OnInit {
   fbUrl: string = "";
   fbUsername: string;
   igUrl: string = "";
-  igUsername: string = "";
+  igUsername: string;
 
   constructor(notifierService: NotifierService,
     private authService: AuthService, private route: ActivatedRoute, private socialService: SocialService,
     private router: Router, private sessionStorage: SessionStorageService) {
     this.username = "";
     this.notifier = notifierService;
-    this.fbUsername = this.authService.getFBUser();
-    this.igUsername = this.authService.getIGUser();
+    this.fbUsername = "";
+    this.igUsername = "";
   }
   ngOnInit(): void {
+    this.loadUserSocials();
     const currentPlatform = sessionStorage.getItem('currentPlatform');
     this.route.queryParams
       .subscribe(params => {
@@ -54,6 +56,27 @@ export class ProfileComponent implements OnInit {
 
   igAction(): void {
     this.socialAction('Instagram', this.igUsername, this.socialService.disconnectInstagram.bind(this.socialService), this.igUrl);
+  }
+
+  loadUserSocials() {
+    this.socialService.getUserSocials().subscribe(
+      (userSocials: UserSocials[]) => {
+        userSocials.forEach(social => {
+          switch (social.social) {
+            case 'FACEBOOK':
+              this.fbUsername = social.socialUserName || '';
+              break;
+            case 'INSTAGRAM':
+              this.igUsername = social.socialUserName || '';
+              break;
+            // Add cases for other social platforms if needed
+          }
+        });
+      },
+      (error) => {
+        console.error('Error loading user socials:', error);
+      }
+    );
   }
 
   socialAction(platform: string, username: string, disconnectFunction: () => Observable<any>, authUrl: string): void {
@@ -99,7 +122,7 @@ export class ProfileComponent implements OnInit {
   editProfile(profileForm: NgForm) {
     if (profileForm.valid) {
       this.authService.updateProfile(profileForm.value);
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('home');
       this.notifier.notify('success', "Profile updated successfully");
     } else {
       this.notifier.notify('error', 'User name not valid');

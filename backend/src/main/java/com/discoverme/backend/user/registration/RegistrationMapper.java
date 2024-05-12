@@ -12,7 +12,7 @@ public class RegistrationMapper {
         ZonedDateTime createdAt = ZonedDateTime.now();
         return Users.builder()
                 .email(registrationRequest.getEmail())
-                .userName(registrationRequest.getUserName())
+                .userName(getUsernameFromEmail(registrationRequest.getEmail()))
                 .password(registrationRequest.getPassword())
                 .enabled(false)
                 .nonLocked(false)
@@ -40,5 +40,14 @@ public class RegistrationMapper {
                 .role(Roles.ADMIN.name())
                 .createdAt(createdAt)
                 .build();
+    }
+
+    public String getUsernameFromEmail(String email) {
+        int atIndex = email.indexOf('@');
+        if (atIndex != -1) {
+            return email.substring(0, atIndex);
+        } else {
+            return email;
+        }
     }
 }

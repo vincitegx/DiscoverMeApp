@@ -31,7 +31,6 @@ export class SocialService {
   getFBToken(code: string): Observable<FBUserResponse> {
     return this.httpClient.post<FBUserResponse>(`${this.apiServerUrl}auth/fb/callback?code=${code}`, {observe: "response"})
       .pipe(map((response: FBUserResponse) => {
-        this.localStorageService.store("fb-user", response.name);
           return response;
       }));
   }
@@ -39,7 +38,6 @@ export class SocialService {
   getIGToken(code: string): Observable<IGUserResponse> {
     return this.httpClient.post<IGUserResponse>(`${this.apiServerUrl}auth/ig/callback?code=${code}`, {observe: "response"})
       .pipe(map((response: IGUserResponse) => {
-        this.localStorageService.store("ig-user", response.name);
           return response;
       }));
   }
@@ -53,4 +51,13 @@ export class SocialService {
     this.localStorageService.clear("ig-user");
     return of(true);
   }
+
+
+  getFBUser(): string {
+    return this.localStorageService.retrieve('fb-user');
+  }
+  getIGUser(): string {
+    return this.localStorageService.retrieve('ig-user');
+  }
+
 }
