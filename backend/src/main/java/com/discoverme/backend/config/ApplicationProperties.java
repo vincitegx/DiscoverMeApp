@@ -7,8 +7,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 public final class ApplicationProperties {
-    @Value("${jwt.expiry.minutes}")
+    @Value("${jwt.expiry.seconds}")
     private Long jwtValidity;
+
+    @Value("${activation.token.expiration.time.seconds}")
+    private Long activationTokenValidity;
+
+    @Value("${refresh.token.cookie.max-age.seconds}")
+    private Long refreshTokenValidity;
 
     @Value("${refresh.token.cookie}")
     private String refreshTokenCookie;

@@ -1,5 +1,6 @@
 package com.discoverme.backend.user;
 
+import com.discoverme.backend.config.ApplicationProperties;
 import com.discoverme.backend.security.CustomOAuth2UserService;
 import com.discoverme.backend.security.JWTAuthenticationFilter;
 import com.discoverme.backend.user.login.JwtResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,12 +34,13 @@ public class GoogleController {
     private String clientId;
     @Value("${spring.security.oauth2.resourceserver.opaque-token.client-secret}")
     private String clientSecret;
+    private final ApplicationProperties applicationProperties;
     private final HttpServletResponse servletResponse;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final UserMapper userMapper;
     @GetMapping("url")
     public ResponseEntity<UrlDto> auth() {
-        String url = new GoogleAuthorizationCodeRequestUrl(clientId,
+        String url = new GoogleAuthorizationCodeRequestUrl(applicationProperties.getGoogleClientId(),
                 "https://localhost:4200/auth/redirect",
                 Arrays.asList(
                         "email",
@@ -49,29 +52,30 @@ public class GoogleController {
     @PostMapping("callback")
     public ResponseEntity<JwtResponse> callback(@RequestParam("code") String code) {
         JwtResponse response;
+        long expirationTimeMillis = Instant.now().plusSeconds(applicationProperties.getRefreshTokenValidity()).toEpochMilli();
         try {
             NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
-                    .setAudience(Collections.singletonList(clientId))
+                    .setAudience(Collections.singletonList(applicationProperties.getGoogleClientId()))
                     .build();
             GoogleTokenResponse googleTokenResponse = new GoogleAuthorizationCodeTokenRequest(
                     new NetHttpTransport(), new GsonFactory(),
-                    clientId,
-                    clientSecret,
+                    applicationProperties.getGoogleClientId(),
+                    applicationProperties.getGoogleClientSecret(),
                     code,
-                    "https://localhost:4200/auth/redirect"
+                    applicationProperties.getFrontendDomain()+"/auth/redirect"
             ).execute();
             GoogleIdToken idToken = verifier.verify(googleTokenResponse.getIdToken());
             if (idToken != null) {
                 GoogleIdToken.Payload payload = idToken.getPayload();
                 UserDto user =  userMapper.apply(customOAuth2UserService.upsertUser(payload));
                 response = new JwtResponse(googleTokenResponse.getIdToken(), user);
-                Cookie refreshTokenCookie = new Cookie(JWTAuthenticationFilter.COOKIE_NAME, googleTokenResponse.getRefreshToken());
+                Cookie refreshTokenCookie = new Cookie(applicationProperties.getRefreshTokenCookie(), googleTokenResponse.getRefreshToken());
                 refreshTokenCookie.setHttpOnly(true);
                 refreshTokenCookie.setSecure(true);
                 refreshTokenCookie.setAttribute("SameSite", "None");
-                refreshTokenCookie.setMaxAge((int) Duration.of(1, ChronoUnit.DAYS).toSeconds());
+                refreshTokenCookie.setMaxAge((int) expirationTimeMillis);
                 refreshTokenCookie.setPath("/");
                 refreshTokenCookie.setAttribute("Priority", "High");
                 servletResponse.addCookie(refreshTokenCookie);

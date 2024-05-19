@@ -1,11 +1,10 @@
 package com.discoverme.backend.social.facebook;
 
+import com.discoverme.backend.config.ApplicationProperties;
 import com.discoverme.backend.social.SocialPlatform;
 import com.discoverme.backend.social.Socials;
 import com.discoverme.backend.social.SocialsService;
-import com.discoverme.backend.user.UrlDto;
-import com.discoverme.backend.user.UserService;
-import com.discoverme.backend.user.Users;
+import com.discoverme.backend.user.*;
 import com.discoverme.backend.user.social.UserSocials;
 import com.discoverme.backend.user.social.UserSocialsService;
 import com.restfb.*;
@@ -31,10 +30,13 @@ public class FacebookController {
     private String appId;
     @Value("${spring.security.oauth2.facebook.app-secret}")
     private String appSecret;
+    private final ApplicationProperties applicationProperties;
     private DefaultFacebookClient facebookClient;
     private final UserService userService;
+    private final UserMapper userMapper;
     private final SocialsService socialsService;
     private final UserSocialsService userSocialsService;
+    private final FacebookService facebookService;
 
     @GetMapping("fb/url")
     public ResponseEntity<UrlDto> auth() {
@@ -69,7 +71,7 @@ public class FacebookController {
     }
 
     @PostMapping("fb/callback")
-    public ResponseEntity<FBUserResponse> callback(@RequestParam("code") String code) {
+    public ResponseEntity<UserDto> callback(@RequestParam("code") String code) {
         FacebookClient.AccessToken facebookTokenResponse = facebookClient.obtainUserAccessToken(
                 appId, appSecret, "https://localhost:4200/profile", code);
         FacebookClient.AccessToken facebookTokenResponseExtended = facebookClient.obtainExtendedAccessToken(
@@ -100,6 +102,14 @@ public class FacebookController {
             userSocials.setSocialUserId(selectedPage.getId());
         }
         userSocialsService.saveUserSocial(userSocials);
-        return new ResponseEntity<>(new FBUserResponse(selectedPage.getUsername()), HttpStatus.OK);
+        loggedInUser = userService.getCurrentUser();
+        UserDto user = userMapper.apply(loggedInUser);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping("fb/disconnect")
+    public ResponseEntity<UserDto> disconnectIGAccount(){
+        UserDto user =  facebookService.disconnectAccount();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

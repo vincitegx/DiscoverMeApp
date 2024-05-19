@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,6 +7,8 @@ import { SocialService } from 'src/app/services/social.service';
 import { Observable } from 'rxjs';
 import { SessionStorageService } from 'ngx-webstorage';
 import { UserSocials } from 'src/app/dtos/usersocial';
+import { UserDto } from 'src/app/dtos/userdto';
+import { ProfileRequest } from './profile-request';
 declare const FB: any;
 @Component({
   selector: 'app-profile',
@@ -16,12 +18,14 @@ declare const FB: any;
 export class ProfileComponent implements OnInit {
   private readonly notifier: NotifierService;
   username: String;
-  user: any;
+  user: UserDto = this.authService.getUser();
   loggedIn: any;
   fbUrl: string = "";
   fbUsername: string;
   igUrl: string = "";
   igUsername: string;
+  public form: FormGroup;
+  private profileRequest: ProfileRequest;
 
   constructor(notifierService: NotifierService,
     private authService: AuthService, private route: ActivatedRoute, private socialService: SocialService,
@@ -30,6 +34,10 @@ export class ProfileComponent implements OnInit {
     this.notifier = notifierService;
     this.fbUsername = "";
     this.igUsername = "";
+    this.profileRequest = new ProfileRequest('');
+    this.form = new FormGroup({
+      username: new FormControl('')
+    });
   }
   ngOnInit(): void {
     this.loadUserSocials();
@@ -59,24 +67,25 @@ export class ProfileComponent implements OnInit {
   }
 
   loadUserSocials() {
-    this.socialService.getUserSocials().subscribe(
-      (userSocials: UserSocials[]) => {
-        userSocials.forEach(social => {
-          switch (social.social) {
-            case 'FACEBOOK':
+    this.user = this.authService.getUser();
+    if (this.user && this.user.socials) {
+      this.user.socials.forEach((social: UserSocials) => {
+        switch (social.social) {
+          case 'FACEBOOK':
+            if (!this.fbUsername) { 
               this.fbUsername = social.socialUserName || '';
-              break;
-            case 'INSTAGRAM':
+            }
+            break;
+          case 'INSTAGRAM':
+            if (!this.igUsername) { 
               this.igUsername = social.socialUserName || '';
-              break;
-            // Add cases for other social platforms if needed
-          }
-        });
-      },
-      (error) => {
-        console.error('Error loading user socials:', error);
-      }
-    );
+            }
+            break;
+        }
+      });
+    } else {
+      console.error('Error loading user socials:');
+    }
   }
 
   socialAction(platform: string, username: string, disconnectFunction: () => Observable<any>, authUrl: string): void {
@@ -110,22 +119,34 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  connectSocialAccount(tokenObservable: Observable<any>, platform: string): void {
+  connectSocialAccount(tokenObservable: Observable<UserDto>, platform: string): void {
     tokenObservable.subscribe(result => {
       if (result != null) {
         this.router.navigateByUrl('profile');
-        this.notifier.notify('success', `${platform} Account ${result.name} has been connected`);
+        this.notifier.notify('success', `${platform} Account ${result.userName} has been connected`);
       }
     });
   }
 
-  editProfile(profileForm: NgForm) {
-    if (profileForm.valid) {
-      this.authService.updateProfile(profileForm.value);
-      this.router.navigateByUrl('home');
-      this.notifier.notify('success', "Profile updated successfully");
+  editProfile() {
+    if (this.form.valid) {
+      console.log(this.form.get('username')?.value);
+        // Update the user object with the new username
+        this.profileRequest.setUsername(this.form.get('username')?.value);
+        console.log(this.profileRequest);
+        // Check if the username is defined before calling updateProfile
+        if (this.user.userName) {
+            this.authService.updateProfile(this.profileRequest).subscribe(res=>{
+              console.log(res);
+              this.router.navigateByUrl('home');
+              this.notifier.notify('success', "Profile updated successfully");
+            });
+            
+        } else {
+            this.notifier.notify('error', 'User name is not valid');
+        }
     } else {
-      this.notifier.notify('error', 'User name not valid');
+        this.notifier.notify('error', 'User name is not valid');
     }
-  }
+}
 }

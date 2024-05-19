@@ -18,5 +18,5 @@ public class UserDto {
     private String userName;
     private String email;
     private String role;
-    private List<UserSocialsDto> socials;
+    private Set<UserSocialsDto> socials;
 }

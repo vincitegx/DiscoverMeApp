@@ -1,11 +1,10 @@
 package com.discoverme.backend.social.facebook;
 
+import com.discoverme.backend.project.Project;
 import com.discoverme.backend.social.SocialPlatform;
 import com.discoverme.backend.social.Socials;
 import com.discoverme.backend.social.SocialsService;
-import com.discoverme.backend.user.UserException;
-import com.discoverme.backend.user.UserService;
-import com.discoverme.backend.user.Users;
+import com.discoverme.backend.user.*;
 import com.discoverme.backend.user.social.UserSocials;
 import com.discoverme.backend.user.social.UserSocialsService;
 import com.restfb.*;
@@ -38,14 +37,15 @@ public class FacebookService {
     private final WebClient webClient;
     private final UserService userService;
     private final SocialsService socialsService;
+    private final UserMapper userMapper;
 
-    public void postVideo(String contentUrl) throws MalformedURLException, FileNotFoundException, FacebookOAuthException {
+    public void postVideo(Project project) throws MalformedURLException, FileNotFoundException, FacebookOAuthException {
         Users loggedInUser = userService.getCurrentUser();
         Socials social = socialsService.getSocialByPlatform(SocialPlatform.FACEBOOK);
         UserSocials userSocial = userSocialsService.findUserSocial(loggedInUser, social).orElseThrow(() -> new UserException("User social not found"));
-        try (FileInputStream fileInputStream = new FileInputStream("uploads/" + contentUrl)) {
+        try (FileInputStream fileInputStream = new FileInputStream("uploads/" + project.getContentUri())) {
             FacebookClient defaultFacebookClient = new DefaultFacebookClient(userSocial.getAccessToken(), Version.LATEST);
-            File videoFile = new File("uploads/" + contentUrl);
+            File videoFile = new File("uploads/" + project.getContentUri());
             if (!videoFile.exists()) {
                 throw new FileNotFoundException("Video file not found at specified path.");
             }
@@ -120,5 +120,13 @@ public class FacebookService {
                 .retrieve()
                 .bodyToMono(Object.class)
                 .block();
+    }
+
+    public UserDto disconnectAccount() {
+        Socials social = socialsService.getSocialByPlatform(SocialPlatform.FACEBOOK);
+        Users loggedInUser = userService.getCurrentUser();
+        userSocialsService.findUserSocial(loggedInUser, social).ifPresent(userSocialsService::deleteUserSocial);
+        loggedInUser = userService.getCurrentUser();
+        return userMapper.apply(loggedInUser);
     }
 }

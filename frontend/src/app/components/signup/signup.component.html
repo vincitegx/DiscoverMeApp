@@ -71,7 +71,7 @@
                                 <div class="text-center">
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                                         style="width: 185px;" alt="logo">
-                                    <h4 class="mt-1 mb-4 pb-1">Create Account !</h4>
+                                    <h4 class="mt-1 mb-4 pb-1 title-form">Create Account !</h4>
                                 </div>
                                 <form [formGroup]="form" (ngSubmit)="signup()">
                                     <div data-mdb-input-init class="form-outline mb-4">
@@ -89,7 +89,7 @@
                                             <a href="signin" class="btn btn-block b-2 text-right text-info">Have An
                                                 Account ?</a>
                                         </div>
-                                        <button data-mdb-button-init data-mdb-ripple-init
+                                        <!-- <button data-mdb-button-init data-mdb-ripple-init
                                             class="btn btn-primary btn-block  mb-3" type="submit">
                                             <ng-container *ngIf="isLoading$ | async">
                                                 <i class="fa fa-spinner fa-spin"></i> &nbsp;&nbsp;
@@ -98,6 +98,17 @@
                                             <ng-container *ngIf="!(isLoading$ | async)">
                                                 <span>Sign Up</span>
                                             </ng-container>
+                                        </button> -->
+
+                                        <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                        class="btn btn-primary btn-block  mb-3" [disabled]="!form.valid || (isLoading$ | async)">
+                                            <ng-container *ngIf="isLoading$ | async; else notLoadingTemplate">
+                                                <i class="fa fa-spinner fa-spin"></i> &nbsp;&nbsp;
+                                                <span>Processing...</span>
+                                            </ng-container>
+                                            <ng-template #notLoadingTemplate>
+                                                <span>Sign Up</span>
+                                            </ng-template>
                                         </button>
                                     </div>
                                     <div class="divider d-flex align-items-center my-4">

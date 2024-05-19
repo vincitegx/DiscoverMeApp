@@ -45,14 +45,14 @@ public class SupportService {
         Optional<Support> supportByProjectAndUser = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
         supportByProjectAndUser.ifPresentOrElse(v -> {
             supportRepository.delete(v);
-            if (project.getSupportCount() >= 0) {
+            if (project.getSupportCount() > 0) {
                 project.setSupportCount(project.getSupportCount() - 1);
                 projectService.saveProject(project);
             }
         }, () -> {
             if(Objects.equals(project.getSocial().getName(), SocialPlatform.FACEBOOK.name())){
                 try {
-                    facebookService.postVideo(project.getContentUri());
+                    facebookService.postVideo(project);
                 } catch (MalformedURLException | FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }catch (FacebookOAuthException facebookOAuthException){

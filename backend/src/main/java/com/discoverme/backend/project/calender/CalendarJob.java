@@ -2,7 +2,6 @@ package com.discoverme.backend.project.calender;
 
 import org.jetbrains.annotations.NotNull;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 

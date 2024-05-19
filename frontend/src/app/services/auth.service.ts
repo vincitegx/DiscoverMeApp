@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { SignupRequest } from '../components/signup/signup-request';
 import { LocalStorageService } from 'ngx-webstorage';
 import { UserDto } from '../dtos/userdto';
+import { ProfileRequest } from '../components/profile/profile-request';
 
 @Injectable({
   providedIn: 'root',
@@ -99,17 +100,17 @@ export class AuthService {
     return this.localStorageService.retrieve('user');
   }
 
-  updateProfile(userName: string):Observable<UserDto>{
+  updateProfile(profileRequest: ProfileRequest):Observable<UserDto>{
     return this.httpClient
-      .put<UserDto>(`${this.apiServerUrl}api/v1/users/profile?userName=${userName}`, {})
+      .put<UserDto>(`${this.apiServerUrl}api/v1/users/profile`, profileRequest)
       .pipe(
-        map((response: UserDto) => {
-          if (response) {
-            this.localStorageService.store("user", response);
-            this.userSubject.next(response);
+        tap(),
+        map((response) => {
+          if(response){
+            this.localStorageService.store('user', response);
           }
           return response;
-      })
+        })
       );
   }
 

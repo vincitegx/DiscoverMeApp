@@ -39,9 +39,9 @@ public class UserController {
     }
 
     @PutMapping("profile")
-    public ResponseEntity<UserDto> updateProfile(@RequestParam @NonNull String userName){
+    public ResponseEntity<UserDto> updateProfile(@RequestBody @Valid ProfileRequest request) {
         System.out.println("Entered edit profile controller");
-        UserDto user = userService.updateProfile(userName);
+        UserDto user = userService.updateProfile(request);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

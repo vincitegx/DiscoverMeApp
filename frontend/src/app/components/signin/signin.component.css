@@ -192,9 +192,18 @@ section.gradient-form {
 @media (max-width: 320px) {
     section.gradient-form {
         height: 100vh !important;
-        margin-top: auto;
+        margin-top: 50px;
     }
 }
+
+@media (max-width: 768px) {
+    *{
+      font-size: small;
+    }
+    .title-form{
+        font-size: 18px;
+    }
+  }
 
 .divider:after,
 .divider:before {

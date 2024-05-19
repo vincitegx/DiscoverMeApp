@@ -18,4 +18,8 @@ public class SocialsService {
     public Socials getSocialByPlatform(SocialPlatform platform){
         return socialsRepository.findByNameIgnoreCase(platform.name());
     }
+
+    public Socials getSocialById(Long id){
+        return socialsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("No social found with this ID"));
+    }
 }

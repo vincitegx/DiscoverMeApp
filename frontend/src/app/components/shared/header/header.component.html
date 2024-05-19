@@ -1,9 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <div>
+      <a class="navbar-brand" href="/"><span class="discover">Discover</span>&nbsp;<span class="me">Me</span></a>
+    </div>
+    
     <ng-container *ngIf="isloggedIn$ | async; let loggedIn">
       <div class="dropdown" *ngIf="loggedIn">
-        <a *ngIf="user?.userName" class="dropbtn btn text-white">{{ user.userName }}</a>
+        <a *ngIf="user?.userName" class="dropbtn btn text-white username">{{ user.userName }}</a>
         <div id="myDropdown" class="dropdown-content text-white">
           <a class="text-white" href="">Home</a>
           <a class="text-white" href="profile">Profile</a>
@@ -11,8 +14,5 @@
         </div>
       </div>
     </ng-container>
-    <!-- <ng-container *ngIf="!(isloggedIn$ | async) && containsNonAuthPath()">
-      <a class="btn btn-rounded text-white dropbtn" href="signin">Sign In</a>
-    </ng-container> -->
   </div>
 </nav>

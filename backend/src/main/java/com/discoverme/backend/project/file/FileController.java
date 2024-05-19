@@ -31,15 +31,15 @@ public class FileController {
             mimeType = "application/octet-stream";
         }
         return ResponseEntity.ok()
-                .contentType(getMediaType(fileName))
+                .contentType(getMediaType(fileName, mimeType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+resource.getFilename()+"\"")
                 .body(resource);
     }
 
-    private MediaType getMediaType(String fileName) {
-        if (fileName.toLowerCase().endsWith(".mp4")) {
-            return MediaType.valueOf("video/mp4");
-        }
+    private MediaType getMediaType(String fileName, String mimeType) {
+//        if (fileName.toLowerCase().endsWith(".mp4")) {
+//            return MediaType.valueOf("video/mp4");
+//        }
         // Add more media types as needed for other file types
 
         // Default to application/octet-stream if the file type is unknown

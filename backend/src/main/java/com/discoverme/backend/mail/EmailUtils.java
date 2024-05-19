@@ -12,7 +12,7 @@ public class EmailUtils {
     }
 
     public static String getVerificationUrl(String host, String token) {
-        return "https://localhost:4200/verify?token=" + token;
+        return host+"/verify?token=" + token;
     }
     
 }

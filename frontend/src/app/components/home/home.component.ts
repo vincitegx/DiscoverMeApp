@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   private readonly apiServerUrl: string;
   private readonly notifier: NotifierService;
   readonly DataState = DataState;
-  isProjectLimitReached$:Observable<boolean> = of();
+  isProjectLimitReached$: Observable<boolean> = of();
   pages: Array<number> = [];
   page: number = 0;
   @Input() currentPage: number = 1;
@@ -49,10 +49,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData(this.search, this.page);
-    this.isProjectLimitReached$ = this.projectService.isProjectLimitExceeded().pipe(map(res=>{return res}));  
+    this.isProjectLimitReached$ = this.projectService.isProjectLimitExceeded().pipe(map(res => { return res }));
   }
 
-  private loadData(search: string, page:number): void {
+  private loadData(search: string, page: number): void {
     this.appState$ = this.projectService.getProjects(search, page)
       .pipe(
         map(response => {
@@ -83,25 +83,21 @@ export class HomeComponent implements OnInit {
   }
 
   onSupportButtonClick(project: Project): void {
-    if(this.socialService.isSocialConnected(project.social?.name ?? "")){
-      // Toggle the 'voted' property
-    project.supported = !project.supported;
-
-    // Send the updated value to the backend
-    this.projectService.updateSupportStatus(project.id ?? 0).subscribe(
-      () => {
-        // Optional: Handle success (e.g., show a success message)
-        console.log(`Support status updated for project with ID ${project.id}`);
-      },
-      error => {
-        console.error('Error updating support status:', error);
-        // Revert the 'voted' property if the update fails
-        project.supported = !project.supported;
-      }
-    );
-    }else{
+    const socialName = project.social?.name ?? "";
+    if (this.socialService.isSocialConnected(socialName)) {
+      project.supported = !project.supported;
+      this.projectService.updateSupportStatus(project.id ?? 0).subscribe(
+        () => {
+          console.log(`Support status updated for project with ID ${project.id}`);
+        },
+        error => {
+          console.error('Error updating support status:', error);
+          project.supported = !project.supported;
+        }
+      );
+    } else {
       this.router.navigateByUrl('profile');
-      this.notifier.notify('info', 'Please connect your '+project.social?.name+" account first");
+      this.notifier.notify('info', 'Please connect your ' + socialName + ' account first');
     }
   }
 
@@ -110,7 +106,7 @@ export class HomeComponent implements OnInit {
     this.page = i;
     this.loadData(this.search, this.page);
   }
-  
+
   setSearch(event: any) {
     event.preventDefault();
     this.search = this.searchForm.get('search')?.value ?? "";

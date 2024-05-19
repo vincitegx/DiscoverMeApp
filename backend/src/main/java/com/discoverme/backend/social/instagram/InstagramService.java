@@ -3,9 +3,7 @@ package com.discoverme.backend.social.instagram;
 import com.discoverme.backend.social.SocialPlatform;
 import com.discoverme.backend.social.Socials;
 import com.discoverme.backend.social.SocialsService;
-import com.discoverme.backend.user.UserException;
-import com.discoverme.backend.user.UserService;
-import com.discoverme.backend.user.Users;
+import com.discoverme.backend.user.*;
 import com.discoverme.backend.user.social.UserSocials;
 import com.discoverme.backend.user.social.UserSocialsService;
 import com.restfb.DefaultFacebookClient;
@@ -34,6 +32,7 @@ public class InstagramService {
     private final UserSocialsService userSocialsService;
     private final UserService userService;
     private final SocialsService socialsService;
+    private final UserMapper userMapper;
 
     public void publishVideoToStory(){
         Users loggedInUser = userService.getCurrentUser();
@@ -91,5 +90,13 @@ public class InstagramService {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public UserDto disconnectAccount() {
+        Socials social = socialsService.getSocialByPlatform(SocialPlatform.INSTAGRAM);
+        Users loggedInUser = userService.getCurrentUser();
+        userSocialsService.findUserSocial(loggedInUser, social).ifPresent(userSocialsService::deleteUserSocial);
+        loggedInUser = userService.getCurrentUser();
+        return userMapper.apply(loggedInUser);
     }
 }

@@ -26,7 +26,7 @@ public class UserMapper implements Function<Users, UserDto> {
                 .build();
     }
 
-    private List<UserSocialsDto> mapUserSocialsToDto(Users user) {
+    private Set<UserSocialsDto> mapUserSocialsToDto(Users user) {
         return userSocialsService.findAllUserSocialsByUser(user);
     }
 //

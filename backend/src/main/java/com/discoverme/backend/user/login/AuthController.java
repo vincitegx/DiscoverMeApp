@@ -1,6 +1,6 @@
 package com.discoverme.backend.user.login;
 
-import com.discoverme.backend.security.JWTAuthenticationFilter;
+import com.discoverme.backend.config.ApplicationProperties;
 import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
@@ -17,8 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -30,17 +29,19 @@ public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
     private final HttpServletRequest request;
+    private final ApplicationProperties applicationProperties;
 
     @PostMapping("login")
     public ResponseEntity<JwtResponse> userLogin(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse servletResponse) {
         JwtResponse response = loginService.login(loginRequest);
         Users user = userService.getCurrentUser();
         String refreshToken = refreshTokenService.generateRefreshToken(user);
-        Cookie refreshTokenCookie = new Cookie(JWTAuthenticationFilter.COOKIE_NAME, refreshToken);
+        long expirationTimeMillis = Instant.now().plusSeconds(applicationProperties.getRefreshTokenValidity()).toEpochMilli();
+        Cookie refreshTokenCookie = new Cookie(applicationProperties.getRefreshTokenCookie(), refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
         refreshTokenCookie.setAttribute("SameSite", "None");
-        refreshTokenCookie.setMaxAge((int) Duration.of(1, ChronoUnit.DAYS).toSeconds());
+        refreshTokenCookie.setMaxAge((int) expirationTimeMillis);
         refreshTokenCookie.setPath("/");
         refreshTokenCookie.setAttribute("Priority", "High");
         servletResponse.addCookie(refreshTokenCookie);
@@ -54,14 +55,14 @@ public class AuthController {
     public ResponseEntity<Boolean> logout(@Valid @RequestBody UserDto user, HttpServletResponse servletResponse) {
         try{
             Optional<Cookie> cookies = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
-                    .filter(cookie -> JWTAuthenticationFilter.COOKIE_NAME.equals(cookie.getName()))
+                    .filter(cookie -> applicationProperties.getRefreshTokenCookie().equals(cookie.getName()))
                     .findFirst();
             if(cookies.isPresent()){
                 RefreshToken refreshToken = refreshTokenService.validateRefreshToken(user, cookies.get().getValue());
                 if(refreshToken != null){
                     refreshTokenService.deleteRefreshToken(refreshToken.getToken());
                 }
-                Cookie refreshTokenCookie = new Cookie(JWTAuthenticationFilter.COOKIE_NAME, cookies.get().getValue());
+                Cookie refreshTokenCookie = new Cookie(applicationProperties.getRefreshTokenCookie(), cookies.get().getValue());
                 refreshTokenCookie.setHttpOnly(true);
                 refreshTokenCookie.setSecure(true);
                 refreshTokenCookie.setAttribute("SameSite", "None");
@@ -75,7 +76,6 @@ public class AuthController {
         }catch (Exception ex){
             SecurityContextHolder.clearContext();
         }
-
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

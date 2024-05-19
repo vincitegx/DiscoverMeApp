@@ -72,6 +72,7 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(antMatcher(HttpMethod.POST,"/auth/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST,"/api/v1/auth/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/auth/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET,"/api/v1/projects/contents/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/v3/api-docs")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/v3/api-docs/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/swagger-resources")).permitAll()

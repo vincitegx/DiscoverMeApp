@@ -1,5 +1,6 @@
 package com.discoverme.backend.handler;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.discoverme.backend.project.ProjectException;
 import com.discoverme.backend.user.UserException;
@@ -68,8 +69,16 @@ public class CustomExceptionHandler {
         return createErrorResponse(UNAUTHORIZED, ACCOUNT_LOCKED, exception.getLocalizedMessage());
     }
 
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<ErrorResponse> jWTVerificationException(JWTVerificationException ex) {
+        System.out.println("Token Expired Exception");
+        return createErrorResponse(UNAUTHORIZED, ex.getMessage(), ex.getLocalizedMessage());
+    }
+
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<ErrorResponse> tokenExpiredException(TokenExpiredException ex) {
+        System.out.println("Token Expired Exception");
         return createErrorResponse(UNAUTHORIZED, ex.getMessage(), ex.getLocalizedMessage());
     }
 
@@ -142,6 +151,11 @@ public class CustomExceptionHandler {
     @ExceptionHandler(RefreshFailedException.class)
     public ResponseEntity<ErrorResponse> refreshFailedException(RefreshFailedException exception) {
         return createErrorResponse(FORBIDDEN, exception.getMessage(), exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", ex.getMessage());
     }
 
 

@@ -77,7 +77,7 @@ export class SigninComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           this.isLoading.next(false);
-          if (error.status === 401) {
+          if (error.status === 400) {
             this.notifier.notify('error', 'Invalid username or password');
             this.form.reset();
           } else {

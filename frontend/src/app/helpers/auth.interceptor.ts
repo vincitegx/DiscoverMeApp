@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, switchMap, take, tap, throwError } from 'rxjs';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
-import { contains } from 'jquery';
+import { JwtResponse } from '../components/signin/jwtresponse';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -35,17 +35,17 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          console.log("401")
-          return this.handleAuthErrors(req, next);
+        console.log(error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 401) {
+            console.log("401 Unauthorized");
+            return this.handleAuthErrors(req, next);
+          }
+          if (error.status === 403) {
+            console.log("403 Forbidden");
+            return this.handleLogoutAuthErrors(req, next);
+          }
         }
-        if (error instanceof HttpErrorResponse && error.status === 403) {
-          console.log("403")
-          return this.handleLogoutAuthErrors(req, next);
-        }
-        // else {
-        //   return throwError(error);
-        // }
         return throwError(error);
       })
     );
@@ -64,24 +64,20 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       this.refreshTokenSubject.next(null);
 
       return this.authService.refreshToken().pipe(
-        switchMap((refreshTokenResponse: any) => {
+        tap(),
+        switchMap((refreshTokenResponse: JwtResponse) => {
           this.isTokenRefreshing= false;
           
           this.refreshTokenSubject.next(
-            refreshTokenResponse.authenticationToken
+            refreshTokenResponse.authToken
           );
           return next.handle(
-            this.addToken(req, refreshTokenResponse.authenticationToken)
+            this.addToken(req, refreshTokenResponse.authToken)
           );
         }),
         catchError((error) => {
-          // if (error instanceof HttpErrorResponse && error.status === 403) {
-          //   console.log("403")
-          //   return this.handleLogoutAuthErrors(req, next);
-          // }
+          console.error("Error refreshing token:", error);
           return this.handleLogoutAuthErrors(req, next);
-          // this.authService.logout$();
-          // return throwError(error);
         })
       );
     } else {

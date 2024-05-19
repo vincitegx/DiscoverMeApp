@@ -80,9 +80,10 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserDto updateProfile(String userName) {
+    public UserDto updateProfile(ProfileRequest request) {
+        System.out.println(request);
         Users user = getCurrentUser();
-        user.setUserName(userName);
+        user.setUserName(request.getUsername());
         user = saveUser(user);
         return this.userMapper.apply(user);
     }

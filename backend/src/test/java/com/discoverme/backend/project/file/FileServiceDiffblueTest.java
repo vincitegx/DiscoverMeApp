@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.discoverme.backend.social.SocialPlatform;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -38,14 +39,14 @@ class FileServiceDiffblueTest {
     @Test
     void testUploadFile() throws IOException {
         // Arrange
-        when(fileService.uploadFile(Mockito.<MultipartFile>any())).thenReturn("Upload File");
+        when(fileService.uploadFile(Mockito.<MultipartFile>any(), SocialPlatform.FACEBOOK.name())).thenReturn("Upload File");
 
         // Act
         String actualUploadFileResult = fileService
-                .uploadFile(new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+                .uploadFile(new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))), SocialPlatform.FACEBOOK.name());
 
         // Assert
-        verify(fileService).uploadFile(isA(MultipartFile.class));
+        verify(fileService).uploadFile(isA(MultipartFile.class), SocialPlatform.FACEBOOK.name());
         assertEquals("Upload File", actualUploadFileResult);
     }
 
@@ -56,13 +57,13 @@ class FileServiceDiffblueTest {
     void testUploadFiles() {
         // Arrange
         ArrayList<String> stringList = new ArrayList<>();
-        when(fileService.uploadFiles(Mockito.<List<MultipartFile>>any())).thenReturn(stringList);
+        when(fileService.uploadFiles(Mockito.<List<MultipartFile>>any(), SocialPlatform.FACEBOOK.name())).thenReturn(stringList);
 
         // Act
-        List<String> actualUploadFilesResult = fileService.uploadFiles(new ArrayList<>());
+        List<String> actualUploadFilesResult = fileService.uploadFiles(new ArrayList<>(), SocialPlatform.FACEBOOK.name()));
 
         // Assert
-        verify(fileService).uploadFiles(isA(List.class));
+        verify(fileService).uploadFiles(isA(List.class), SocialPlatform.FACEBOOK.name());
         assertTrue(actualUploadFilesResult.isEmpty());
         assertSame(stringList, actualUploadFilesResult);
     }

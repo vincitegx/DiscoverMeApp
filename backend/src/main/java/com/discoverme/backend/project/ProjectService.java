@@ -6,6 +6,7 @@ import com.discoverme.backend.project.calender.CalenderService;
 import com.discoverme.backend.project.file.FileService;
 import com.discoverme.backend.social.Socials;
 import com.discoverme.backend.social.SocialsRepository;
+import com.discoverme.backend.social.SocialsService;
 import com.discoverme.backend.user.UserService;
 import com.discoverme.backend.user.Users;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class ProjectService {
     private final LoggedInUserService loggedInUserService;
     private final SecureRandomStringGenerator secureRandomStringGenerator;
     private final ApplicationProperties properties;
+    private final SocialsService socialService;
 
     public ProjectResponse submitProject(ProjectRequest projectRequest, MultipartFile content){
         Calender calender = calenderService.getProjectCalender();
@@ -37,7 +39,8 @@ public class ProjectService {
         if(project.isPresent()){
             throw new IllegalArgumentException("You can add only one project per week");
         }
-        String contentUri = fileService.uploadFile(content);
+        Socials social = socialService.getSocialById(projectRequest.getSocial().getId());
+        String contentUri = fileService.uploadFile(content, social.getName());
         Project project1 = Project.builder()
                 .url(secureRandomStringGenerator.apply(10))
                 .calender(calender)
@@ -77,7 +80,7 @@ public class ProjectService {
                 .songTitle(project.getSongTitle())
                 .contentUri(project.getContentUri())
                 .isSupported(loggedInUserService.checkSupportStateForLoggedInUser(project.getId()))
-//                .percentOfSupport(loggedInUserService.getProjectsSupportedToLoggedInUser(project.getUser()))
+                .percentOfSupport(loggedInUserService.getProjectsSupportedToLoggedInUser(project.getUser()))
                 .social(project.getSocial())
                 .userName(project.getUser().getUserName())
                 .build();

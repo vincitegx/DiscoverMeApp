@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.discoverme.backend.config.ApplicationProperties;
 import com.discoverme.backend.user.UserException;
 import com.discoverme.backend.user.Users;
 import com.discoverme.backend.user.login.refresh.RefreshToken;
@@ -12,7 +13,7 @@ import com.google.api.client.googleapis.auth.oauth2.*;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,12 +29,12 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC256;
 import static java.util.Date.from;
 
 @Service
+@RequiredArgsConstructor
 public class JWTUtil {
     private static final String SECRET_KEY =
             "foobar_123456789_foobar_123456789_foobar_123456789_foobar_123456789";
 
-    @Value("${spring.security.oauth2.resourceserver.opaque-token.client-id}")
-    private String clientId;
+    private final ApplicationProperties applicationProperties;
 
     private Collection<? extends GrantedAuthority> getAuthorities(Users user) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -45,7 +46,7 @@ public class JWTUtil {
         User principal = (User) authentication.getPrincipal();
         return JWT.create()
                 .withSubject(principal.getUsername())
-                .withExpiresAt(Date.from(Instant.now().plusSeconds(180)))
+                .withExpiresAt(Date.from(Instant.now().plusSeconds(applicationProperties.getJwtValidity())))
                 .withIssuer("https://discoverme.com")
                 .withIssuedAt(Date.from(Instant.now()))
                 .withClaim("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
@@ -100,7 +101,7 @@ public class JWTUtil {
             NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jsonFactory)
-                    .setAudience(Collections.singletonList(clientId))
+                    .setAudience(Collections.singletonList(applicationProperties.getGoogleClientId()))
                     .build();
             GoogleIdToken idToken = verifier.verify(token);
             if (idToken != null) {
