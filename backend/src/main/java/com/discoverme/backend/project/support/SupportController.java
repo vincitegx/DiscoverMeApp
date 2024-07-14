@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SupportController {
     private final SupportService supportService;
-    private final LoggedInUserService loggedInUserService;
     @PutMapping("{projectId}/support")
     public ResponseEntity<Void> toggleSupport(@PathVariable Long projectId) {
         supportService.toggleSupport(projectId);

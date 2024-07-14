@@ -1,28 +1,19 @@
 import { Socials } from "src/app/dtos/socials";
 
 export class ProjectRequest {
-    public songTitle: String;
-    public songUri: String;
+    public title: String;
     private social: Socials;
 
-    public constructor(songTitle: string, songUri: string, social: Socials){
-        this.songTitle = songTitle;
-        this.songUri = songUri;
+    public constructor(title: string, social: Socials){
+        this.title = title;
         this.social = social;
     }
 
-    public getSongTitle():String{
-        return this.songTitle;
+    public getTitle():String{
+        return this.title;
     }
-    public setSongTitle(songTitle:String):void{
-        this.songTitle = songTitle;
-    }
-
-    public getSongUri():String{
-        return this.songUri;
-    }
-    public setSongUri(songUri:String):void{
-        this.songUri = songUri;
+    public setTitle(title:String):void{
+        this.title = title;
     }
 
     public getSocial():Socials{

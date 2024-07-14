@@ -42,4 +42,10 @@ public final class ApplicationProperties {
 
     @Value("${project.max-size}")
     private Integer projectMaxSize;
+
+    @Value("${flutterwave.public-key}")
+    private String ravePublicKey;
+
+    @Value("${flutterwave.secret-key}")
+    private String raveSecretKey;
 }

@@ -31,11 +31,10 @@ export class SubmitProjectComponent implements OnInit {
     private socialService: SocialService) {
     this.addProjectForm = new FormGroup({
       title: new FormControl('', Validators.required),
-      link: new FormControl('', Validators.required),
       file: new FormControl('', Validators.required),
       social: new FormControl('', [Validators.required]),
     });
-    this.projectRequest = new ProjectRequest('', '', new Socials());
+    this.projectRequest = new ProjectRequest('', new Socials());
     this.notifier = notifierService;
   }
   ngOnInit(): void {
@@ -59,8 +58,8 @@ export class SubmitProjectComponent implements OnInit {
       this.isLoading.next(false);
       this.notifier.notify('error', 'Project Submission Limit Reached');
     } else {
-      this.projectRequest.setSongTitle(this.addProjectForm.get('title')?.value);
-      this.projectRequest.setSongUri(this.addProjectForm.get('link')?.value);
+      this.projectRequest.setTitle(this.addProjectForm.get('title')?.value);
+      // this.projectRequest.setUri(this.addProjectForm.get('link')?.value);
       this.projectRequest.setSocial({ id: this.addProjectForm.get('social')?.value });
       const formData = new FormData();
       formData.append('request', JSON.stringify(this.projectRequest));
@@ -68,8 +67,8 @@ export class SubmitProjectComponent implements OnInit {
       this.projectService.addProject(formData).subscribe(
         (response) => {
           this.isLoading.next(false);
-          this.router.navigate(['link']);
-          this.notifier.notify('success', 'Content uploaded successfully');
+          this.router.navigate(['projects']);
+          this.notifier.notify('info', 'Your content is been processed !!!');
         }
       );
     }

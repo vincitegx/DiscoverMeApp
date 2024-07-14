@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   fbUsername: string;
   igUrl: string = "";
   igUsername: string;
+  disabled:boolean=true;
   public form: FormGroup;
   private profileRequest: ProfileRequest;
 
@@ -96,7 +97,7 @@ export class ProfileComponent implements OnInit {
           this.socialService.disconnectFacebook().subscribe(res=>{
             if(res){
               this.notifier.notify('success', `${platform} Account has been disconnected`);
-              this[socialPlatformProp] = '';
+              // this[socialPlatformProp] = '';
             }else{
               this.notifier.notify('error', `${platform} Account was not disconnected`);
             }
@@ -105,7 +106,7 @@ export class ProfileComponent implements OnInit {
           this.socialService.disconnectInstagram().subscribe(res=>{
             if(res){
               this.notifier.notify('success', `${platform} Account has been disconnected`);
-              this[socialPlatformProp] = '';
+              // this[socialPlatformProp] = '';
             }else{
               this.notifier.notify('error', `${platform} Account was not disconnected`);
             }

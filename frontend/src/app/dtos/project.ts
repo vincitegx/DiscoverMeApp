@@ -3,11 +3,14 @@ import { Socials } from "./socials";
 export class Project {
     id?: number;
     url?: string;
-    songUri?:string;
-    songTitle?:string;
+    title?:string;
     userName?:string;
+    status?:string;
     social?:Socials;
     contentUri?: string;
-    percentOfSupport?:number;
+    noOfSupport?:number;
     supported?:boolean;
+    noOfReaction?:number;
+    reacted?:boolean;
+    publishDate?:string;
 }

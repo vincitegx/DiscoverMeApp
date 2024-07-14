@@ -1,7 +1,3 @@
-/**
- * Author:  TEGA
- * Created: Apr 29, 2023
- */
 CREATE TABLE refresh_token (
     id SERIAL PRIMARY KEY,
     token VARCHAR(255) NOT NULL UNIQUE,

@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @Builder
@@ -21,7 +23,7 @@ public class Project {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String url;
+    private String code;
 
     @ManyToOne
     private Users user;
@@ -30,17 +32,25 @@ public class Project {
     private Calender calender;
 
     @Column(nullable = false)
-    private String songTitle;
+    private String title;
 
     @Column(nullable = false)
-    private String songUri;
+    private String category;
+
+    @Column(nullable = false)
+    private String status;
 
     @ManyToOne
     private Socials social;
 
-    @Column(nullable = false)
     private String contentUri;
 
     @Builder.Default
     private Integer supportCount = 0;
+
+    @Builder.Default
+    private Integer reactionCount = 0;
+    private String videoId;
+    private String postId;
+    private Date publishDate;
 }

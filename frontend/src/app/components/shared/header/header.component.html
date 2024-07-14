@@ -6,10 +6,11 @@
     
     <ng-container *ngIf="isloggedIn$ | async; let loggedIn">
       <div class="dropdown" *ngIf="loggedIn">
-        <a *ngIf="user?.userName" class="dropbtn btn text-white username">{{ user.userName }}</a>
+        <a *ngIf="user?.userName" class="dropbtn btn text-white username dropdown-toggle">{{ user.userName }}</a>
         <div id="myDropdown" class="dropdown-content text-white">
           <a class="text-white" href="">Home</a>
           <a class="text-white" href="profile">Profile</a>
+          <a class="text-white" href="projects">Projects</a>
           <a class="text-white" (click)="logout()">Logout</a>
         </div>
       </div>

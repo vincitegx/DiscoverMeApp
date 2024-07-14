@@ -5,9 +5,14 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.discoverme.backend.project.ProjectException;
 import com.discoverme.backend.user.UserException;
 import jakarta.persistence.NoResultException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import org.apache.catalina.connector.ClientAbortException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -22,16 +27,16 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.security.auth.RefreshFailedException;
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
-
+    private static final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
     private static final String ACCOUNT_LOCKED = "Your account has been locked. Please contact administration";
     private static final String METHOD_IS_NOT_ALLOWED = "This request method is not allowed on this endpoint. Please send a '%s' request";
     private static final String INCORRECT_CREDENTIALS = "Username / password incorrect. Please try again";
@@ -68,7 +73,6 @@ public class CustomExceptionHandler {
     public ResponseEntity<ErrorResponse> lockedException(LockedException exception) {
         return createErrorResponse(UNAUTHORIZED, ACCOUNT_LOCKED, exception.getLocalizedMessage());
     }
-
 
     @ExceptionHandler(JWTVerificationException.class)
     public ResponseEntity<ErrorResponse> jWTVerificationException(JWTVerificationException ex) {
@@ -143,26 +147,43 @@ public class CustomExceptionHandler {
         return createErrorResponse(BAD_REQUEST, exception.getMessage(), exception.getLocalizedMessage());
     }
 
-//    @ExceptionHandler(IOException.class)
-//    public ResponseEntity<ErrorResponse> iOException(IOException exception) {
-//        return createErrorResponse(INTERNAL_SERVER_ERROR, ERROR_PROCESSING_FILE);
-//    }
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorResponse> iOException(IOException exception) {
+        return createErrorResponse(INTERNAL_SERVER_ERROR, exception.getMessage(), exception.getLocalizedMessage());
+    }
 
     @ExceptionHandler(RefreshFailedException.class)
     public ResponseEntity<ErrorResponse> refreshFailedException(RefreshFailedException exception) {
         return createErrorResponse(FORBIDDEN, exception.getMessage(), exception.getLocalizedMessage());
     }
 
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+//        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", ex.getMessage());
+//    }
+//
+//
+//    private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus httpStatus,String message, String developerMessage) {
+//        return new ResponseEntity<>(
+//                new ErrorResponse(LocalDateTime.now(),httpStatus,message, developerMessage,null),
+//                httpStatus);
+//    }
+
+    @ExceptionHandler(ClientAbortException.class)
+    public void handleClientAbortException(ClientAbortException ex) {
+        logger.warn("Client aborted the connection", ex);
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, HttpServletRequest request) {
+        logger.error("Request URL: " + request.getRequestURL(), ex);
         return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", ex.getMessage());
     }
 
-
-    private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus httpStatus,String message, String developerMessage) {
-        return new ResponseEntity<>(
-                new ErrorResponse(LocalDateTime.now(),httpStatus,message, developerMessage,null),
-                httpStatus);
+    private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus httpStatus, String message, String developerMessage) {
+        return ResponseEntity.status(httpStatus)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorResponse(LocalDateTime.now(), httpStatus, message, developerMessage, null));
     }
 }
 

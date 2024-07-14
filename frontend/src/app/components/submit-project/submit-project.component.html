@@ -4,9 +4,9 @@
         <div class="mb-3">
             <input type="text" [formControlName]="'title'" name="title" placeholder="Enter Song Title" class="form-control" id="exampleInputEmail1">
         </div>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <input type="url" [formControlName]="'link'" name="link" placeholder="Enter Link" class="form-control" id="exampleInputEmail1">
-        </div>
+        </div> -->
         <div class="mb-3">
             <input type="file" (change)="onSelectVideo($event)" [formControlName]="'file'" accept=".mp4,.mov" name="file" class="form-control" id="exampleInputPassword1">
         </div>
@@ -17,6 +17,24 @@
                 <option [value]="s.id" *ngFor="let s of socials;" id="exampleFormControlSelect1">{{s.social}}</option>
               </select>
         </div>
+
+        <label>
+            <input type="checkbox" name="rightsConfirmation" required>
+            I confirm that I own the rights to the video or have permission to use and publish it.
+          </label><br>
+          
+          <label>
+            <input type="checkbox" name="complianceConfirmation" required>
+            I agree that this video complies with my selected platform's community standards and terms of service.
+          </label><br>
+          
+          <label>
+            <input type="checkbox" name="termsConfirmation" required>
+            I have read and agree to the <a href="link-to-terms-of-service">terms of service</a> and <a href="link-to-privacy-policy">privacy policy</a>.
+          </label><br>
+          
+          <p>By publishing this video, you agree to indemnify and hold Discover Me harmless from any claims related to the content.</p>
+
         <a [routerLink]="['/home']" class="btn btn-secondary">Back</a> &nbsp;
         <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
         <!-- <button type="submit" class="btn btn-primary">

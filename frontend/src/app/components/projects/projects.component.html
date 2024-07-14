@@ -1,0 +1,82 @@
+<app-header></app-header>
+<section class="section">
+    <div class="d-flex justify-content-between align-items-center">
+        <form class="form-inline my-2 my-md-0" [formGroup]="searchForm" (ngSubmit)="setSearch($event)">
+            <div class="input-group">
+                <input class="form-control" type="text" name="search" [formControlName]="'search'"
+                    placeholder="Search Project Name..." aria-label="Search">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary"
+                        style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div style="margin-right: 8px;"></div>
+    <a class="btn btn-outline-info" href="project"><i class="fa fa-plus-circle"></i> Add New</a>
+    </div>
+    <hr>
+    <ng-container *ngIf="(appState$ | async) as appState" [ngSwitch]="appState.dataState">
+        <ng-container *ngSwitchCase="DataState.EMPTY_STATE">
+            <div class="col-md-12 text-center my-3">
+                <div class="alert alert-info">
+                    Your Approved Projects Will Appear Here !!!
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="DataState.LOADED_STATE">
+            <ng-container *ngIf="appState.appData['content'].length > 0">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-4" *ngFor="let project of appState.appData['content']; let i=index">
+                        <div class="card">
+                            <video appVideoHover [src]='fileurl+"/"+project.contentUri' class="card-img-top" controls
+                                muted loop></video>
+                            <div class="card-body d-flex justify-content-between">
+                                <div class="content-info">
+                                    <h5 class="card-title">{{ project.title }}</h5>
+                                    <!-- <h6 class="font-weight-bold">{{ project.userName }}</h6> -->
+                                    <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
+                                    <!-- <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{
+                                            project.percentOfSupport ?? 0 }}%</span></h6> -->
+                                </div>
+                                <div class="mt-2 mt-md-0 align-self-center">
+                                    <a class="btn btn-outline-warning" href="#"><i class="bi bi-clock-fill"></i> {{ project.status }}</a>
+                                    <!-- <i class="bi bi-clock-fill"></i>
+                                    <span class="label label-warning text-white p-2 rounded"
+                                        style="background-color: orange;">Pending</span> -->
+                                </div>
+                            </div>
+                            <!-- <div class="card-footer text-muted">
+                                <div class="row">
+                                    <button class="btn btn-outline-info col-6 col-md-6 text-center">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-outline-danger col-6 col-md-6 text-center">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="DataState.LOADING_STATE">
+            <div class="col-md-12 single-note-item text-center">
+                <div class=" spinner-border text-info"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="DataState.ERROR_STATE">
+            <div class="alert alert-danger p-3">
+                Resource Unavailable, Check Again Later !!!
+            </div>
+        </ng-container>
+    </ng-container>
+    <ul class="nav nav-pills" *ngIf="pages.length > 1">
+        <li class="nav-item" *ngFor="let p of pages; let i=index">
+            <a class="nav-link" href="#" (click)="setPage(i,$event)" [ngClass]="{'active':i==page}">{{i}}</a>
+        </li>
+    </ul>
+</section>

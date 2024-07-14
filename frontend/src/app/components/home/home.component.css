@@ -6,9 +6,29 @@
 .card .card-img-top {
   width: 100%;
   height: 100%;
-  max-height: 220px;
+  max-height: 180px;
   max-width: 400px;
+  object-fit: cover;
 }
+
+.video-container {
+	position: relative;
+	width: 100%;
+	padding-bottom: 56.25%; /* 16:9 aspect ratio (you can adjust this based on your preferred aspect ratio) */
+	
+	padding-bottom: 177.78%;
+	background: black; /* Ensures the background is black if the video does not fill the container */
+	overflow: hidden;
+  }
+  
+  .video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* Ensures the video covers the container without distortion */
+  }
 
 .card-body {
   display: flex;
@@ -59,3 +79,94 @@
 .pagination a:hover:not(.active) {
   background-color: #ddd;
 }
+
+/* .icon-button {
+	border: 0;
+	background-color: #fff;
+	border-radius: 50%;
+	width: 2.5rem;
+	height: 2.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+	font-size: 1.25rem;
+	transition: .25s ease;
+	box-shadow: 0 0 0 1px rgba(#000, .05), 0 3px 8px 0 rgba(#000, .15);
+	z-index: 1;
+	cursor: pointer;
+	color: #565656;
+	
+	svg {
+		width: 1em;
+		height: 1em;
+	}
+	&:hover, &:focus {
+		background-color: #EC4646;
+		color: #FFF;
+	}
+} */
+
+.icon-group {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+  }
+  
+  .icon-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-right: 10px;
+  }
+  
+  .icon-button {
+	border: 0;
+	background-color: #fff;
+	border-radius: 50%;
+	/* width: 2.5rem;
+	height: 2.5rem; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+	font-size: 1.25rem;
+	transition: .25s ease;
+	box-shadow: 0 0 0 1px rgba(#000, .05), 0 3px 8px 0 rgba(#000, .15);
+	z-index: 1;
+	cursor: pointer;
+	color: #565656;
+  }
+  
+  .icon-button:hover, .icon-button:focus {
+	/* background-color: #EC4646; */
+	/* color: #FFF; */
+  }
+  
+  .icon-button svg {
+	width: 1em;
+	height: 1em;
+  }
+
+  .icon-button svg:hover, .icon-button svg:focus{
+	color: #EC4646;
+	stroke: #EC4646;
+  }
+  
+  .reacted-svg {
+	stroke: #EC4646;
+	fill: #EC4646;
+  }
+
+  .card-meta {
+	display: flex;
+	align-items: center;
+	color: #787878;
+  }
+  
+  .card-meta svg {
+	flex-shrink: 0;
+	width: 1em;
+	height: 1em;
+	margin-right: .25em;
+  }

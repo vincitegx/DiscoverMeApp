@@ -1,7 +1,3 @@
-/**
- * Author:  TEGA
- * Created: Apr 29, 2023
- */
 CREATE TABLE qrtz_job_details
   (
     sched_name TEXT NOT NULL,

@@ -1,8 +1,4 @@
-/**
- * Author:  TEGA
- * Created: Apr 29, 2023
- */
-CREATE  TABLE users ( 
+CREATE  TABLE users (
 	id                   bigserial PRIMARY KEY NOT NULL  ,
 	user_name           varchar(255)  NOT NULL ,
 	email         varchar(255)  NOT NULL ,

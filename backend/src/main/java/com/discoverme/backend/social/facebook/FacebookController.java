@@ -108,7 +108,7 @@ public class FacebookController {
     }
 
     @PutMapping("fb/disconnect")
-    public ResponseEntity<UserDto> disconnectIGAccount(){
+    public ResponseEntity<UserDto> disconnectFBAccount(){
         UserDto user =  facebookService.disconnectAccount();
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

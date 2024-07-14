@@ -8,12 +8,15 @@ import lombok.Data;
 @Builder
 public class ProjectResponse {
     private Long id;
-    private String url;
-    private String songUri;
-    private String songTitle;
+    private String code;
+    private String title;
     private String userName;
     private Socials social;
+    private String status;
     private String contentUri;
-    private Double percentOfSupport;
+    private Integer noOfSupport;
     private boolean isSupported;
+    private Integer noOfReaction;
+    private boolean isReacted;
+    private String publishDate;
 }

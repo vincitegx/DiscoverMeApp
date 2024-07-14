@@ -13,6 +13,7 @@ import { AuthRedirectGuard } from './services/auth-redirect.guard';
 import { ProjectLinkComponent } from './components/project-link/project-link.component';
 import { AppComponent } from './app.component';
 import { RedirectComponent } from './components/auth/auth-redirect';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,11 @@ const routes: Routes = [
             canActivate: [AuthGuard, ProjectSubmissionGuard],
           }
         ]
+      },
+      {
+        path: 'projects',
+        component: ProjectsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: '**',

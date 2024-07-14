@@ -21,10 +21,11 @@
     </form>
     <div style="margin-right: 8px;"></div>
     <form class="text-left">
-      <select class="form-control" name="sort">
-        <option value="id" selected>Default Sorting (All Projects)</option>
-        <option value="name">(A-Z) Alphabetical</option>
-        <option value="priceMp3">Price</option>
+      <select class="form-control" name="sort" (change)="setSort($event)">
+        <option value="default" selected>Default Sorting (All Projects)</option>
+        <option value="alphabetical">(A-Z) Alphabetical</option>
+        <option value="mostrecent">Most Recent</option>
+        <option value="mostliked">Most Liked</option>
       </select>
     </form>
   </div>
@@ -68,20 +69,83 @@
         <div class="row align-items-center">
           <div class="col-12 col-md-4" *ngFor="let project of appState.appData['content']; let i=index">
             <div class="card">
-              <video appVideoHover [src]='fileurl+"/"+project.contentUri' class="card-img-top" controls muted
-                loop></video>
+              <!-- <video appVideoHover [src]='fileurl+"/"+project.contentUri' class="card-img-top" controls muted
+                loop></video> -->
+                <video #videoElement [src]="fileurl + '/' + project.contentUri" class="card-img-top" controls muted loop></video>
+                <!-- <div class="video-container">
+                  <video appVideoHover [src]="fileurl + '/' + project.contentUri" class="video" controls muted loop></video>
+                </div> -->
               <div class="card-body d-flex justify-content-between">
                 <div class="content-info">
-                  <h5 class="card-title">{{ project.songTitle }}</h5>
+                  <h5 class="card-title">{{ project.title }}</h5>
                   <h6 class="font-weight-bold">{{ project.userName }}</h6>
-                  <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
-                  <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{
-                      project.percentOfSupport ?? 0 }}%</span></h6>
+                  <!-- <span [class]="getSocialIconClass(project.social?.name ?? '')"></span> -->
+                  <!-- <h6 class="card-text">Support Level: <span class="text-success font-weight-bold">{{
+                      project.percentOfSupport ?? 0 }}%</span></h6> -->
+                      <div class="card-meta card-meta--date">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" display="block" id="Calendar">
+                          <rect x="2" y="4" width="20" height="18" rx="4" />
+                          <path d="M8 2v4" />
+                          <path d="M16 2v4" />
+                          <path d="M2 10h20" />
+                        </svg>
+                        <small>{{ project.publishDate }}</small>
+                      </div>
                 </div>
-                <button class="btn btn-success mt-2 mt-md-0 align-self-center" (click)="onSupportButtonClick(project)"
+                
+                <!-- <button class="btn btn-success mt-2 mt-md-0 align-self-center" (click)="onSupportButtonClick(project)"
                   [disabled]="project.supported">
                   {{ project.supported ? 'Supported' : 'Support' }}
-                </button>
+                </button> -->
+                <!-- <div>
+                  <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
+                </div>
+                <div>
+                  <button class="icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
+                      <path d="m24,8c0,1.59-.576,3.299-1.735,5.149-.151-.36-.34-.706-.582-1.023.858-1.494,1.317-2.877,1.317-4.126,0-3.14-2.621-6-5.5-6-2.354,0-3.559.927-4.683,1.959l-4.291,4.248c-.589.589-.699,1.501-.253,2.12.283.393.699.63,1.172.668.466.035.924-.13,1.254-.46l4.646-4.705.711.702-1.683,1.704,5.359,4.704c.964.845,1.206,2.257.563,3.285-.396.634-1.044,1.06-1.775,1.167-.235.035-.472.037-.704.004.13.616.037,1.266-.302,1.809-.397.635-1.045,1.06-1.776,1.167-.347.051-.694.029-1.022-.061.04.514-.071,1.034-.352,1.481-.396.634-1.044,1.06-1.775,1.167-.123.018-.245.027-.367.027-.607,0-1.197-.219-1.659-.625l-3.241-2.908C2.395,15.001,0,11.255,0,8,0,4.271,3.038,1,6.5,1c1.756,0,2.968.463,3.939,1.093l-.732.725c-.813-.485-1.803-.818-3.207-.818-2.878,0-5.5,2.86-5.5,6,0,2.915,2.352,6.519,6.991,10.711l3.235,2.903c.331.291.775.42,1.218.357.447-.065.829-.317,1.073-.708.386-.616.225-1.478-.375-2.004l-3.336-3.171.688-.726,3.891,3.673c.321.282.766.416,1.208.349.447-.065.829-.317,1.074-.708.385-.615.224-1.477-.376-2.003l-3.715-3.363.668-.744,3.911,3.481c.333.291.775.422,1.22.358.447-.066.828-.317,1.073-.708.385-.616.224-1.478-.376-2.003l-5.403-4.743-2.261,2.29c-.491.491-1.149.761-1.834.761-.831,0-1.663-.463-2.113-1.089-.729-1.012-.575-2.479.359-3.413l4.306-4.262c1.238-1.138,2.661-2.236,5.373-2.236,3.463,0,6.5,3.271,6.5,7Z"/>
+                    </svg>
+                  </button>
+                  <span><small>{{ project.noOfSupport }}</small></span>
+                </div>
+                <div>
+                  <button class="icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" display="block" id="Heart">
+                      <path d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
+                    </svg>
+                  </button>
+                  <span><small>{{ project.noOfReaction }}</small></span>
+                </div> -->
+                
+                <div class="icon-group">
+                  <!-- Facebook Icon -->
+                  <div class="icon-item">
+                    <button class="icon-button" style="margin-top: -5px;">
+                      <span [class]="getSocialIconClass(project.social?.name ?? '')"></span>
+                    </button>
+                  </div>
+    
+                  <!-- Support Icon and Count -->
+                  <div class="icon-item">
+                    <button class="icon-button" (click)="onSupportButtonClick(project)" [disabled]="project.supported">
+                      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" display="block">
+                        <path d="m24,8c0,1.59-.576,3.299-1.735,5.149-.151-.36-.34-.706-.582-1.023.858-1.494,1.317-2.877,1.317-4.126,0-3.14-2.621-6-5.5-6-2.354,0-3.559.927-4.683,1.959l-4.291,4.248c-.589.589-.699,1.501-.253,2.12.283.393.699.63,1.172.668.466.035.924-.13,1.254-.46l4.646-4.705.711.702-1.683,1.704,5.359,4.704c.964.845,1.206,2.257.563,3.285-.396.634-1.044,1.06-1.775,1.167-.235.035-.472.037-.704.004.13.616.037,1.266-.302,1.809-.397.635-1.045,1.06-1.776,1.167-.347.051-.694.029-1.022-.061.04.514-.071,1.034-.352,1.481-.396.634-1.044,1.06-1.775,1.167-.123.018-.245.027-.367.027-.607,0-1.197-.219-1.659-.625l-3.241-2.908C2.395,15.001,0,11.255,0,8,0,4.271,3.038,1,6.5,1c1.756,0,2.968.463,3.939,1.093l-.732.725c-.813-.485-1.803-.818-3.207-.818-2.878,0-5.5,2.86-5.5,6,0,2.915,2.352,6.519,6.991,10.711l3.235,2.903c.331.291.775.42,1.218.357.447-.065.829-.317,1.073-.708.386-.616.225-1.478-.375-2.004l-3.336-3.171.688-.726,3.891,3.673c.321.282.766.416,1.208.349.447-.065.829-.317,1.074-.708.385-.615.224-1.477-.376-2.003l-3.715-3.363.668-.744,3.911,3.481c.333.291.775.422,1.22.358.447-.066.828-.317,1.073-.708.385-.616.224-1.478-.376-2.003l-5.403-4.743-2.261,2.29c-.491.491-1.149.761-1.834.761-.831,0-1.663-.463-2.113-1.089-.729-1.012-.575-2.479.359-3.413l4.306-4.262c1.238-1.138,2.661-2.236,5.373-2.236,3.463,0,6.5,3.271,6.5,7Z"/>
+                      </svg>
+                    </button>
+                    <span style="font-size: 12px; margin-top: -3px;">{{ project.noOfSupport }}</span>
+                  </div>
+    
+                  <!-- Reaction Icon and Count -->
+                  <div class="icon-item">
+                    <button class="icon-button" (click)="toggleReaction(project)">
+                      <svg [ngClass]="{'reacted-svg': project.reacted}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" display="block" id="Heart">
+                        <path d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
+                      </svg>
+                    </button>
+                    <span style="font-size: 12px; margin-top: -3px;">{{ project.noOfReaction }}</span>
+                  </div>
+                  </div>
+
               </div>
             </div>
           </div>

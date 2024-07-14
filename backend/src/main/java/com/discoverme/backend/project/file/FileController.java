@@ -27,12 +27,12 @@ public class FileController {
         } catch (IOException ex) {
             mimeType = MediaType.ALL_VALUE;
         }
-        if(mimeType == null) {
+        if (mimeType == null) {
             mimeType = "application/octet-stream";
         }
         return ResponseEntity.ok()
                 .contentType(getMediaType(fileName, mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+resource.getFilename()+"\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 

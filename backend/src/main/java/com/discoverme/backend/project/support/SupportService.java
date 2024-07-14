@@ -2,13 +2,13 @@ package com.discoverme.backend.project.support;
 
 import com.discoverme.backend.project.Project;
 import com.discoverme.backend.project.ProjectException;
+import com.discoverme.backend.project.ProjectResponse;
 import com.discoverme.backend.project.ProjectService;
 import com.discoverme.backend.social.SocialPlatform;
 import com.discoverme.backend.social.instagram.InstagramService;
 import com.discoverme.backend.user.UserDto;
 import com.discoverme.backend.user.UserMapper;
 import com.discoverme.backend.user.UserService;
-import com.discoverme.backend.user.Users;
 import com.discoverme.backend.social.facebook.FacebookService;
 import com.restfb.exception.FacebookOAuthException;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +38,8 @@ public class SupportService {
         support.forEach(s-> users.add(userMapper.apply(s.getUser())));
         return users;
     }
-    @Async
-    public void toggleSupport(Long projectId){
-        Users user = userService.getCurrentUser();
+    public ProjectResponse toggleSupport(Long projectId){
+//        Users user = userService.getCurrentUser();
         Project project = projectService.findById(projectId).orElseThrow(()-> new ProjectException("No such project found with that ID"));
         Optional<Support> supportByProjectAndUser = supportRepository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
         supportByProjectAndUser.ifPresentOrElse(v -> {
@@ -50,21 +49,7 @@ public class SupportService {
                 projectService.saveProject(project);
             }
         }, () -> {
-            if(Objects.equals(project.getSocial().getName(), SocialPlatform.FACEBOOK.name())){
-                try {
-                    facebookService.postVideo(project);
-                } catch (MalformedURLException | FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }catch (FacebookOAuthException facebookOAuthException){
-                    throw new ProjectException(facebookOAuthException.getMessage());
-                }
-            } else if (Objects.equals(project.getSocial().getName(), SocialPlatform.INSTAGRAM.name())) {
-                try {
-                    instagramService.publishVideoToStory();
-                } catch (Exception facebookOAuthException){
-                    throw new ProjectException(facebookOAuthException.getMessage());
-                }
-            }
+            supportProject(project);
             Support support = Support.builder()
                     .project(project)
                     .user(userService.getCurrentUser())
@@ -73,5 +58,25 @@ public class SupportService {
             project.setSupportCount(project.getSupportCount() + 1);
             projectService.saveProject(project);
         });
+        return projectService.mapProjectToResponse(project);
+    }
+
+    @Async
+    private void supportProject(Project project) {
+        if(Objects.equals(project.getSocial().getName(), SocialPlatform.FACEBOOK.name())){
+            try {
+                facebookService.postVideo(project, "");
+            } catch (MalformedURLException | FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }catch (FacebookOAuthException facebookOAuthException){
+                throw new ProjectException(facebookOAuthException.getMessage());
+            }
+        } else if (Objects.equals(project.getSocial().getName(), SocialPlatform.INSTAGRAM.name())) {
+            try {
+                instagramService.publishVideoToStory();
+            } catch (Exception facebookOAuthException){
+                throw new ProjectException(facebookOAuthException.getMessage());
+            }
+        }
     }
 }

@@ -97,3 +97,4 @@ sketch
 **/src/main/resources/*.mp4
 **/src/main/resources/*.jpg
 screenshots/
+.idea

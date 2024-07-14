@@ -1,5 +1,7 @@
 package com.discoverme.backend.project;
 
+import com.discoverme.backend.project.reaction.Reaction;
+import com.discoverme.backend.project.reaction.ReactionRespository;
 import com.discoverme.backend.project.support.Support;
 import com.discoverme.backend.project.support.SupportRepository;
 import com.discoverme.backend.user.UserService;
@@ -15,6 +17,7 @@ public class LoggedInUserService {
     private final ProjectRepository projectRepository;
     private final UserService userService;
     private final SupportRepository supportRepository;
+    private final ReactionRespository reactionRespository;
 
     public boolean checkSupportStateForLoggedInUser(Long projectId) {
         boolean supportState = false;
@@ -44,4 +47,17 @@ public class LoggedInUserService {
         }
     }
 
+    public boolean checkReactionStateForLoggedInUser(Long id) {
+        boolean reactState = false;
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ProjectException("Project Not Found with ID - " + id));
+        if(userService.getCurrentUser() != null){
+            Optional<Reaction> reaction = reactionRespository.findTopByProjectAndUserOrderByIdDesc(project, userService.getCurrentUser());
+            if(reaction.isPresent()){
+                reactState = true;
+            }
+        }
+
+        return reactState;
+    }
 }

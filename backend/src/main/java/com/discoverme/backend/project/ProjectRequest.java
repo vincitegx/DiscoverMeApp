@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class ProjectRequest {
 
-    private String songTitle;
-    private String songUri;
+    private String title;
     private Socials social;
 }
