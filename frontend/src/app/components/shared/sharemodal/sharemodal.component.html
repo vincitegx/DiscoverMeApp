@@ -1,0 +1,18 @@
+<div class="modal" tabindex="-1" role="dialog" [ngClass]="{'show': showModal}" style="display: block;" *ngIf="showModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Share</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="share-option" (click)="copyLink()">Copy Link</div>
+        <div class="share-option" (click)="share('facebook')">Share to Facebook</div>
+        <div class="share-option" (click)="share('instagram')">Share to Instagram</div>
+        <div class="share-option" (click)="share('whatsapp')">Share to WhatsApp</div>
+      </div>
+    </div>
+  </div>
+</div>

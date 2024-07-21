@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DefaultModule } from './layouts/default/default.module';
 import { NotifierModule } from 'angular-notifier';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpRequestInterceptor } from './helpers/auth.interceptor';
@@ -26,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './components/shared/shared.module';
 import { RedirectComponent } from './components/auth/auth-redirect';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ShareButtons } from 'ngx-sharebuttons/buttons';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +51,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
     HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
+    ShareButtons,
     BrowserModule,
     AppRoutingModule,
     // DefaultModule,

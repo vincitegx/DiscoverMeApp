@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit,AfterViewInit {
     this.searchForm = new FormGroup({
       search: new FormControl('', [Validators.required]),
     });
-    this,sort: new FormControl('default');
     this.notifier = notifierService;
   }
 
@@ -162,7 +161,8 @@ export class HomeComponent implements OnInit,AfterViewInit {
 
   setSort(event: any) {
     event.preventDefault();
-    this.sort = this.searchForm.get('sort')?.value ?? "default";
+    // this.sort = this.searchForm.get('sort')?.value ?? "default";
+    this.sort = event.target.value;
     this.loadData(this.search, this.page, this.sort);
   }
 

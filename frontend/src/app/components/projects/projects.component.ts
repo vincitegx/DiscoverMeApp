@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
@@ -10,6 +10,7 @@ import { DataState } from 'src/app/enums/data-state';
 import { ProjectService } from 'src/app/services/project.service';
 import { SocialService } from 'src/app/services/social.service';
 import { environment } from 'src/environments/environment.development';
+import { SharemodalComponent } from '../shared/sharemodal/sharemodal.component';
 
 @Component({
   selector: 'app-projects',
@@ -17,6 +18,7 @@ import { environment } from 'src/environments/environment.development';
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent {
+  showShareModal: boolean = false;
   private readonly apiServerUrl: string;
   private readonly notifier: NotifierService;
   readonly DataState = DataState;
@@ -43,6 +45,8 @@ export class ProjectsComponent {
       search: new FormControl('', [Validators.required]),
     })
     this.notifier = notifierService;
+  }
+  ngAfterViewInit(): void {
   }
 
   ngOnInit(): void {
@@ -109,6 +113,34 @@ export class ProjectsComponent {
     event.preventDefault();
     this.search = this.searchForm.get('search')?.value ?? "";
     this.loadUserProjects(this.search, this.page);
+  }
+
+  toggleReaction(project: Project) {
+    project.reacted = !project.reacted;
+    this.projectService.toggleReaction(project.id ?? 0).subscribe(
+      (updatedProject: Project) => {
+        console.log(`Reaction status updated for project with ID ${project.id}`);
+        project.noOfReaction = updatedProject.noOfReaction;
+      },
+      error => {
+        console.error('Error updating reaction status:', error);
+        project.reacted = !project.reacted;
+      }
+    );
+  }
+
+  onDeleteButtonClick(project: Project){}
+
+  openShareModal(): void {
+    this.showShareModal = true;
+  }
+
+  closeShareModal(): void {
+    this.showShareModal = false;
+  }
+
+  convertCodeToShareLink(project: Project){
+    return "https://localhost:4200"+project.url;
   }
 
   getSocialIconClass(name: string): string {

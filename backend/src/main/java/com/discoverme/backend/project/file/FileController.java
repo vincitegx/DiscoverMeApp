@@ -2,6 +2,8 @@ package com.discoverme.backend.project.file;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,15 +11,33 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @RestController
 @RequestMapping("api/v1/projects/contents")
 @RequiredArgsConstructor
+@Slf4j
 public class FileController {
     private final FileService fileService;
     private final HttpServletRequest request;
+
+    public static byte[] readFileFromLocation(String fileUrl) {
+        if (StringUtils.isBlank(fileUrl)) {
+            return null;
+        }
+        try {
+            Path filePath = new File(fileUrl).toPath();
+            return Files.readAllBytes(filePath);
+        } catch (IOException e) {
+            log.warn("No file found in the path {}", fileUrl);
+        }
+        return null;
+    }
+
     @GetMapping("{fileName:.+}")
     public ResponseEntity<Resource> displayFile(@PathVariable String fileName) {
         Resource resource = fileService.downloadFile(fileName);
