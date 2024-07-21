@@ -2,6 +2,7 @@ package com.discoverme.backend.project.file;
 
 import com.discoverme.backend.social.SocialPlatform;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
@@ -11,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 
 @Service
 @Primary
+@Slf4j
 public class FileService {
 
     private final String fileStorageLocation;
@@ -402,6 +405,19 @@ public class FileService {
         } else {
             throw new FileServiceException("This file does not exist or is not readable");
         }
+    }
+
+    public byte[] readFileFromLocation(String fileUrl) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(fileUrl)) {
+            return null;
+        }
+        try {
+            Path filePath = new File(fileUrl).toPath();
+            return Files.readAllBytes(filePath);
+        } catch (IOException e) {
+            log.warn("No file found in the path {}", fileUrl);
+        }
+        return null;
     }
 
     public boolean deleteFile(String name) {

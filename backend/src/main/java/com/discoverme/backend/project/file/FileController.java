@@ -25,36 +25,34 @@ public class FileController {
     private final FileService fileService;
     private final HttpServletRequest request;
 
-    public static byte[] readFileFromLocation(String fileUrl) {
-        if (StringUtils.isBlank(fileUrl)) {
-            return null;
-        }
+    @GetMapping("{fileName:.+}")
+    public ResponseEntity<byte[]> readFileFromLocation(@PathVariable String fileName) {
         try {
-            Path filePath = new File(fileUrl).toPath();
-            return Files.readAllBytes(filePath);
-        } catch (IOException e) {
-            log.warn("No file found in the path {}", fileUrl);
+            return new ResponseEntity(fileService.readFileFromLocation(fileName), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
         }
-        return null;
     }
 
-    @GetMapping("{fileName:.+}")
-    public ResponseEntity<Resource> displayFile(@PathVariable String fileName) {
-        Resource resource = fileService.downloadFile(fileName);
-        String mimeType;
-        try {
-            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            mimeType = MediaType.ALL_VALUE;
-        }
-        if (mimeType == null) {
-            mimeType = "application/octet-stream";
-        }
-        return ResponseEntity.ok()
-                .contentType(getMediaType(fileName, mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
+    
+//
+//    @GetMapping("{fileName:.+}")
+//    public ResponseEntity<Resource> displayFile(@PathVariable String fileName) {
+//        Resource resource = fileService.downloadFile(fileName);
+//        String mimeType;
+//        try {
+//            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//        } catch (IOException ex) {
+//            mimeType = MediaType.ALL_VALUE;
+//        }
+//        if (mimeType == null) {
+//            mimeType = "application/octet-stream";
+//        }
+//        return ResponseEntity.ok()
+//                .contentType(getMediaType(fileName, mimeType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
+//    }
 
     private MediaType getMediaType(String fileName, String mimeType) {
 //        if (fileName.toLowerCase().endsWith(".mp4")) {
