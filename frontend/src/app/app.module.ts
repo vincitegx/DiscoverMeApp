@@ -25,7 +25,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './components/shared/shared.module';
 import { RedirectComponent } from './components/auth/auth-redirect';
 import { ProjectsComponent } from './components/projects/projects.component';
-import { ShareButtons } from 'ngx-sharebuttons/buttons';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +50,6 @@ import { ShareButtons } from 'ngx-sharebuttons/buttons';
     HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
-    ShareButtons,
     BrowserModule,
     AppRoutingModule,
     // DefaultModule,
